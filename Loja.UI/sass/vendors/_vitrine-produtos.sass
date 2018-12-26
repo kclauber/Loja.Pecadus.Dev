@@ -1,0 +1,107 @@
+@import vendors/_variables.sass
+
+/* ==========================================================================
+   BOX DE PRODUTOS
+   ========================================================================== */
+
+.vitrine-protudos
+	.thumbnail
+		padding: 0
+		border-color: #ececec
+		margin: 0 auto
+		&:hover
+			border-color: $pink
+			box-shadow: 0 6px 12px -4px #c2c2c2
+	h2
+		color: $pink
+		padding-bottom: 20px
+	h3
+		font-family: $font-bold
+		a
+			color: $texto
+			&:hover
+				color: $pink
+	p
+		font-size: 12px
+		color: $texto
+
+		&:nth-child(3)
+			height: 57px
+			font-size: 14px
+		&:nth-child(4)
+			a
+				color: $texto
+				padding-left: 8px
+				&:hover
+					color: $pink
+		&:nth-child(5)
+			span
+				text-decoration: line-through
+	.avise-me
+		margin-top: -5px
+		p
+			font-size: 14px
+		.flaticon-love-email-message-opened-envelope-with-hearts
+			font-size: 36px
+			color: $pink
+	ul
+		padding-left: 24px
+		margin-top: -22px
+		li
+			display: inline-block
+			&:first-child
+				margin-top: -50px
+			&:last-child
+				font-size: 24px
+				color: $pink
+				margin-left: 4px
+	.glyphicon
+		cursor: pointer
+	.glyphicon-stop
+		font-size: 28px
+		padding-right: 8px
+		cursor: default
+	.glyphicon-star
+		color: #a3b2bc
+	.star-active
+		color: $pink
+	.icon-posi
+		display: inline-block
+		margin-bottom: 	6px
+.glyphicon-heart
+	color: #bbbbbb
+	font-size: 30px
+	-moz-transition: all 0.2s ease-in-out
+	-o-transition: all 0.2s ease-in-out
+	-webkit-transition: all 0.2s ease-in-out
+	transition: all 0.2s ease-in-out
+.btn:hover, .btn:focus, .btn.focus 
+	color: #bbbbbb
+.btn-invisible:active, .btn-invisible.active, .open>.btn-invisible.dropdown-toggle
+	.glyphicon-heart
+		color: $pink		
+	.btn-primary
+		margin-top: -17px
+.input-group-btn:last-child>.btn
+	padding: 7.5px 10px
+	background-color: $pink
+	color: #fff
+	border: none
+	&:hover
+		background-color: $pink-hover
+.box-produtos
+	margin-bottom: 80px
+ul.pagination
+	padding-left: 14px
+	li
+		font-size: 14px !important
+		margin-left: 0 !important
+		a
+			color: #767676
+			&:hover
+				color: #fff
+				background-color: $pink
+				border-color: $pink
+
+	
+	

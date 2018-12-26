@@ -1,0 +1,203 @@
+﻿using System;
+using System.Data;
+using System.IO;
+using System.Web.UI;
+using Loja.Util;
+using Loja.Persistencia;
+using Loja.Objeto;
+
+namespace Loja.UI.Pecadus.Admin
+{
+    public partial class FerramentasSEO : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+            { }
+        }
+        #region -- Funcoes --
+        public string trataUrl(string str)
+        {
+            if (String.IsNullOrEmpty(str))
+                return "";
+            else
+            {
+                str = str.Replace("&", "&amp;");
+                str = str.Replace(" ", "-");
+                str = str.Replace(":", "-");
+                str = str.Replace("_", "-");
+                str = str.Replace("/", "-");
+                str = tiraCaracteres(str);
+                str = str.Replace("---", "-");
+                str = str.Replace("--", "-");
+                str = str.Replace("&amp;#", "&#");
+
+                return str;
+            }
+        }
+        public string tiraCaracteres(string str)
+        {
+            if (String.IsNullOrEmpty(str))
+                return "";
+            else
+            {
+                str = str.ToLower();
+                str = str.Replace("á", "a");
+                str = str.Replace("ã", "a");
+                str = str.Replace("à", "a");
+                str = str.Replace("â", "a");
+                str = str.Replace("é", "e");
+                str = str.Replace("ê", "e");
+                str = str.Replace("í", "i");
+                str = str.Replace("ó", "o");
+                str = str.Replace("ô", "o");
+                str = str.Replace("õ", "o");
+                str = str.Replace("ú", "u");
+                str = str.Replace("ç", "c");
+                str = str.Replace("!", "");
+                str = str.Replace("@", "");
+                str = str.Replace("#", "");
+                str = str.Replace("$", "");
+                str = str.Replace("%", "");
+                str = str.Replace("^", "");
+                str = str.Replace("*", "");
+                //str = str.Replace(chr(34),"");
+                str = str.Replace("'", "");
+                str = str.Replace("&", "");
+                str = str.Replace("<", "");
+                str = str.Replace(">", "");
+                str = str.Replace("?", "");
+                str = str.Replace("/", "");
+                str = str.Replace("\\", "");
+                str = str.Replace("|", "");
+                str = str.Replace(":", "-");
+                str = str.Replace(";", "-");
+                str = str.Replace(",", "-");
+                str = str.Replace(" ", "_");
+                str = str.Replace(".", "");
+                str = str.Replace("---", "-");
+                str = str.Replace("--", "-");
+
+                return str;
+            }
+        }
+        #endregion
+
+        protected void btnGerarSiteMap_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                geraSiteMap();
+                lblMensagem.Text = "Arquivo gerado com sucesso!";
+            }
+            catch (Exception ex)
+            {
+                lblMensagem.Text = "Houve um erro: " + ex.Message;
+            }
+        }
+        protected void btnRenomearImagens_Click(object sender, EventArgs e)
+        {
+            int idProd = -1;
+            string path = Server.MapPath("imagensProdutos").Replace("\\admin", "") + "\\";
+
+            ProdutosOT produtos = new ProdutosON().SelectProdutosTodos();
+            foreach (ProdutoOT _produto in produtos)
+            {
+                try
+                {
+                    //uplImagem.PostedFile.FileName
+
+                    foreach (ProdutoImagemOT _imagem in _produto.Imagens)
+                    {
+                        string novoNome = Utilitarios.TiraAcentos(_imagem.Titulo.Replace(".jpg", ""));
+
+                        //Verifica se já existe arquivo com este nome
+                        int cont = 0;
+                        do
+                            cont++;
+                        while (File.Exists(path + novoNome + "-" + cont + ".jpg"));
+                        novoNome = novoNome + "-" + cont + ".jpg";
+
+                        //Renomeando
+                        File.Move(path + _imagem.Titulo, path + novoNome);
+                        //Gravando na base
+                        new ProdutosON().InsertImagens(idProd, novoNome);
+                        //Apagando registro antigo
+                        new ProdutosON().DeleteImagem(_imagem.ID);
+                    }
+
+
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(String.Format("Erro no produto {0}: {1}", idProd, ex.Message));
+                }
+            }
+
+            lblMensagem.Text = String.Format("{0} imanges renomeadas com sucesso!", produtos.Count);
+        }
+
+        public void geraSiteMap()
+        {
+            StreamWriter sw = new StreamWriter(Server.MapPath("\\Pecadus\\sitemap.xml"));
+
+            //Início **************************************************
+            //'*********************************************************
+            sw.WriteLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+            sw.WriteLine("<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">");
+
+            sw.WriteLine("<url>");
+            sw.WriteLine("<loc>http://www.pecadus.com.br/</loc>");
+            sw.WriteLine("<lastmod>" + String.Format("{0:yyyy-MM-dd}", DateTime.Now) + "</lastmod>");
+            sw.WriteLine("<changefreq>daily</changefreq>");
+            sw.WriteLine("<priority>1.0</priority>");
+            sw.WriteLine("</url>");
+
+            //'Categorias ***********************************************
+            //'*********************************************************
+
+            DataTable dtCateg = new CategoriasOP().SelectCategoriasMenu(-1);
+
+            for (int a = 0; a < dtCateg.Rows.Count; a++)
+            {
+                sw.WriteLine("<url>");
+                sw.WriteLine("<loc>http://www.pecadus.com.br/default.aspx?" +
+                                "nomeCateg=" + trataUrl(dtCateg.Rows[a]["titulo"].ToString()) +
+                                "&nomeCategPai=" + trataUrl(dtCateg.Rows[a]["nomeCategPai"].ToString()) +
+                                "&c=" + dtCateg.Rows[a]["id"] +
+                                "&p=" + dtCateg.Rows[a]["idCategoriaPai"] +
+                             "</loc>");
+                sw.WriteLine("<lastmod>" + String.Format("{0:yyyy-MM-dd}", DateTime.Parse(dtCateg.Rows[a]["dtCadastro"].ToString())) + "</lastmod>");
+                sw.WriteLine("<changefreq>daily</changefreq>");
+                sw.WriteLine("<priority>0.9</priority>");
+                sw.WriteLine("</url>");
+            }
+
+            //'Produtos ************************************************
+            //'*********************************************************
+
+            DataTable dtProd = null;// new ProdutosON().SelectProdutos(-1, -1).Tables["Produtos"];
+
+            for (int b = 0; b < dtProd.Rows.Count; b++)
+            {
+                sw.WriteLine("<url>");
+                sw.WriteLine("<loc>http://www.pecadus.com.br/produtoDetalhes.aspx?" +
+                    "id=" + dtProd.Rows[b]["id"].ToString() +
+                    "&categ=" + dtProd.Rows[b]["idCategoria"].ToString() +
+                    "&idCategoriaPai=" + dtProd.Rows[b]["idCategoriaPai"].ToString() +
+                "</loc>");
+                sw.WriteLine("<changefreq>weekly</changefreq>");
+                sw.WriteLine("</url>");
+            }
+
+            //'Fim *****************************************************
+            //'*********************************************************
+
+            sw.WriteLine("</urlset>");
+            sw.Close();
+
+            //'*********************************************************
+            //'*********************************************************
+        }
+    }
+}

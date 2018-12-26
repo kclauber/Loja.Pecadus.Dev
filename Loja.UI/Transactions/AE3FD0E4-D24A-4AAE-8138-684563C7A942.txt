@@ -1,0 +1,74 @@
+::::::::::::::::::::::::::::::::
+===> 09/05/2015 23:29:26 - Início da transação
+===> notificationType: transaction
+===> notificationCode: 40AB54-838871887151-D444C33F918A-4A8DA5
+===> Chamada do serviço >>>>>>>>>>>>>>>>>>>>
+===> credentials.Email: kclauber@gmail.com
+===> credentials.Token: AB45578E711B40719F102A9956E831E4
+===>>>>>>>>>>>>>>>>>>>>>
+===> Resumo da transação: Transaction(Code=AE3FD0E4-D24A-4AAE-8138-684563C7A942, Date=09/05/2015 23:11:14, Reference=, TransactionStatus=2, Sender.Email=v64424405013586059866@sandbox.pagseguro.com.br, Items.Count=1)
+::::::::::::::::::::::::::::::::
+
+===> Detalhes da transação >>>>>>>>>>>>>>>>>>>>
+===> Reference: 
+===> Code: AE3FD0E4-D24A-4AAE-8138-684563C7A942
+===> Date: 09/05/2015 23:11:14
+===> LastEventDate: 09/05/2015 23:15:39
+===> TransactionType: (1)Pagamento
+===> TransactionStatus: (2)Em análise <<<<============
+===>>>>>>>>>>>>>>>>>>>>>
+
+===> Detalhes da pagamento >>>>>>>>>>>>>>>>>>>>
+===> PaymentMethod.PaymentMethodType: (1)Pagamento
+===> PaymentMethod.PaymentMethodCode: (101)Cartão de crédito Visa
+===> GrossAmount: R$ 74,37
+===> DiscountAmount: R$ 0,00
+===> FeeAmount: R$ 3,37
+===> NetAmount: R$ 71,00
+===> ExtraAmount: R$ 0,00
+===> InstallmentCount: 12
+===>>>>>>>>>>>>>>>>>>>>>
+
+===> Comprador >>>>>>>>>>>>>>>>>>>>
+===> Sender.Name: Vendedor de Testes
+===> Sender.Email: v64424405013586059866@sandbox.pagseguro.com.br
+===> Sender.Phone: 11-99999999
+===> Sender.Documents >>>>>>>>>>>>>>>>>>>>
+===>>>>>>>>>>>>>>>>>>>>>
+
+===> Items >>>>>>>>>>>>>>>>>>>>
+===> Items.Id: 229
+===> Items.Description: Vibrador Red Hots Scarlet Twister 3 velocidades
+===> Items.Amount: R$ 74,37
+===> Items.Quantity: 1
+===> Items.ShippingCost: 
+===> Items.Weight: 
+===-------------------
+===>>>>>>>>>>>>>>>>>>>>>
+
+===> Detalhes do envio >>>>>>>>>>>>>>>>>>>>
+===> Shipping.ShippingType: (3)Tipo de frete não especificado
+===> Shipping.Cost: R$ 0,00
+===>>>>>>>>>>>>>>>>>>>>>
+
+===> Endereço de entrega >>>>>>>>>>>>>>>>>>>>
+===> Shipping.Address.Country: BRA
+===> Shipping.Address.State: SP
+===> Shipping.Address.City: SAO PAULO
+===> Shipping.Address.District: Tremembé
+===> Shipping.Address.PostalCode: 02357200
+===> Shipping.Address.Street: TRAVESSA HENRIQUE CLAY
+===> Shipping.Address.Number: 6
+===> Shipping.Address.Complement: casa 1
+===>>>>>>>>>>>>>>>>>>>>>
+
+===> PreApproval >>>>>>>>>>>>>>>>>>>>
+===> Name: 
+===> Tracker: 
+===> Status: 
+===> Charge: 
+===>>>>>>>>>>>>>>>>>>>>>
+
+===> 09/05/2015 23:29:26 - Fim da transação
+::::::::::::::::::::::::::::::::
+

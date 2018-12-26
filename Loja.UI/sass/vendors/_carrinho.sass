@@ -1,0 +1,97 @@
+@import vendors/_variables.sass
+
+/* ==========================================================================
+   CARRINHO
+   ========================================================================== */
+
+.tabela-carrinho
+	color: $texto
+	.btn-remove 
+		width: 20px
+		height: 20px
+		padding: 1px 0
+		color: #fff
+		font-size: 12px
+		background-color: #a1b1bc
+		border-radius: 50%
+		padding-left: 2px
+		&:hover, &:focus 
+			background-color: $pink
+	.sof-table-border 
+		margin-bottom: 35px
+		border: 1px solid #dcdcdc
+	table 
+		margin-bottom: 0
+		background-color: #fff
+		border: 1px solid #ddd
+
+		.form-group 
+			margin-bottom: 0
+		img 
+			display: inline-block
+			border: 1px solid #dddddd
+			width: 45px
+			height: auto
+		thead 
+			background-color: #efefef
+			tr th 
+				vertical-align: middle
+				&:nth-child(6)
+					text-align: right
+		tbody
+			tr
+				th 
+					vertical-align: middle
+					&:nth-child(1)
+						text-align: center
+				td 
+					vertical-align: middle
+					&:nth-child(2)
+						width: 7%
+					&:nth-child(3)
+						text-align: left
+						width: 42%
+					&:nth-child(5)
+						width: 15%
+					&:nth-child(6)
+						width: 4%
+					&:nth-child(7)
+						text-align: right
+						width: 13%
+	.botoes-carrinho
+		text-align: right
+		margin: 15px 0
+		padding: 0
+		.btn-primary
+			margin-right: 15px
+				
+
+@media (max-width: 767px) 
+	.tabela-carrinho
+		table
+			img 
+				max-width: 145px
+			tbody tr 
+				th:first-child 
+					border-right: 1px solid #dcdcdc
+				td 
+					display: block
+					text-align: center
+					border-right: 1px solid #ddd
+					&:nth-child(2)
+						width: auto
+					&:nth-child(3)
+						width: auto
+						text-align: center
+					&:nth-child(5)
+						width: auto
+					&:nth-child(6)
+						width: auto				
+					&:nth-child(7)
+						width: auto
+						text-align: center
+		.botoes-carrinho .btn-primary
+			margin-right: 0
+			margin-bottom: 20px
+
+

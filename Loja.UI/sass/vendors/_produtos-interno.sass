@@ -1,0 +1,83 @@
+@import _variables.sass
+
+/* ==========================================================================
+   PRODUTOS INTERNO
+   ========================================================================== */
+
+.produtos-interno
+	a
+		color: $texto
+		&:hover
+			color: $pink
+	h2
+		font-size: 25px
+	h3
+		color: $pink
+		font-family: $font-bold
+		font-size: 25px
+	.produto-titul
+		ul
+			margin-top: 0
+			padding-left: 0
+			li
+				display: inline-block
+				margin-right: 10px
+		.glyphicon-star
+			color: #a3b2bc
+		.star-active
+			color: $pink
+	.produto-preco
+		p
+			color: $texto
+			&:nth-child(1)
+				margin-top: 10px
+				font-size: 16px
+				span
+					text-decoration: line-through
+			&:nth-child(5)
+				font-size: 50px
+		.icon-posi
+			display: inline-block
+		p.txt-produto
+			margin-top: 8px
+			margin-bottom: 20px
+			font-size: 10px
+		ul
+			padding-left: 24px
+			margin-top: -22px
+			margin-bottom: 0
+			li
+				display: inline-block
+				&:nth-child(1)
+					font-size: 35px
+					color: $pink
+					margin-left: 4px
+					font-family: $font-bold
+					margin-top: -20px
+		.btn-primary
+			background-color: $pink
+			color: #fff
+			margin-right: 8px
+			&:hover, &:active, &:focus, &:active:focus, &:active:hover
+				background-color: $pink-hover
+		strong
+			color: $roxo
+	.descricao-produto
+		color: $texto
+	.carousel-inner
+		padding-bottom: 30px
+		margin-bottom: 25px
+		img
+			border-radius: 5px
+			margin: 0 auto
+	.carousel-indicators
+		bottom: 10px
+		li
+			width: 35px
+			height: 35px
+			margin: 0
+			border: 1px solid #dedede
+			border-radius: 0
+			margin-right: 10px
+		li.active
+			border: 1px solid $roxo

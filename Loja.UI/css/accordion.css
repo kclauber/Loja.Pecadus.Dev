@@ -1,0 +1,27 @@
+#accordion
+{
+    width: 219px;
+    margin: 0;
+}
+#accordion h3
+{
+    font-size: 14px;
+    padding-left: 25px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    text-align: left;
+}
+#accordion div
+{
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    padding-left: 35px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    text-align: left;
+}
+#accordion div a:hover
+{
+    text-decoration: underline;
+}

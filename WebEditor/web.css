@@ -1,0 +1,195 @@
+body{
+	font-family:verdana,sans;
+	font-size:10px;
+	bgcolor:black;
+	background:black;
+}
+table{
+	font-family:verdana,sans;
+	font-size:10px;
+}
+td{
+	font-family:verdana,sans;
+	font-size:10px;
+}
+div{
+	font-family:verdana,sans;
+	font-size:10px;
+}
+a{
+	font-family:verdana,sans;
+	color:#000;
+	text-decoration:none;
+	font-size:10px;
+}
+a:hover{
+	font-family:verdana,sans;
+	color:#000;
+	text-decoration:underline;
+	font-size:10px;
+}
+a:active{
+	font-family:verdana,sans;
+	color:#f00;
+	text-decoration:underline;
+	font-size:10px;
+}
+a:visited{
+	font-family:verdana,sans;
+	color:#000;
+	text-decoration:underline;
+	font-size:10px;
+}
+
+			/* TABELAS DE PASTAS E ARQUIVOS */
+					.tabelaRaiz{
+						background-color:#ffffff;
+						border:silver solid 1px;
+						width:98%;
+					}
+					.tabelaRaiz .pastas{
+						font-size:14px;
+						background-color:#ffffff;
+						height:10px;
+						vertical-align:middle;
+					}
+					.tabelaArquivos{
+						background-color:#ffffff;
+						border:0px;
+						width:100%;
+					}
+					.tabelaArquivos ul{
+						margin: 0;
+						padding: 0;
+						margin-left: 0px;
+						border-bottom: #FFF solid 1px;
+					}
+					.tabelaArquivos ul li{
+						display: inline;
+						padding:0 1px;
+						margin:0;
+						border-bottom: none;
+					}
+			/* ************************* */
+			
+			/* ELEMENTOS DO EDITOR DRAG/DROP */
+					#divEscuro{
+						text-align:center;
+						background:#000;
+						width:1004px;height:587px;
+						position:absolute;
+						top:0;left:0;
+						z-index:1;
+					}
+					#divWebEditor{
+						Background:#f5f5f5;
+						text-align:center;
+						width:640px;height:550px;
+						border:gray solid 2px;
+						padding:2px;
+						margin:auto;
+						display:block;
+					}
+					#barWebEditor {
+					  background-color: #9f9f9f;
+					  width:640px;
+						color: #ffffff;
+					  cursor: move;
+					  font-weight: bold;
+					  padding: 1px 1px;
+					}
+					#caminhoArq{
+						font-size:12px;
+					}
+					.webText{
+						width:500px;
+						height:450px;
+					}
+					.divMenuEditorCima{
+						width:500;
+						padding:5px 0px;
+						text-align:left;
+					}
+					.divMenuEditorBaixo{
+						width:500;
+						padding:5px 0px;
+						text-align:right;
+					}
+			/* ************************* */
+			
+			/* ELEMENTOS DO CORPO PRINCIPAL */
+					.divBody{
+						text-align:center;
+						width:1004px;height:587px;
+						position:absolute;
+						top:0;left:0;
+						z-index:1;
+						margin:auto;
+					}
+					.divCorpo{
+						position:absolute;
+						top:10px;left:180px;
+						Background:#f5f5f5;
+						text-align:center;
+						width:640px;height:550px;
+						border:gray solid 2px;
+						padding:2px;
+					}
+					.divCaixaConteudo{
+						background:#f5f5f5;
+						text-align:center;
+						width:638px;height:530px;
+						border:gray solid 1px;
+						padding:2px;
+						margin:auto;
+					}
+					#divRaizConteudo{
+						padding-top:4px;
+						background:#ffffff;
+						text-align:left;
+						width:476px;
+						height:450px;
+						border:gray solid 1px;
+						overflow:auto;
+						margin:auto;
+					}
+					.titulo {
+						background-color: #9f9f9f;
+						border:gray solid 1px;
+						border-bottom:0;
+						width:640px;
+						color: #ffffff;
+						font-weight: bold;
+						padding: 1px 1px;
+					}
+					.divMenuBaixo{
+						width:340;
+						text-align:right;
+					}
+			/* ************************* */
+			
+			/* OUTROS ELEMENTOS */
+					.menuBotoes{
+						text-align:center;
+						vertical-align:middle;
+						padding:5px 0px;
+					}
+
+					.bt{
+						font-family:verdana,sans;
+						font-size:10px;
+						font-weight:bold;
+						width:60px;height:18px;
+						text-transform:uppercase;
+					}
+					form{
+						padding:0;margin:0;
+					}
+					.inputNmNovo{
+						font-family:verdana;
+						font-size:10px;
+						width:250px;
+						padding:0;
+						margin:0;
+					}
+			/* ************************* */

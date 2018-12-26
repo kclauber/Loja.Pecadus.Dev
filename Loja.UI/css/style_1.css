@@ -1,0 +1,90 @@
+/*----------------------------------------------------------------------------- 
+
+RAMA BASIC STYLES OF HTML DOCUMENT
+
+Screen Stylesheet 
+
+version:   	1.0 
+date:      	07/27/11 
+author:		freshline
+email:     	support@version-four.com 
+website:   	http://www.version-four.com
+-----------------------------------------------------------------------------*/
+
+/***********************
+	-	BASICS 	-
+***********************/
+
+#banner1-bg {
+	position: absolute;
+	height: 600px;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-image:url(../images/website_bg_tile.gif);
+	text-align: center;
+	font-size: 12px;
+	line-height: 20px;
+	font-family: Arial, Helvetica, sans-serif; 
+	color:#bbb;
+	font-weight: bold;
+}
+
+#banner1-bg h1 {
+	font-family: 'PT Sans Narrow', sans-serif;
+	font-size:35px;
+	color:#bbb;
+	margin-bottom: 15px;
+}
+
+#banner2-bg {
+	position: absolute;
+	height: 580px;
+	width: 100%;
+	top: 600px;
+	left: 0;
+	background-image:url(../images/website_bg_tile_dark.gif);
+	text-align: center;
+	font-size: 12px;
+	line-height: 20px;
+	font-family: Arial, Helvetica, sans-serif; 
+	color:#ddd;
+	font-weight: bold;
+	padding-top: 20px;
+}
+
+#banner2-bg h1 {
+	font-family: 'PT Sans Narrow', sans-serif;
+	font-size:35px;
+	color:#ddd;
+	margin-bottom: 15px;
+}
+
+#banner2-bg p, #banner1-bg p {
+	font-family: 'PT Sans Narrow', sans-serif;
+	font-size:17px;
+}
+
+
+.wrapper{
+	position:relative;
+	width:955px;
+	height:325px;
+	margin:auto;
+	padding:0;
+}
+.wrapper ul { 
+    list-style: none; 
+}
+
+
+/****************************
+	-	BASIC DIVIDERS 	-
+*****************************/
+#small_divider {
+	margin-top:8px;
+}
+
+#big_divider {
+	margin-top:150px;
+}

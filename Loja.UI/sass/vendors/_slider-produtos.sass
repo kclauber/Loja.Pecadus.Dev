@@ -1,0 +1,43 @@
+@import _variables.sass
+
+/* ==========================================================================
+   CAROUSEL / SLIDER DE PRODUTOS
+   ========================================================================== */
+
+.slider-produtos
+	background-color: #faf2ef
+	padding: 48px 0
+	.carousel-indicators
+		bottom: -60px
+		li
+			background-color: #bbbbbb
+			border: none
+			width: 15px
+			height: 15px
+			margin: 1px
+			.active
+				width: 17px
+				height: 17px
+				margin: 0
+		.active
+			background-color: $roxo
+.customNavigation
+	position: absolute
+	width: 100%
+	margin-left: -15px
+	z-index: 1
+	margin-top: 150px
+	a.btn.prev
+		left: 0
+		background-color: rgba(0, 0, 0, 0.18)
+		padding: 5px 8px
+		color: #fff
+		border-radius: 0
+	a.btn.next
+		right: 0
+		position: absolute
+		background-color: rgba(0, 0, 0, 0.18)
+		padding: 5px 8px
+		color: #fff
+		border-radius: 0
+

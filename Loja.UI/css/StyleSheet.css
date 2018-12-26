@@ -1,0 +1,763 @@
+html
+{
+    background: rgb(204, 204, 204);
+    width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow-x:hidden;
+}
+body
+{
+    margin: 0px;
+    padding: 0;
+    color: #666;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#EEEEEE', EndColorStr='#CCCCCC');
+}
+
+form, ul, li
+{
+    padding: 0;
+    margin: 0;
+}
+
+a
+{
+    color: #666;
+    text-decoration: none;
+}
+
+a:hover
+{
+    text-decoration: none;
+}
+
+img
+{
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.menu
+{
+    padding: 0px;
+    padding-left: 22px;
+    text-align:left;
+    width:240px;
+}
+
+.menu li
+{
+    list-style: none;
+}
+
+.menu_1
+{
+    font-size: 14pt;
+    color: #c84a57;
+    font-weight: bold;
+    padding: 0px;
+    padding-bottom: 5px;
+}
+.menu_2 a
+{
+    font-size: 13pt;
+    color: #646264;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 5px;
+    text-decoration: none;
+}
+.menu_3 a
+{
+    font-size: 13pt;
+    color: #9c969c;
+    font-weight: bold;
+    padding-left: 45px;
+    text-decoration: none;
+}
+.item
+{
+    margin: 10px;
+}
+
+.tdTitulo
+{
+    padding: 0 6px;
+    height: 35px;
+    vertical-align: top;
+    text-align: center;
+}
+
+.tituloProd
+{
+    color: #666;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.tituloDesc
+{
+    text-align:left;
+    color: #c84a57;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.imgProd
+{
+    border: 0;
+}
+
+.prodItem
+{
+    width: 235px;
+    min-height: 360px;
+    margin-bottom: 15px;
+    background:white;    
+}
+
+.prodItem td
+{
+    border: 0;
+}
+
+.prodItem .tdDesc
+{
+    padding: 6px;
+    height:80px;
+    vertical-align:top;
+}
+
+.prodItem .tdPreco
+{
+    padding: 6px;
+    height:60px;
+}
+
+.prodItem .img
+{
+    height: 180px;
+    vertical-align: middle;
+    text-align: center;
+    padding-top: 10px;
+    margin: auto;
+}
+
+.descProd
+{
+    font-size: 14px;
+    padding: 0 5px;
+    text-align: center;
+    vertical-align: top;
+}
+.descProd a:hover
+{
+    text-decoration: underline;
+}
+
+
+.descCompleta
+{
+    background: white;
+    padding: 0 20px;
+    vertical-align:top;
+    text-align:left;
+}
+
+.descCompleta a
+{
+    text-decoration: underline;
+}
+
+.tablePreco
+{
+    width: 90%;
+    margin: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+
+.precoDe
+{
+    font-size: 12px;
+    text-decoration: line-through;
+}
+
+.preco
+{
+    font-size: 14pt;
+    font-family: Georgia;
+    font-weight: bold;
+    color: Red;
+}
+
+.precoEcon
+{
+    font-size: 12px;
+}
+
+.migalha
+{
+    padding: 5px 20px 5px 20px;
+    float:left;
+}
+
+.migalha a
+{
+    color: #c84a57;
+    font-weight: bold;
+    padding-top: 15px;
+}
+
+.migalha hr
+{
+    border: 0;
+    border-top: silver solid 1px;
+}
+
+.formProd
+{
+    padding: 0;
+    margin: 0;
+    visibility: hidden;
+    display: none;
+}
+
+.corpo
+{
+    padding: 0;
+    padding-bottom: 5px;
+    margin: auto;
+    width: 900px;
+    background-color: White;
+}
+
+.rodape
+{
+    padding: 0;
+    margin: auto;
+    width: 900px;
+    background-color: White;
+    text-align: center;
+}
+
+table
+{
+    border: 0;
+    padding: 0;
+}
+
+td
+{
+    border-style: none;
+    border-color: inherit;
+    border-width: 0;
+    padding: 0;
+    margin-left: 40px;
+}
+
+.disabled
+{
+    color: Silver;
+}
+.enabled
+{
+    color: #234;
+}
+
+/* ********* */
+.linkPg
+{
+    padding: 5px 20px 5px 20px;
+    width:350px; 
+    float:right;
+}
+.linkPg a
+{
+    float:right;
+    padding:0 7px 0 7px;
+}
+
+.linkPg ul
+{
+    padding: 0 5px;
+    margin: 0;
+    list-style: none;
+}
+
+.linkPg li
+{
+    display: inline;
+}
+
+.carrinho
+{
+    float: right;
+    margin-right: 15px;
+    margin-top: -9px;
+}
+
+.destaque
+{
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.menuLateral
+{
+    width: 16%;
+    padding-top: 4px;
+    vertical-align: top;
+}
+
+.menuLateral .hr
+{
+    padding-left: 15px;
+    font-weight: bold;
+}
+
+.menuLateral .it
+{
+    padding-left: 25px;
+}
+
+.menuLateral a
+{
+    color: #312f2f;
+}
+
+.prdMVendidos
+{
+    font-size: 10px;
+    padding-top: 3px;
+    padding-left: 10px;
+}
+
+.cloud
+{
+    background: #872a59;
+    width: 203px;
+    height: 220px;
+    margin-top: 8px;
+    padding: 8px;
+    color: White;
+    font-weight: bold;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.cloud a
+{
+    color: White;
+    font-weight: bold;
+}
+
+.prodTable
+{
+    margin: auto;
+    padding: 0;
+}
+
+.prodDet, .prodRel
+{
+    padding: 10px 0;
+}
+
+.prodDetalhe h1
+{
+    margin: 0;
+    padding: 0;
+}
+
+.juros
+{
+    color: gray;
+    font-size: 11px;
+    text-align: center;
+}
+
+/**************************/
+
+.conteudo
+{
+    padding: 1px 8px 0 12px;
+}
+
+.aR
+{
+    text-align: right;
+}
+.aL
+{
+    text-align: left;
+}
+.aC
+{
+    text-align: center;
+}
+
+
+hr
+{
+    width: 97%;
+    height: 1px;
+    border: 0;
+    border-top: rgb(204, 204, 204) solid 1px;
+    clear: both;
+}
+
+h1
+{
+    font: 14px verdana;
+    font-weight: bold;
+}
+
+.btn
+{
+    font-size: 10px;
+    background: white;
+    border: #660000 outset 1px;
+}
+
+.edit
+{
+    width: 600px;
+    height: 320px;
+    border: silver solid 1px;
+}
+
+.relative
+{
+    position: relative;
+}
+
+.absolute1
+{
+    position: absolute;
+    top: -70px;
+    left: 460px;
+    background: white;
+    width: 230px;
+    height: 120px;
+    border: gray solid 1px;
+}
+
+.caixaImg
+{
+    width:300px;
+    padding-left:20px;
+    float:left;
+}
+
+.caixaDescCurta
+{
+    width:680px;
+    padding:0 20px;
+    float:right;
+}
+
+.caixaDescProd
+{
+    width:680px;
+    padding:0 20px;
+    float:right;
+    height: 320px;
+    vertical-align:top;
+}
+
+.caixaProdRel
+{
+    font-size: 14px;
+    padding: 10px 20px 0 20px;
+    width:auto;
+}
+
+.caixaImg1
+{
+    background: url('../imagens/caixa_detalhe_produto_01.gif');
+    text-align: left;
+    background: white;
+    padding: 0;
+}
+
+.caixaImg2
+{
+    background: url('../imagens/caixa_detalhe_produto_02.gif');
+    text-align: center;
+    height: 15px;
+}
+
+
+
+/* MagicZoom *****************/
+.MagicZoom img
+{
+    border: 0 !important;
+    padding: 0 !important;
+    margin: auto;
+}
+
+/* Style of zoomed window */
+.MagicZoomBigImageCont
+{
+    border: 1px solid #999;
+}
+
+/* Style of header, activated with "title" attribute in <a> tag */
+.MagicZoomHeader
+{
+    font-size: 8pt !important;
+    line-height: normal !important;
+    color: #fff;
+    background: #666;
+    text-align: center !important;
+}
+
+/* Style of small square under mouse */
+.MagicZoomPup
+{
+    border: 1px solid #aaa;
+    background: #fff;
+    cursor: move;
+}
+
+/* Style of message box while image is loading */
+.MagicZoomLoading
+{
+    border: 1px solid #ccc;
+    background: #fff url('../imagens/ajax-loader.gif') no-repeat 2px 50%;
+    padding: 4px 4px 4px 24px !important;
+    margin: 0;
+    text-decoration: none;
+    text-align: left;
+    font-size: 8pt;
+    font-family: sans-serif;
+    color: #444;
+}
+
+/* Tag Cloud ***************/
+.tag
+{
+    padding: 5px 15px;
+    margin: 0;
+    list-style: none;
+}
+.tag li
+{
+    float: left;
+    padding: 0 5px;
+}
+
+/* pagseguro */
+#pagseguro
+{
+    width: 100%;
+    text-align: center;
+    clear: both;
+}
+
+
+.EstTabPedidoNome
+{
+    color: #c84a57;
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.TabItens td
+{
+    border: silver solid 1px;
+    background: #fff;
+}
+
+.TabItens .cabecalho td
+{
+    border: #ff9900 solid 1px;
+    background: #ff9900;
+    color: White;
+    font-weight: bold;
+    margin: 3px 0;
+}
+
+.TabItens .rodape td
+{
+    border: silver solid 1px;
+    background: #fff;
+    font-weight: bold;
+    margin: 3px 0;
+}
+
+/* Bandeiras dos cartões na tela do carrinho ***************/
+.radioCartao
+{
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+}
+.radioCartao label
+{
+    width: 75px !important;
+    text-align: center;
+    display: block;
+    float: left;
+}
+.radioCartao img
+{
+    border: 1px dotted #ccc;
+    margin-bottom: 5px;
+    float: none !important;
+}
+.radioCartao label input
+{
+    padding: 0;
+    margin: 0 auto;
+    display: block;
+    background: none;
+    border: none;
+}
+.radioCartao label strong
+{
+    display: none;
+}
+.inputBandeiras
+{
+    display: none;
+}
+
+.confirm h1
+{
+    font-size: 22px;
+}
+.confirm h2
+{
+    font-size: 16px;
+}
+.confirm div
+{
+    border: silver solid 1px;
+    margin: 15px auto;
+    padding: 10px;
+    background: white;
+    width: 600px;
+}
+.destaque
+{
+    background: #F0F0F0;
+    margin: -10px;
+    padding: 10px;
+    border-bottom: silver solid 1px;
+}
+.confirm p
+{
+    font-size: 14px;
+}
+.confirm a
+{
+    text-decoration: underline;
+    color: #E60015;
+}
+.confirm ul
+{
+    margin: 0;
+    padding: 0;
+    padding-left: 40px;
+}
+
+.avisoErro
+{
+    text-align:left;
+    padding:20px 0 20px 60px;
+}
+
+.avisoErro ul
+{
+    list-style:none;
+    padding:5px 0 5px 30px;
+}
+
+.quadroContato
+{
+    font-size: 14px;
+    background:white; 
+    width:300px; 
+    height:300px; 
+    float:left;
+    margin: 0 20px 0 65px;
+    padding: 15px 0 20px 10px;
+}
+
+.quadroContato td
+{
+    color: #606060;
+    vertical-align:top;
+}
+
+.tabelaContato
+{
+    background:white; 
+    width:550px;
+    padding: 10px 0 15px 0;
+}
+
+.rodapeMaster
+{
+    vertical-align:top;
+    background: url('/imagens/Home_08.jpg'); 
+    padding:20px 0 20px 0;
+}
+
+.rodapeMaster table
+{
+    margin:auto; 
+    padding-top:5px; 
+    width: 700px; 
+}
+
+.rodapeMaster td
+{
+    vertical-align:top;
+    font-size: 15px; 
+    color: White;
+    padding-left:2px;
+}
+
+.rodapeMaster a
+{
+    color: White;
+    text-decoration:underline;
+}
+.rodapeMaster .subItem
+{
+    width:200px;
+    border-bottom: 1px solid #FFF;
+}
+
+.rodapeMaster .separador
+{
+    width:20px;
+}
+
+.tx
+{
+    width: 50px;
+}
+.pv
+{
+    margin: 5px 0;
+    padding-bottom:20px;
+    font-size: 12px;
+    border:silver solid 1px;
+    width: 90%;
+}
+.colapse
+{
+    cursor:pointer; 
+    font-weight:bold; 
+    color:Red;
+}

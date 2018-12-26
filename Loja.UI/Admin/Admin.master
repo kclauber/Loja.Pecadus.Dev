@@ -1,0 +1,35 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Admin.master.cs" Inherits="Loja.UI.Pecadus.Admin.Master" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <title>Admin</title>
+    <link href="../css/StyleSheet.css" rel="stylesheet" type="text/css" />
+    <link href="../css/accordion.css" rel="stylesheet" type="text/css" />
+    <link href="../css/StyleSheetHeader.css" rel="stylesheet" type="text/css" />
+
+    <script src="../scripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <table align="center" style="height:700px; border: silver solid 1px;background:white;">
+        <tr><td id="divHeaderAdmin" colspan="2">    
+        </td></tr>
+        <tr>
+            <td align="center" valign="top">
+                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                </asp:ContentPlaceHolder>
+
+                <div class="pv" style="border:0; padding-top:10px;">
+                    <input type="button" value="Painel de controle" onclick="javascript:window.location='PainelControle.aspx';" style="float:left" />
+                    <input type="button" value="  Subir  " onclick="javascript:scroll(0, 0);"  style="float:right"/>
+                </div>
+            </td>
+        </tr>
+    </table>
+    </form>
+</body>
+</html>

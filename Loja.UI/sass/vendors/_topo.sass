@@ -1,0 +1,84 @@
+@import _variables.sass
+
+/* ==========================================================================
+   TOPO DO SITE
+   ========================================================================== */
+
+   
+/* ====================== Topo 1 ====================== */
+.pec-topo1
+	font-size: 12px
+	background: -moz-linear-gradient(top, rgba(253,253,253,1) 0%, rgba(253,253,253,1) 50%, rgba(219,219,219,1) 100%)
+	background: -webkit-linear-gradient(top, rgba(253,253,253,1) 0%, rgba(253,253,253,1) 50%, rgba(219,219,219,1) 100%)
+	background: linear-gradient(to bottom, rgba(253,253,253,1) 0%, rgba(253,253,253,1) 50%, rgba(219,219,219,1) 100%)
+	p
+		padding-top: 3px
+		margin-bottom: 0
+	.navbar-right a
+		color: #717174
+		padding: 3px 5px
+		&:hover
+			color: $pink
+			background-color: transparent
+	span
+		color: $pink
+/* ====================== Topo 2 ====================== */
+.pec-topo2
+	padding: 14px 0
+	.navbar-brand
+		background-image: url("../images/logo-pecadus.png")
+		width: 214px
+		height: 70px
+	.input-group
+		margin-top: 18px
+		input
+			height: 40px
+			border-right: transparent
+		a
+			color: $roxo
+			cursor: pointer
+			&:hover
+				color: $pink
+		.form-control
+			border-color: #dddddd
+			-webkit-box-shadow: none
+			box-shadow: none
+		.input-group-addon
+			border-color: #dddddd
+			background-color: transparent
+			height: 40px
+			padding-left: 0
+		.input-group-addon:nth-child(1)
+			border: none
+			padding-top: 0
+			padding-left: 0
+			.glyphicon-shopping-cart, .glyphicon-user
+				color: #ffffff
+				margin-top: 4px
+	.badge
+		margin-right: 5px
+	.btn-login
+		background-color: $roxo
+		border-radius: 50%
+		height: 40px
+		width: 40px
+/* ====================== Menu Topo ====================== */
+.pec-menu
+	.navbar
+		margin-bottom: 0
+		box-shadow: 0 6px 12px -4px #c2c2c2
+	.navbar-default
+		color: #ffffff
+		border-radius: 0
+		border: none
+		background: -moz-linear-gradient(left,  #c20074 0%, #662d91 100%)
+		background: -webkit-linear-gradient(left,  #c20074 0%,#662d91 100%)
+		background: linear-gradient(to right,  #c20074 0%,#662d91 100%)
+		.navbar-nav
+			li
+				padding: 0 10px
+				a
+					color: #ffffff
+					text-transform: uppercase
+					&:hover
+						color: #e5e5e5

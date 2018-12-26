@@ -1,0 +1,533 @@
+.wt-rotator
+{
+    width: 1000px;
+    height: 257px;
+    overflow: hidden;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    position: relative;
+    background-color: rgb(0, 0, 0);
+}
+.wt-rotator a
+{
+}
+.wt-rotator .screen
+{
+    left: 0px;
+    top: 0px;
+    width: 1000px;
+    height: 257px;
+    overflow: hidden;
+    position: relative;
+}
+.wt-rotator .strip
+{
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    z-index: 0;
+}
+.wt-rotator .content-box
+{
+    left: 0px;
+    top: 0px;
+    overflow: hidden;
+    display: none;
+    position: absolute;
+}
+.wt-rotator .main-img
+{
+    border: 0px currentColor;
+    left: 0px;
+    top: 0px;
+    display: none;
+    position: absolute;
+    z-index: 0;
+}
+.wt-rotator .preloader
+{
+    background: url("assets/loader.gif") no-repeat center rgba(0, 0, 0, 0.7);
+    border-radius: 4px;
+    left: 50%;
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: -20px;
+    margin-left: -20px;
+    display: none;
+    position: absolute;
+    z-index: 4;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+}
+.wt-rotator .timer
+{
+    left: 0px;
+    height: 4px;
+    font-size: 0px;
+    visibility: hidden;
+    filter: alpha(opacity=50);
+    position: absolute;
+    z-index: 4;
+    opacity: 0.5;
+    background-color: rgb(255, 255, 255);
+    -moz-opacity: .5;
+}
+.wt-rotator .desc
+{
+    text-align: left;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+    visibility: hidden;
+    position: absolute;
+    z-index: 6;
+}
+.wt-rotator .inner-bg
+{
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    filter: alpha(opacity=70);
+    position: relative;
+    z-index: 0;
+    opacity: 0.7;
+    background-color: rgb(0, 0, 0);
+    -moz-opacity: .7;
+}
+.wt-rotator .inner-text
+{
+    padding: 10px;
+    left: 0px;
+    top: 0px;
+    width: auto;
+    height: auto;
+    position: absolute;
+    z-index: 1;
+}
+.wt-rotator .c-panel
+{
+    top: 0px;
+    visibility: hidden;
+    position: absolute;
+    z-index: 7;
+}
+.wt-rotator .outer-hp
+{
+    background: rgb(51, 51, 51);
+    border: 1px solid rgb(0, 0, 0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#111111',GradientType=0);
+    position: absolute;
+}
+.wt-rotator .outer-vp
+{
+    background: rgb(51, 51, 51);
+    border: 1px solid rgb(0, 0, 0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#444444', endColorstr='#111111',GradientType=0);
+    position: absolute;
+}
+.wt-rotator .outer-hp
+{
+    left: 0px;
+    width: 100%;
+    border-right-color: currentColor;
+    border-left-color: currentColor;
+    border-right-width: medium;
+    border-left-width: medium;
+    border-right-style: none;
+    border-left-style: none;
+}
+.wt-rotator .outer-vp
+{
+    top: 0px;
+    height: 100%;
+    border-top-color: currentColor;
+    border-bottom-color: currentColor;
+    border-top-width: medium;
+    border-bottom-width: medium;
+    border-top-style: none;
+    border-bottom-style: none;
+}
+.wt-rotator .back-scroll
+{
+    background: url("assets/spacer.png") no-repeat;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    z-index: 10;
+}
+.wt-rotator .fwd-scroll
+{
+    background: url("assets/spacer.png") no-repeat;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    z-index: 10;
+}
+.wt-rotator .thumbnails
+{
+    overflow: hidden;
+    float: left;
+    display: inline;
+    position: relative;
+}
+.wt-rotator .buttons
+{
+    overflow: hidden;
+    float: left;
+    display: inline;
+    position: relative;
+}
+.wt-rotator .thumbnails ul
+{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+}
+.wt-rotator .thumbnails ul.inside
+{
+    left: 0px;
+    top: 0px;
+    position: absolute;
+}
+.wt-rotator .thumbnails li
+{
+    background-position: center !important;
+    list-style: none;
+    border-radius: 3px;
+    border: 1px solid rgb(17, 17, 17);
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    color: rgb(238, 238, 238);
+    line-height: 24px;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: bold;
+    float: left;
+    display: inline;
+    position: relative;
+    cursor: pointer;
+    background-repeat: no-repeat !important;
+    background-color: rgb(0, 0, 0);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    text-shadow: 0 1px 0 #222;
+}
+.wt-rotator .play-btn
+{
+    background-position: center !important;
+    list-style: none;
+    border-radius: 3px;
+    border: 1px solid rgb(17, 17, 17);
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    color: rgb(238, 238, 238);
+    line-height: 24px;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: bold;
+    float: left;
+    display: inline;
+    position: relative;
+    cursor: pointer;
+    background-repeat: no-repeat !important;
+    background-color: rgb(0, 0, 0);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    text-shadow: 0 1px 0 #222;
+}
+.wt-rotator .prev-btn
+{
+    background-position: center !important;
+    list-style: none;
+    border-radius: 3px;
+    border: 1px solid rgb(17, 17, 17);
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    color: rgb(238, 238, 238);
+    line-height: 24px;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: bold;
+    float: left;
+    display: inline;
+    position: relative;
+    cursor: pointer;
+    background-repeat: no-repeat !important;
+    background-color: rgb(0, 0, 0);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    text-shadow: 0 1px 0 #222;
+}
+.wt-rotator .next-btn
+{
+    background-position: center !important;
+    list-style: none;
+    border-radius: 3px;
+    border: 1px solid rgb(17, 17, 17);
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    color: rgb(238, 238, 238);
+    line-height: 24px;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: bold;
+    float: left;
+    display: inline;
+    position: relative;
+    cursor: pointer;
+    background-repeat: no-repeat !important;
+    background-color: rgb(0, 0, 0);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    text-shadow: 0 1px 0 #222;
+}
+.wt-rotator .thumbnails li:hover
+{
+    color: rgb(255, 255, 255);
+    background-color: rgb(204, 204, 204);
+    text-shadow: 0 1px 0 #888;
+}
+.wt-rotator .thumbnails li.curr-thumb
+{
+    color: rgb(0, 0, 0);
+    cursor: default;
+    background-color: rgb(255, 255, 255);
+    text-shadow: 0 1px 0 #fff;
+}
+.wt-rotator .thumbnails li.image
+{
+    background: rgb(0, 0, 0);
+    border-radius: 0px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+}
+.wt-rotator .thumbnails li.curr-thumb.image
+{
+    border-color: rgb(0, 102, 255);
+}
+.wt-rotator .thumbnails li.image:hover
+{
+    border-color: rgb(0, 102, 255);
+}
+.wt-rotator .thumbnails li.image a
+{
+    border: 0px currentColor;
+    display: block;
+}
+.wt-rotator .thumbnails li.image img
+{
+    border: 0px currentColor;
+    display: block;
+    filter: alpha(opacity=85);
+    position: absolute;
+    opacity: 0.85;
+    -moz-opacity: .85;
+}
+.wt-rotator .thumbnails li.image:hover img
+{
+    filter: alpha(opacity=100);
+    opacity: 1;
+    -moz-opacity: 1;
+}
+.wt-rotator .thumbnails li.curr-thumb.image img
+{
+    filter: alpha(opacity=100);
+    cursor: default;
+    opacity: 1;
+    -moz-opacity: 1;
+}
+.wt-rotator .thumbnails li *
+{
+    display: none;
+}
+.wt-rotator .thumbnails li div
+{
+    width: auto;
+    height: auto;
+    color: rgb(255, 255, 255);
+    position: relative;
+    background-color: rgb(0, 0, 0);
+}
+.wt-rotator .play-btn
+{
+    background: url("assets/play.png") rgb(0, 0, 0);
+}
+.wt-rotator .play-btn:hover
+{
+    background-color: rgb(204, 204, 204) !important;
+}
+.wt-rotator .pause
+{
+    background: url("assets/pause.png") rgb(0, 0, 0);
+}
+.wt-rotator .pause:hover
+{
+    background-color: rgb(204, 204, 204) !important;
+}
+.wt-rotator .prev-btn
+{
+    background: url("assets/prev.png") rgb(0, 0, 0);
+}
+.wt-rotator .prev-btn:hover
+{
+    background-color: rgb(204, 204, 204) !important;
+}
+.wt-rotator .next-btn
+{
+    background: url("assets/next.png") rgb(0, 0, 0);
+}
+.wt-rotator .next-btn:hover
+{
+    background-color: rgb(204, 204, 204) !important;
+}
+.wt-rotator .up
+{
+    background: url("assets/up.png") rgb(0, 0, 0);
+}
+.wt-rotator .up:hover
+{
+    background-color: rgb(204, 204, 204) !important;
+}
+.wt-rotator .down
+{
+    background: url("assets/down.png") rgb(0, 0, 0);
+}
+.wt-rotator .down:hover
+{
+    background-color: rgb(204, 204, 204) !important;
+}
+#rotator-tooltip
+{
+    left: 0px;
+    top: 0px;
+    display: none;
+    position: absolute;
+    z-index: 99999;
+}
+.txt-up#rotator-tooltip
+{
+    background: url("assets/vtip.png") no-repeat 10px bottom;
+    margin-bottom: 5px;
+    margin-left: -10px;
+}
+.txt-down#rotator-tooltip
+{
+    background: url("assets/vtip.png") no-repeat 10px top;
+    margin-top: 24px;
+    margin-left: -10px;
+}
+.img-up#rotator-tooltip
+{
+    background: url("assets/vtip.png") no-repeat bottom;
+}
+.img-down#rotator-tooltip
+{
+    background: url("assets/vtip.png") no-repeat top;
+}
+.img-right#rotator-tooltip
+{
+    background: url("assets/htip.png") no-repeat left;
+}
+.img-left#rotator-tooltip
+{
+    background: url("assets/htip.png") no-repeat right;
+}
+#rotator-tooltip .tt-txt
+{
+    margin: 8px 0px;
+    padding: 5px;
+    border-radius: 3px;
+    color: rgb(255, 255, 255);
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    max-width: 300px;
+    background-color: rgb(0, 0, 0);
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
+#rotator-tooltip img
+{
+    margin: 8px;
+    padding: 3px;
+    border-radius: 2px;
+    display: none;
+    background-color: rgb(0, 0, 0);
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+}
+.wt-rotator .s-prev
+{
+    background: url("assets/large_buttons.png") no-repeat;
+    top: 50%;
+    width: 40px;
+    height: 50px;
+    margin-top: -25px;
+    filter: alpha(opacity=80);
+    position: absolute;
+    z-index: 8;
+    cursor: pointer;
+    opacity: 0.8;
+    -moz-opacity: .8;
+}
+.wt-rotator .s-next
+{
+    background: url("assets/large_buttons.png") no-repeat;
+    top: 50%;
+    width: 40px;
+    height: 50px;
+    margin-top: -25px;
+    filter: alpha(opacity=80);
+    position: absolute;
+    z-index: 8;
+    cursor: pointer;
+    opacity: 0.8;
+    -moz-opacity: .8;
+}
+.wt-rotator .s-prev
+{
+    background-position: 0px;
+    left: 0px;
+}
+.wt-rotator .s-next
+{
+    background-position: -40px;
+    left: 100%;
+    margin-left: -40px;
+}
+.wt-rotator .s-prev:hover
+{
+    filter: alpha(opacity=95);
+    opacity: 0.95;
+    background-color: transparent !important;
+    -moz-opacity: .95;
+}
+.wt-rotator .s-next:hover
+{
+    filter: alpha(opacity=95);
+    opacity: 0.95;
+    background-color: transparent !important;
+    -moz-opacity: .95;
+}
+.wt-rotator .block
+{
+    position: absolute;
+    z-index: 2;
+}
+.wt-rotator .vpiece
+{
+    position: absolute;
+    z-index: 2;
+}
+.wt-rotator .hpiece
+{
+    position: absolute;
+    z-index: 2;
+}

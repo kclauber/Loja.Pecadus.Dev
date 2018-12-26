@@ -1,0 +1,121 @@
+/* Header *****************************************/
+#divHeader
+{
+    background: url('../imagens/Home_02.jpg') no-repeat; 
+    width:1000px; 
+    height:159px;
+    margin:auto;
+    clear:both;
+}
+
+#divHeaderAdmin
+{
+    background: url('../imagens/Header.png') no-repeat; 
+    width:784px; 
+    height:159px;
+    margin:auto;
+    clear:both;
+}
+
+#h1Header
+{
+    color:White;
+    font: 24px tahoma sans;
+    margin:0;
+    padding-top:100px;
+    padding-left:140px;
+    text-align:left;
+}
+
+/* Menu *****************************************/
+#divMenu
+{
+    background: url('../imagens/Home_04.jpg') no-repeat; 
+    width:1000px; 
+    height:46px;
+    margin:auto;
+    clear:both;
+}
+
+#divMenu .home
+{
+    color:White;
+    padding:13px 35px 0 0px;
+    margin:0;
+    float:left;
+}
+
+#divMenu .pipe
+{
+     padding:13px 6px 0 6px;
+}
+
+#divMenu ul
+{
+    list-style:none;
+    float:left;
+    height:45px;
+    padding-left:38px;
+}
+#divMenu li
+{
+    color:White;
+    float:left;
+    padding:10px;
+    padding-top:13px;
+    font-weight:bold;
+}
+
+#divMenu a
+{
+    color:White;
+}
+
+/* Busca *****************************************/
+
+#divBusca
+{
+    background: url('../imagens/Home_Busca_05.jpg') no-repeat;
+    width:1000px; 
+    height:42px;
+    margin:auto;
+    padding:0;
+    clear:both;
+    padding-top:2px;
+}
+#divBusca #lnkSacola a
+{
+    display:table-cell;
+    color: #F4EE76;
+    text-decoration:underline;
+    font-weight:bold;
+    padding-left:48px;
+    border:red solid 0px;
+    float:left;
+}
+
+#divBusca #lnkOK a
+{
+    display:table-cell;
+    color: #FFF;
+    font-weight:bold;
+    padding-left:20px;
+    padding-top:3px;
+    float:left;
+}
+
+#txtBusca
+{    
+    width: 623px;
+    margin-left:110px;
+    margin-top:2px;
+    font-size: 14px; 
+    float:left;
+    border:0px;
+}
+
+#fadeshow1
+{
+    width:1000px; 
+    margin:auto;
+}

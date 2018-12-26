@@ -1,0 +1,72 @@
+@import vendors/_variables.sass
+
+/* ==========================================================================
+   Normatização CSS
+   ========================================================================== */
+header
+	color: $texto
+body
+	font-size: 14px
+	font-family: $font-regular
+	color: #bbb
+a, .btn
+	-moz-transition: all 0.2s ease-in-out
+	-o-transition: all 0.2s ease-in-out
+	-webkit-transition: all 0.2s ease-in-out
+	transition: all 0.2s ease-in-out
+	&:hover
+		text-decoration: none
+ul
+	list-style: none
+	padding-left: 0
+strong
+	font-family: $font-bold
+h2
+	font-family: $font-bold
+h3
+	font-size: 18px
+.btn
+	letter-spacing: 1px
+	border-radius: 5px
+.btn:active, .btn.active
+	outline: 0
+	background-image: none
+	box-shadow: none
+.btn:focus, .btn.focus, .btn:active:focus, .btn:active.focus, .btn.active:focus, .btn.active.focus
+	outline: none
+	outline-offset: 0
+.btn-primary
+	background-color: $roxo
+	text-transform: uppercase
+	padding: 9px 16px
+	border: none
+	&:hover, &:active, &:focus, &:active:focus, &:active:hover
+		background-color: $roxo-hover
+		border: none
+.btn-secundary
+	color: #fff
+	background-color: $pink
+	text-transform: uppercase
+	padding: 9px 16px
+	border: none
+	&:hover, &:active, &:focus, &:active:focus, &:active:hover
+		background-color: $pink-hover
+		color: #fff
+		border: none
+.pec-breadcrumb 
+	background-color: #efefef
+	.breadcrumb
+		background-color: transparent
+		margin-bottom: 0
+		padding-left: 0
+		li 
+			color: #888
+			a 
+				color: #888
+				&:hover
+					color: $pink
+
+	
+.cont-int
+	margin-top: 20px
+	margin-bottom: 120px

@@ -1,0 +1,16 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true"
+    CodeFile="FerramentasSEO.aspx.cs" Inherits="Loja.UI.Pecadus.Admin.FerramentasSEO" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <asp:Button ID="btnGerarSiteMap" runat="server" Text="-- Gerar SiteMap --" OnClick="btnGerarSiteMap_Click" /><br />
+    <a href="../SiteMap.xml" target="_blank">Abrir SiteMap</a><br />
+
+    <asp:Button ID="btnRenomearImagens" runat="server" Text="-- Renomear Imagens --"
+        OnClick="btnRenomearImagens_Click" /><br />
+    <hr />
+    <asp:Label ID="lblMensagem" runat="server" Text=""></asp:Label>
+
+</asp:Content>

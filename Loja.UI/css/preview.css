@@ -1,0 +1,65 @@
+.title
+{
+    height: 60px;
+}
+.panel
+{
+    padding: 10px 20px;
+    left: 50%;
+    width: 827px;
+    text-align: left;
+    margin-left: -433px;
+    position: absolute;
+    min-height: 100%;
+    box-shadow: 0px 0px 3px #000;
+    background-color: rgb(255, 255, 255);
+    -moz-box-shadow: 0px 0px 3px #000;
+    -webkit-box-shadow: 0px 0px 3px #000;
+}
+.info-section
+{
+    background: url("bg.png") repeat-y 0px 0px rgb(34, 34, 34);
+    border: 1px solid rgb(51, 51, 51);
+    width: 825px;
+    overflow: hidden;
+    margin-top: 20px;
+    position: relative;
+}
+.form-panel
+{
+    padding: 10px;
+    width: 190px;
+    color: rgb(0, 0, 0);
+    font-size: 12px;
+    float: left;
+    position: relative;
+    background-color: rgb(238, 238, 238);
+}
+.form-sec
+{
+    margin-bottom: 10px;
+}
+.description
+{
+    padding: 15px;
+    width: 585px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    float: left;
+    position: relative;
+}
+select
+{
+    width: 190px;
+}
+label.disable
+{
+    color: rgb(119, 119, 119);
+}
+.copyright
+{
+    margin: 15px 0px;
+    width: 100%;
+    text-align: right;
+    font-size: 11px;
+}

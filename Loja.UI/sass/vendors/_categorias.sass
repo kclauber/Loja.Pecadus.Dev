@@ -1,0 +1,46 @@
+@import vendors/_variables.sass
+
+/* ==========================================================================
+   CATEGORIAS
+   ========================================================================== */
+
+.banner-categoria
+	margin-bottom: 50px
+
+span.glyphicon.glyphicon-th-list
+	margin-right: 8px
+.sidebar-offcanvas
+	margin-top: 20px
+	.list-group-item.active
+		background: -moz-linear-gradient(left,  #c20074 0%, #662d91 100%)
+		background: -webkit-linear-gradient(left,  #c20074 0%,#662d91 100%)
+		background: linear-gradient(to right,  #c20074 0%,#662d91 100%)
+		border: none
+	h3
+		margin: 0
+		font-size: 16px
+
+@media screen and (max-width: 767px) 
+	.row-offcanvas 
+		position: relative
+		-webkit-transition: all .25s ease-out
+		-o-transition: all .25s ease-out
+		transition: all .25s ease-out
+	.row-offcanvas-right 
+		left: 0
+	.row-offcanvas-left 
+		right: 0
+	.row-offcanvas-right .sidebar-offcanvas 
+		left: -70%
+	.row-offcanvas-right.active 
+		left: 70%
+	.row-offcanvas-left.active 
+		right: 30%
+	.sidebar-offcanvas 
+		position: absolute
+		top: 0
+		width: 70%
+		z-index: 1
+		margin-top: 0
+
+

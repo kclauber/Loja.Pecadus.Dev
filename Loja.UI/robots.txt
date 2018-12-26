@@ -1,0 +1,5 @@
+# Arquivo robots.txt para o Projetodetone.com
+
+User-agent: *
+Disallow: /admin/
+Disallow: /admin
