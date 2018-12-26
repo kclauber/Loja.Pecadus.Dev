@@ -451,8 +451,8 @@
 
                 check.on('change', function (e) {
                     var idProduto = check.attr('prod');
-                    var adicionar = (check.is(':checked'));
-
+                    var adicionar = (check.is(':checked'));                    
+            
                     AdicionarFavoritos(idProduto, adicionar);
                 });
             });

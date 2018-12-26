@@ -59,7 +59,7 @@ namespace Loja.UI.Pecadus
                 HyperLink lnkPreco = (HyperLink)e.Item.FindControl("lnkPreco");
                 Image imgProd = (Image)e.Item.FindControl("imgProd");
 
-                Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null, null);
+                //Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null, null);
             }
         }
         protected void dtlProd_ItemDataBound(object sender, DataListItemEventArgs e)
@@ -72,7 +72,7 @@ namespace Loja.UI.Pecadus
                 HyperLink lnkPreco = (HyperLink)e.Item.FindControl("lnkPreco");
                 Image imgProd = (Image)e.Item.FindControl("imgProd");
 
-                Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null, null);
+                //Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null, null);
             }
         }
     }

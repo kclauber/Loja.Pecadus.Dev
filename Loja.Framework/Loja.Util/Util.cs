@@ -273,8 +273,9 @@ namespace Loja.Util
             else
                 Carrinho.Instancia.RemoverFavorito(idProduto);
         }
-        public static void CarregaDescricaoProduto(ProdutoOT produto, HyperLink lnkImgProd, HyperLink lnkDescricao, HyperLink lnkPreco, Image imgProd, HyperLink lnkTitulo, LinkButton lnkComprar)
+        public static void CarregaDescricaoProduto(RepeaterItem e)
         {
+            ProdutoOT produto = (ProdutoOT)e.DataItem;
             if (produto != null)
             {
                 string link = CriaStringLinkProduto(produto.Categoria.TituloCategoriaPai,
@@ -283,48 +284,8 @@ namespace Loja.Util
                                                     produto.Categoria.IDCategoriaPai,
                                                     produto.Categoria.ID,
                                                     produto.ID);
-
-                if (lnkImgProd != null)
-                {
-                    //Tratamento dos links
-                    lnkImgProd.ToolTip = produto.Titulo;
-                    lnkImgProd.NavigateUrl = link;
-                }                
-
-                if (lnkDescricao != null)
-                {
-                    //Tratamento dos descricao
-                    lnkDescricao.ToolTip = produto.Titulo;
-                    lnkDescricao.NavigateUrl = link;
-
-                    string desc = produto.DescricaoCurta;
-                    //Aplicando a expressão regular para tirar HTML e replace para tirar quebras de linha                
-                    desc = Regex.Replace(desc, "<[^>]*>", " ").Replace("\r\n", " ").Replace(",,", ",").Trim();
-                    desc = (desc.Length > 90 ? desc.Substring(0, 90) + "..." : desc);
-                    lnkDescricao.Text = desc;
-                }
-
-                if (lnkPreco != null)
-                {
-                    //Tratamento dos preco
-                    string preco = "";
-                    if (produto.Desconto <= 0)
-                    {
-                        preco = String.Format(@"<b>Por:</b> <span class='preco' style='font-size:25px;'>{0:R$ #,##0.00}</span><br/>", produto.Preco);
-                    }
-                    else
-                    {
-                        //Exibindo desconto            
-                        preco = String.Format(@"<span class='precoDe'>De: {0:R$ #,##0.00}</span><br/>
-                                                <b>Por:</b> <span class='preco' style='font-size:25px;'>{1:R$ #,##0.00}</span><br/>
-                                                <span class='precoEcon'>Economize: {2:R$ #,##0.00}</span>",
-                                                produto.Preco,
-                                                produto.Preco - ((produto.Preco / 100) * produto.Desconto),
-                                                produto.Preco - (produto.Preco - ((produto.Preco / 100) * produto.Desconto)));
-                    }
-                    lnkPreco.Text = preco;
-                }
-
+                #region Imagem
+                Image imgProd = (Image)e.FindControl("imgProd");
                 if (imgProd != null)
                 {
                     //Tratamento das imagens
@@ -332,7 +293,64 @@ namespace Loja.Util
                     if (produto.Imagens.Count > 0)
                         imgProd.ImageUrl = @"ShowImage.aspx?w=270&img=" + produto.Imagens[0].Titulo;
                 }
+                HyperLink lnkImgProd = (HyperLink)e.FindControl("lnkImgProd");
+                if (lnkImgProd != null)
+                {
+                    //Tratamento dos links
+                    lnkImgProd.ToolTip = produto.Titulo;
+                    lnkImgProd.NavigateUrl = link;
+                }
+                #endregion
+                #region Descrição
+                #region Descrição com link
+                //if (lnkDescricao != null)
+                //{
+                //    //Tratamento da descricao
+                //    lnkDescricao.ToolTip = produto.Titulo;
+                //    lnkDescricao.NavigateUrl = link;
 
+                //    string desc = produto.DescricaoCurta;
+                //    //Aplicando a expressão regular para tirar HTML e replace para tirar quebras de linha                
+                //    desc = Regex.Replace(desc, "<[^>]*>", " ").Replace("\r\n", " ").Replace(",,", ",").Trim();
+                //    desc = (desc.Length > 90 ? desc.Substring(0, 90) + "..." : desc);
+                //    lnkDescricao.Text = desc;
+                //}
+                #endregion
+                Label lblDescricao = (Label)e.FindControl("lblDescricao");
+                if (lblDescricao != null)
+                {
+                    string desc = produto.DescricaoCurta;
+                    //Aplicando a expressão regular para tirar HTML e replace para tirar quebras de linha                
+                    desc = Regex.Replace(desc, "<[^>]*>", " ").Replace("\r\n", " ").Replace(",,", ",").Trim();
+                    desc = (desc.Length > 90 ? desc.Substring(0, 90) + "..." : desc);
+                    lblDescricao.Text = desc;
+                }
+                #endregion
+                #region Preço
+                HyperLink lnkPreco = (HyperLink)e.FindControl("lnkPreco");
+                if (lnkPreco != null)
+                {
+                    //Tratamento dos preco
+                    string preco = "";
+                    if (produto.Desconto <= 0)
+                    {
+                        preco = String.Format(@"<p>Por:</p><ul><li>{0:R$ #,##0.00}</li></ul>", produto.Preco);
+                    }
+                    else
+                    {
+                        //Exibindo desconto            
+                        preco = String.Format(@"<p>De: <span><s>{0:R$ #,##0.00}</s></span></p>
+                                                <p>Por:</p><ul><li>{1:R$ #,##0.00}</li></ul>
+                                                <p class='precoEcon'>Economize: {2:R$ #,##0.00}</p>",
+                                                produto.Preco,
+                                                produto.Preco - ((produto.Preco / 100) * produto.Desconto),
+                                                produto.Preco - (produto.Preco - ((produto.Preco / 100) * produto.Desconto)));
+                    }
+                    lnkPreco.Text = preco;
+                }
+                #endregion
+                #region Titulo
+                HyperLink lnkTitulo = (HyperLink)e.FindControl("lnkTitulo");
                 if (lnkTitulo != null)
                 {
                     //Tratamento do titulo
@@ -340,12 +358,31 @@ namespace Loja.Util
                     lnkTitulo.ToolTip = produto.Titulo;
                     lnkTitulo.NavigateUrl = link;
                 }
-
+                #endregion
+                #region Comprar
+                LinkButton lnkComprar = (LinkButton)e.FindControl("lnkComprar");
                 if (lnkComprar != null)
                 {
                     //Tratamento do botão de comprar
                     lnkComprar.CommandArgument = produto.ID.ToString();
-                }                
+                }
+                #endregion
+                #region Detalhes
+                HyperLink lnkDetalhes = (HyperLink)e.FindControl("lnkDetalhes");
+                if (lnkDetalhes != null)
+                {
+                    //Tratamento dos links
+                    lnkDetalhes.ToolTip = produto.Titulo;
+                    lnkDetalhes.NavigateUrl = link;
+                }
+                #endregion
+                #region
+                HtmlInputCheckBox chkFavoritos = (HtmlInputCheckBox)e.FindControl("chkFavoritos");
+                if (chkFavoritos != null)
+                {
+                    chkFavoritos.Attributes.Add("prod", produto.ID.ToString());
+                }
+                #endregion
             }
         }
         #region -- Tratamento de Erro --

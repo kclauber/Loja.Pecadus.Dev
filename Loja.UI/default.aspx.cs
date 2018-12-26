@@ -24,47 +24,73 @@ namespace Loja.UI.Pecadus
 
             if (!Page.IsPostBack)
             {
-                //ListarProdutos();
+                ListarProdutos();
             }
         }
         public void ListarProdutos()
         {
-            ProdutosOT produtosAux = null;
-            produtosAux = new ProdutosOP().SelectProdutosDestaque();
-            repProdutoDestaque1.DataSource = produtosAux;
+            ProdutosOT produtos = new ProdutosOT();
+            ProdutoOT _produto = new ProdutoOT();
+            _produto.ID = 1;
+            //_produto.EAN = Convert.ToString(_row["ean"]);
+            _produto.Titulo = "Titulo Titulo Titulo Titulo Titulo";
+            _produto.DescricaoCurta = "Descricao Curta Descricao Curta Descricao Curta";
+            _produto.DescricaoCompleta = "Descricao Completa Descricao Completa Descricao Completa Descricao Completa";
+            //_produto.PalavrasChave = Convert.ToString(_row["palavrasChave"]);
+            //_produto.Observacao = Convert.ToString(_row["observacao"]);
+
+            _produto.Preco = Convert.ToDouble(200.89);
+            //_produto.PrecoCusto = Convert.ToDouble(_row["precoCusto"]);
+            //_produto.MarkUp = Convert.ToDouble(_row["markUp"]);
+            _produto.Desconto = Convert.ToInt32(5.00);
+            //_produto.Frete = Convert.ToDouble(_row["frete"]);
+            //_produto.Peso = Convert.ToInt32(_row["peso"]);
+            //_produto.Estoque = Convert.ToInt32(_row["estoque"]);
+
+            //_produto.DtCadastro = Convert.ToDateTime(_row["dtCadastro"]);
+            //_produto.ExibirHome = Convert.ToBoolean(_row["exibirHome"]);
+            //_produto.Destaque = Convert.ToBoolean(_row["destaque"]);
+            //_produto.Ativo = Convert.ToBoolean(_row["ativo"]);
+
+            ////Dados do distribuidor
+            //_produto.Distribuidor.ID = Convert.ToInt32(_row["idDistribuidor"]);
+            //_produto.Distribuidor.Nome = Convert.ToString(_row["nomeDistribuidor"]);
+
+            //Dados da categoria
+            _produto.Categoria.ID = 5;
+            _produto.Categoria.IDCategoriaPai = 10;
+            _produto.Categoria.Titulo = "Titulo Categoria";
+            _produto.Categoria.TituloCategoriaPai = "Titulo Categoria Pai";
+
+            //_produto.Imagens = SelectImagensProduto(_produto.ID);
+            //_produto.Videos = SelectVideoProduto(_produto.ID);
+
+            produtos.Add(_produto);
+
+            //Busca a primeira lista de produtos
+            //produtos = new ProdutosOP().SelectProdutosDestaque();
+            repProdutoDestaque1.DataSource = produtos;
             repProdutoDestaque1.DataBind();
 
-            produtosAux = null;
-            produtosAux = new ProdutosOP().SelectProdutosHome();
-            repProdutoDestaque2.DataSource = produtosAux;
+            //Busca a segunda lista de produtos
+            //produtos = new ProdutosOP().SelectProdutosHome();
+            produtos[0].ID = 2;
+            repProdutoDestaque2.DataSource = produtos;
             repProdutoDestaque2.DataBind();
         }
         protected void repProd1_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
             {
-                ProdutoOT produto = (ProdutoOT)e.Item.DataItem;
-                HyperLink lnkImgProd = (HyperLink)e.Item.FindControl("lnkImgProd");
-                HyperLink lnkDescricao = (HyperLink)e.Item.FindControl("lnkDescricao");
-                HyperLink lnkPreco = (HyperLink)e.Item.FindControl("lnkPreco");
-                Image imgProd = (Image)e.Item.FindControl("imgProd");
-                LinkButton lnkComprar = (LinkButton)e.Item.FindControl("lnkComprar");
-
-                Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null, lnkComprar);
+                Utilitarios.CarregaDescricaoProduto(e.Item);
             }
         }
         protected void repProd2_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            //if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
-            //{
-            //    ProdutoOT produto = (ProdutoOT)e.Item.DataItem;
-            //    HyperLink lnkImgProd = (HyperLink)e.Item.FindControl("lnkImgProd");
-            //    HyperLink lnkDescricao = (HyperLink)e.Item.FindControl("lnkDescricao");
-            //    HyperLink lnkPreco = (HyperLink)e.Item.FindControl("lnkPreco");
-            //    Image imgProd = (Image)e.Item.FindControl("imgProd");
-
-            //    Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null);
-            //}
+            if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
+            {
+                Utilitarios.CarregaDescricaoProduto(e.Item);
+            }
         }
         protected void AdicionarItem(object sender, EventArgs e)
         {

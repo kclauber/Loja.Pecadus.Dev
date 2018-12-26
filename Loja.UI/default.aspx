@@ -107,17 +107,17 @@
                         <div class="col-md-12">
                             <asp:HyperLink ID="lnkImgProd" runat="server">
                                 <asp:Image ID="imgProd" Width="270" Height="270" runat="server" 
-                                    ImageUrl="~/imagensProdutos/sem_imagem.gif" 
+                                    ImageUrl="~/imagensProdutos/sem-foto-2.jpg" 
                                     CssClass="thumbnail img-responsive" />
                             </asp:HyperLink>
 
                             <h3>
-                              <a href="/SexShop/categoriaPaiTitulo/categoriaTitulo/titulo/categoriaPaiID/categoriaID/ID/" title="">
-                                  Teste Teste Teste Teste Teste Teste</a>
+                              <asp:HyperLink ID="lnkTitulo" runat="server" />
                             </h3>
                             <p>
-                              Zriuoasd asioudasj eroifojsad a asodpipoire.
+                              <asp:Label ID="lblDescricao" runat="server" />
                             </p>
+                            <!--
                             <p>
                                 <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
                                 <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
@@ -126,20 +126,17 @@
                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                 <a href="" title="Avaliações">(01 Avaliação)</a>
                             </p>
-                            <p>De: <span>199,00</span></p>
-                            <p>Por:</p>
-                            <ul>
-                              <li>R$ 55,00</li>
-                            </ul>
-                              <a href="/SexShop/categoriaPaiTitulo/categoriaTitulo/titulo/categoriaPaiID/categoriaID/ID/" title="Detalhes" class="btn btn-primary" aria-label="Left Align" role="button">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Detalhes
-                              </a>
-                              <div class="icon-posi" data-toggle="buttons">
-                                <label class="btn btn-invisible">
-                                  <input type="checkbox" id="fav_1" prod="1" />
-                                  <span class="glyphicon glyphicon-heart" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Adicionar aos Favoritos"></span>
-                                </label>
-                              </div>
+                            -->
+                            <asp:HyperLink ID="lnkPreco" runat="server" />
+                            <asp:HyperLink ID="lnkDetalhes" runat="server" CssClass="btn btn-primary">
+                              <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Detalhes
+                            </asp:HyperLink>
+                            <div class="icon-posi" data-toggle="buttons">
+                              <label class="btn btn-invisible">
+                                <input type="checkbox" id="chkFavoritos" runat="server" />
+                                <span class="glyphicon glyphicon-heart" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Adicionar aos Favoritos"></span>
+                              </label>
+                            </div>
                             <p>
                               <asp:LinkButton OnClick="AdicionarItem" ID="lnkComprar" CssClass="btn btn-secundary" runat="server">
                                 <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Adicionar Carrinho
@@ -193,17 +190,17 @@
                         <div class="col-md-3 col-sm-4 col-xs-12">
                           <div class="box-produtos">
                             <asp:HyperLink ID="lnkImgProd" runat="server">
-                                <asp:Image ID="imgProd" Width="180" Height="180" runat="server" 
-                                    ImageUrl="~/imagensProdutos/sem_imagem.gif" 
+                                <asp:Image ID="imgProd" Width="270" Height="270" runat="server" 
+                                    ImageUrl="~/imagensProdutos/sem-foto-2.jpg" 
                                     CssClass="thumbnail img-responsive" />
                             </asp:HyperLink>
                             <h3>
-                              <a href="/SexShop/categoriaPaiTitulo/categoriaTitulo/titulo/categoriaPaiID/categoriaID/ID/" title="">
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit</a>
+                              <asp:HyperLink ID="lnkTitulo" runat="server" />
                             </h3>
                             <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.
+                              <asp:Label ID="lblDescricao" runat="server" />
                             </p>
+                            <!--
                             <p>
                                 <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
                                 <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
@@ -212,24 +209,21 @@
                                 <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
                                 <a href="" title="Avaliações">(01 Avaliação)</a>
                             </p>
-                            <p>De: <span>199,00</span></p>
-                            <p>Por:</p>
-                            <ul>
-                              <li>R$ 55,00</li>
-                            </ul>
-                              <a href="/SexShop/categoriaPaiTitulo/categoriaTitulo/titulo/categoriaPaiID/categoriaID/ID/" title="Detalhes" class="btn btn-primary" aria-label="Left Align" role="button">
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Detalhes
-                              </a>
-                              <div class="icon-posi" data-toggle="buttons">
-                                <label class="btn btn-invisible">
-                                  <input type="checkbox" id="fav_2" prod="2" />
-                                  <span class="glyphicon glyphicon-heart" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Adicionar aos Favoritos"></span>
-                                </label>
-                              </div>
+                            -->
+                            <asp:HyperLink ID="lnkPreco" runat="server" />
+                            <asp:HyperLink ID="lnkDetalhes" runat="server" CssClass="btn btn-primary">
+                              <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Detalhes
+                            </asp:HyperLink>
+                            <div class="icon-posi" data-toggle="buttons">
+                              <label class="btn btn-invisible">
+                                <input type="checkbox" id="chkFavoritos" runat="server" />
+                                <span class="glyphicon glyphicon-heart" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Adicionar aos Favoritos"></span>
+                              </label>
+                            </div>
                             <p>
-                              <a href="/Carrinho/id" title="Adicionar Carrinho" class="btn btn-secundary" aria-label="Left Align" role="button">
+                              <asp:LinkButton OnClick="AdicionarItem" ID="lnkComprar" CssClass="btn btn-secundary" runat="server">
                                 <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Adicionar Carrinho
-                              </a>
+                              </asp:LinkButton>
                             </p>
                           </div>
                         </div>
