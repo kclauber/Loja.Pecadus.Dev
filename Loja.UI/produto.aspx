@@ -14,9 +14,15 @@
         <div class="col-md-12">
           <nav>
             <ol class="breadcrumb" itemscope itemtype="http://schema.org/BreadcrumbList">
-              <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="/SexShop/">Home</a></li>
-              <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a href="#">Nome da Categoria</a></li>
-              <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">Nome do produto</li>
+              <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                  <asp:HyperLink ID="lnkMigalhaHome" runat="server" Font-Bold="true" />
+              </li>
+              <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                  <asp:HyperLink ID="lnkMigalhaCateg" runat="server" Font-Bold="true" />
+              </li>
+              <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                  <asp:HyperLink ID="lnkMigalhaSubCateg" runat="server" Font-Bold="true" Visible="true" />
+              </li>
             </ol>
           </nav>
         </div>
@@ -32,16 +38,20 @@
       <div class="col-md-12">
           <div class="produto-titul">
               <h2><span class="glyphicon glyphicon glyphicon-stop" aria-hidden="true"></span>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit -sum dolor sit amet, consectetur adipiscing elit</h2>
+                  <asp:Label ID="lblTitulo" runat="server" />
+              </h2>
               <ul>
-                <li><span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span></li>
-                <li><a href="" title="Avaliações">(01 Avaliação)</a></li>
-                <li> Cód. Ref.: 0123456</li>
-                <li></li>
+                <!--
+                    <li>
+                        <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                    </li>
+                    <li><a href="#" title="Avaliações">(01 Avaliação)</a></li>
+                -->
+                <li><asp:Label ID="lblCodigo" runat="server" /></li>
               </ul>
           </div>
       </div>
@@ -107,8 +117,7 @@
               Ao clicar em comprar declaro ter lido e aceito os <a href="#" title="termos de compra"><strong>termos de compra</strong></a> deste site.
             </p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.
+              <asp:Label ID="lblDescCurta" runat="server" />
             </p>
             <!-- 16:9 aspect ratio -->
             <div class="row">
@@ -124,22 +133,13 @@
     <div class="row">
       <div class="col-md-12 descricao-produto">
         <h3>Detalhes do Produto</h3>
-        <p>Coelho de pernas para o AR, com compartimento secreto, acompanha um vibrador personal 13 cm na cor rosa e cadeado de segurança.</p>
-        <p>Este COELHO em pelúcia antialérgica, traz dentro do seu compartimento secreto uma outra surpresa: um vibrador personal rosa de 13cm. Tudo fechado com cadeado de segurança.</p>
-        <p>Os brinquedos em pelúcia são ideais para presentes e decoração sensual . Possui um compartimento interno para guardar os acessórios eróticos de forma discreta e segura.</p>
-        <ul>
-          <li><strong>Tamanho:</strong> Aproximadamente 45cm</li>
-          <li><strong>Cor:</strong> Branco e Rosa</li>
-          <li><strong>Material:</strong> Pelúcia anti-alérgica </li>
-          <li><strong>Embalagem:</strong> Saco plástico com solapa</li>
-          <li><strong>Acompanha:</strong> 1 Cadeado com chave e 1 vibrador personal</li>
-        </ul>
+        <asp:Label ID="lblDescCompleta" runat="server" />
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <h3>Palavras Relacionadas</h3>
-        <a href="#">Coelho de Pelúcia</a>, <a href="#">Coelho de Pelúcia</a>, <a href="#">Coelho de Pelúcia</a>, <a href="#">Coelho de Pelúcia</a>, <a href="#">Coelho de Pelúcia</a>, <a href="#">Coelho de Pelúcia</a>
+        <asp:Label ID="lblPalavrasChave" runat="server" />
       </div>
     </div>
   </div>

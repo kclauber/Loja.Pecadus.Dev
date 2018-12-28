@@ -30,41 +30,7 @@ namespace Loja.UI.Pecadus
         public void ListarProdutos()
         {
             ProdutosOT produtos = new ProdutosOT();
-            ProdutoOT _produto = new ProdutoOT();
-            _produto.ID = 1;
-            //_produto.EAN = Convert.ToString(_row["ean"]);
-            _produto.Titulo = "Titulo Titulo Titulo Titulo Titulo";
-            _produto.DescricaoCurta = "Descricao Curta Descricao Curta Descricao Curta";
-            _produto.DescricaoCompleta = "Descricao Completa Descricao Completa Descricao Completa Descricao Completa";
-            //_produto.PalavrasChave = Convert.ToString(_row["palavrasChave"]);
-            //_produto.Observacao = Convert.ToString(_row["observacao"]);
-
-            _produto.Preco = Convert.ToDouble(200.89);
-            //_produto.PrecoCusto = Convert.ToDouble(_row["precoCusto"]);
-            //_produto.MarkUp = Convert.ToDouble(_row["markUp"]);
-            _produto.Desconto = Convert.ToInt32(5.00);
-            //_produto.Frete = Convert.ToDouble(_row["frete"]);
-            //_produto.Peso = Convert.ToInt32(_row["peso"]);
-            //_produto.Estoque = Convert.ToInt32(_row["estoque"]);
-
-            //_produto.DtCadastro = Convert.ToDateTime(_row["dtCadastro"]);
-            //_produto.ExibirHome = Convert.ToBoolean(_row["exibirHome"]);
-            //_produto.Destaque = Convert.ToBoolean(_row["destaque"]);
-            //_produto.Ativo = Convert.ToBoolean(_row["ativo"]);
-
-            ////Dados do distribuidor
-            //_produto.Distribuidor.ID = Convert.ToInt32(_row["idDistribuidor"]);
-            //_produto.Distribuidor.Nome = Convert.ToString(_row["nomeDistribuidor"]);
-
-            //Dados da categoria
-            _produto.Categoria.ID = 5;
-            _produto.Categoria.IDCategoriaPai = 10;
-            _produto.Categoria.Titulo = "Titulo Categoria";
-            _produto.Categoria.TituloCategoriaPai = "Titulo Categoria Pai";
-
-            //_produto.Imagens = SelectImagensProduto(_produto.ID);
-            //_produto.Videos = SelectVideoProduto(_produto.ID);
-
+            ProdutoOT _produto = Utilitarios.CarregaProdutoFake();
             produtos.Add(_produto);
 
             //Busca a primeira lista de produtos

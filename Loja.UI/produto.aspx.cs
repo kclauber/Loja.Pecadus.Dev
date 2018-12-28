@@ -1,10 +1,11 @@
 ﻿using Loja.Objeto;
+using Loja.Persistencia;
 using Loja.Util;
 using System;
 using System.Configuration;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Web.Services;
 
 namespace Loja.UI.Pecadus
 {
@@ -25,47 +26,48 @@ namespace Loja.UI.Pecadus
             {
                 //Session["video"] = null;
 
-                //if (Request.QueryString.Count > 0)
-                //{
-                //    id = (Request["ID"] != null ? Convert.ToInt32(Request["ID"]) : -1);
-                //    idCategoria = (Request["categID"] != null ? Convert.ToInt32(Request["categID"]) : -1);
-                //}
-                //else if (RouteData.Values.Count > 0)
-                //{
-                //    id = (RouteData.Values["ID"] != null ? Convert.ToInt32(RouteData.Values["ID"]) : -1);
-                //    idCategoria = (RouteData.Values["categID"] != null ? Convert.ToInt32(RouteData.Values["categID"]) : -1);
-                //}
+                if (Request.QueryString.Count > 0)
+                {
+                    id = (Request["ID"] != null ? Convert.ToInt32(Request["ID"]) : -1);
+                    idCategoria = (Request["categID"] != null ? Convert.ToInt32(Request["categID"]) : -1);
+                }
+                else if (RouteData.Values.Count > 0)
+                {
+                    id = (RouteData.Values["ID"] != null ? Convert.ToInt32(RouteData.Values["ID"]) : -1);
+                    idCategoria = (RouteData.Values["categID"] != null ? Convert.ToInt32(RouteData.Values["categID"]) : -1);
+                }
 
-                //if (id > -1)
-                //{
-                //    carregaDetalhesProduto(id);
-                //    carregaMetaTags();
-                //    carregaMigalha();
-                //    carregarPalavrasChave();
-                //}
+                if (id > -1)
+                {
+                    carregaDetalhesProduto(id);
+                    carregaMetaTags();
+                    //carregaMigalha();
+                    carregarPalavrasChave();
+                }
             }
         }
 
         protected void carregaDetalhesProduto(int id)
         {
             //produto = new ProdutosOP().SelectProduto(id, 0, 1);
-            //if (produto == null)
-            //    throw new Exception(String.Format("Produto não encontrado! ID: {0}", id));
-            
-            ////Detalhes do produto
-            //string link = Utilitarios.CriaStringLinkProduto(produto.Categoria.TituloCategoriaPai,
-            //                                                produto.Categoria.Titulo,
-            //                                                produto.Titulo,
-            //                                                produto.Categoria.IDCategoriaPai,
-            //                                                produto.Categoria.ID,
-            //                                                produto.ID);
+            produto = Utilitarios.CarregaProdutoFake();
 
-            //lnkTitulo.NavigateUrl = link;
-            //lnkTitulo.ToolTip = produto.Titulo;
-            //lnkTitulo.Text = produto.Titulo;
+            if (produto == null)
+                throw new Exception(String.Format("Produto não encontrado! ID: {0}", id));
 
-            //lblId.Text = String.Format("Ref.: {0:00000}", produto.ID);
-            //lblDescCurta.Text = produto.DescricaoCurta;
+            //Detalhes do produto
+            string link = Utilitarios.CriaStringLinkProduto(produto.Categoria.TituloCategoriaPai,
+                                                            produto.Categoria.Titulo,
+                                                            produto.Titulo,
+                                                            produto.Categoria.IDCategoriaPai,
+                                                            produto.Categoria.ID,
+                                                            produto.ID);
+
+            lblTitulo.Text = produto.Titulo;
+            lblCodigo.Text = String.Format("Cód. Ref.: {0:00000}", produto.ID);
+            lblDescCurta.Text = produto.DescricaoCurta;
+            lblDescCompleta.Text = produto.DescricaoCompleta;
+
             //if (produto.Estoque > 0)
             //{
             //    lblEstoque.Text = String.Format(@"<br />Apenas <span class='EstTabPedidoNome' 
@@ -87,7 +89,6 @@ namespace Loja.UI.Pecadus
             //                                    produto.Preco - (produto.Preco - ((produto.Preco / 100) * produto.Desconto)));
             //}
 
-            //lblDescCompleta.Text = produto.DescricaoCompleta;
 
             //if (produto.Videos.Count > 0)
             //{
@@ -100,9 +101,13 @@ namespace Loja.UI.Pecadus
             //    pnlVideo.Visible = true;
             //}
             //else if (produto.Imagens.Count > 0)
+            //{
             //    mostraObjetoImagem(produto.Imagens[0].ID, produto.Imagens[0].Titulo);
+            //}
             //else
+            //{
             //    mostraObjetoImagem(0, "");
+            //}
 
             //if (produto.Estoque > 0)
             //    imgComprar.CommandArgument = id.ToString();
@@ -143,27 +148,27 @@ namespace Loja.UI.Pecadus
         }
         protected void carregaMigalha()
         {
-            //if (produto != null)
-            //{
-            //    Utilitarios.CriaLinksMigalhas(ref lnkMigalhaHome, ref lnkMigalhaCateg, ref lnkMigalhaSubCateg,
-            //                                  produto.Categoria.IDCategoriaPai, produto.Categoria.ID);
-            //}
+            if (produto != null)
+            {
+                Utilitarios.CriaLinksMigalhas(ref lnkMigalhaHome, ref lnkMigalhaCateg, ref lnkMigalhaSubCateg,
+                                              produto.Categoria.IDCategoriaPai, produto.Categoria.ID);
+            }
         }
         private void carregarPalavrasChave()
         {
-            //if (produto != null)
-            //{
-            //    string[] arrPalavrasChave = produto.PalavrasChave.Split(',');
+            if (produto != null)
+            {
+                string[] arrPalavrasChave = produto.PalavrasChave.Split(',');
 
-            //    lblPalavrasChave.Text = "";
-            //    foreach (string palavra in arrPalavrasChave)
-            //    {
-            //        if (!String.IsNullOrEmpty(lblPalavrasChave.Text))
-            //            lblPalavrasChave.Text += ", ";
+                lblPalavrasChave.Text = "";
+                foreach (string palavra in arrPalavrasChave)
+                {
+                    if (!String.IsNullOrEmpty(lblPalavrasChave.Text))
+                        lblPalavrasChave.Text += ", ";
 
-            //        lblPalavrasChave.Text += String.Format("<a href='/busca/{0}'>{0}</a>", Utilitarios.TiraAcentos(palavra.Trim()).Replace("-"," "));
-            //    }
-            //}
+                    lblPalavrasChave.Text += String.Format("<a href='/busca/{0}'>{0}</a>", Utilitarios.TiraAcentos(palavra.Trim()).Replace("-", " "));
+                }
+            }
         }
         
         protected void dtlProd_ItemDataBound(object sender, DataListItemEventArgs e)

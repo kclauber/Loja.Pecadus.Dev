@@ -107,7 +107,7 @@
                         <div class="col-md-12">
                             <asp:HyperLink ID="lnkImgProd" runat="server">
                                 <asp:Image ID="imgProd" Width="270" Height="270" runat="server" 
-                                    ImageUrl="~/imagensProdutos/sem-foto-2.jpg" 
+                                    ImageUrl="/imagensProdutos/sem-foto-2.jpg" 
                                     CssClass="thumbnail img-responsive" />
                             </asp:HyperLink>
 
@@ -162,8 +162,8 @@
       <div class="row">
         <div class="col-md-12">
           <!--<a href="#" title="#">-->
-            <img class="img-responsive hidden-xs" src="images/banners/frete-gratis.jpg" alt="Frete Grátis">
-            <img class="img-responsive visible-xs" src="images/banners/frete-gratis-mob.jpg" alt="Frete Grátis">
+            <img class="img-responsive hidden-xs" src="/images/banners/frete-gratis.jpg" alt="Frete Grátis">
+            <img class="img-responsive visible-xs" src="/images/banners/frete-gratis-mob.jpg" alt="Frete Grátis">
           <!--</a>-->
         </div>
       </div>
@@ -191,7 +191,7 @@
                           <div class="box-produtos">
                             <asp:HyperLink ID="lnkImgProd" runat="server">
                                 <asp:Image ID="imgProd" Width="270" Height="270" runat="server" 
-                                    ImageUrl="~/imagensProdutos/sem-foto-2.jpg" 
+                                    ImageUrl="/imagensProdutos/sem-foto-2.jpg" 
                                     CssClass="thumbnail img-responsive" />
                             </asp:HyperLink>
                             <h3>

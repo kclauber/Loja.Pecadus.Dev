@@ -100,8 +100,10 @@ namespace Loja.Util
         public static void CarregaMetaTags(Page page, string description, string keywords, string titulo)
         {
             //Aplicando a expressão regular para tirar HTML e replace para tirar quebras de linha
-            description = Regex.Replace(description, "<[^>]*>", " ").Replace("\r\n", " ").Replace(",,", ",").Trim();
-            keywords = Regex.Replace(keywords, "<[^>]*>", " ").Replace("\r\n", " ").Replace(",,", ",").Trim();
+            if (!String.IsNullOrEmpty(description))
+                description = Regex.Replace(description, "<[^>]*>", " ").Replace("\r\n", " ").Replace(",,", ",").Trim();
+            if (!String.IsNullOrEmpty(keywords))
+                keywords = Regex.Replace(keywords, "<[^>]*>", " ").Replace("\r\n", " ").Replace(",,", ",").Trim();
 
             HtmlMeta meta;
 
@@ -416,5 +418,55 @@ namespace Loja.Util
                 page.Response.Redirect("/Erro");
         }
         #endregion
+
+        public static ProdutoOT CarregaProdutoFake()
+        {
+            ProdutoOT _produto = new ProdutoOT();
+            _produto.ID = 1;
+            //_produto.EAN = Convert.ToString(_row["ean"]);
+            _produto.Titulo = "Titulo Titulo Titulo Titulo Titulo";
+            _produto.DescricaoCurta = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.</br>
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.";
+            _produto.DescricaoCompleta = @"<p>Coelho de pernas para o AR, com compartimento secreto, acompanha um vibrador personal 13 cm na cor rosa e cadeado de segurança.</p>
+                                           <p>Este COELHO em pelúcia antialérgica, traz dentro do seu compartimento secreto uma outra surpresa: um vibrador personal rosa de 13cm. Tudo fechado com cadeado de segurança.</p>
+                                           <p>Os brinquedos em pelúcia são ideais para presentes e decoração sensual . Possui um compartimento interno para guardar os acessórios eróticos de forma discreta e segura.</p>
+                                           <ul>
+                                             <li><strong>Tamanho:</strong> Aproximadamente 45cm</li>
+                                             <li><strong>Cor:</strong> Branco e Rosa</li>
+                                             <li><strong>Material:</strong> Pelúcia anti-alérgica </li>
+                                             <li><strong>Embalagem:</strong> Saco plástico com solapa</li>
+                                             <li><strong>Acompanha:</strong> 1 Cadeado com chave e 1 vibrador personal</li>
+                                           </ul>";
+            _produto.PalavrasChave = @"Coelho de Pelúcia, Coelho de Pelúcia, Coelho de Pelúcia, Coelho de Pelúcia, Coelho de Pelúcia";
+            //_produto.Observacao = Convert.ToString(_row["observacao"]);
+
+            _produto.Preco = Convert.ToDouble(200.89);
+            //_produto.PrecoCusto = Convert.ToDouble(_row["precoCusto"]);
+            //_produto.MarkUp = Convert.ToDouble(_row["markUp"]);
+            _produto.Desconto = Convert.ToInt32(5.00);
+            //_produto.Frete = Convert.ToDouble(_row["frete"]);
+            //_produto.Peso = Convert.ToInt32(_row["peso"]);
+            //_produto.Estoque = Convert.ToInt32(_row["estoque"]);
+
+            //_produto.DtCadastro = Convert.ToDateTime(_row["dtCadastro"]);
+            //_produto.ExibirHome = Convert.ToBoolean(_row["exibirHome"]);
+            //_produto.Destaque = Convert.ToBoolean(_row["destaque"]);
+            //_produto.Ativo = Convert.ToBoolean(_row["ativo"]);
+
+            ////Dados do distribuidor
+            //_produto.Distribuidor.ID = Convert.ToInt32(_row["idDistribuidor"]);
+            //_produto.Distribuidor.Nome = Convert.ToString(_row["nomeDistribuidor"]);
+
+            //Dados da categoria
+            _produto.Categoria.ID = 5;
+            _produto.Categoria.IDCategoriaPai = 10;
+            _produto.Categoria.Titulo = "Titulo Categoria";
+            _produto.Categoria.TituloCategoriaPai = "Titulo Categoria Pai";
+
+            //_produto.Imagens = SelectImagensProduto(_produto.ID);
+            //_produto.Videos = SelectVideoProduto(_produto.ID);
+
+            return _produto;
+        }
     }
 }

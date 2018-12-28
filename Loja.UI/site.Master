@@ -14,32 +14,32 @@
   <meta name="og:locality" content="São Paulo">
   <meta name="og:region" content="SP">
 
-  <link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-icon-57x57.png">
-  <link rel="apple-touch-icon" sizes="60x60" href="images/favicon/apple-icon-60x60.png">
-  <link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-icon-72x72.png">
-  <link rel="apple-touch-icon" sizes="76x76" href="images/favicon/apple-icon-76x76.png">
-  <link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-icon-114x114.png">
-  <link rel="apple-touch-icon" sizes="120x120" href="images/favicon/apple-icon-120x120.png">
-  <link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-icon-144x144.png">
-  <link rel="apple-touch-icon" sizes="152x152" href="images/favicon/apple-icon-152x152.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192"  href="images/favicon/android-icon-192x192.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
-  <link rel="manifest" href="images/favicon/manifest.json">
+  <link rel="apple-touch-icon" sizes="57x57" href="/images/favicon/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="/images/favicon/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/images/favicon/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/images/favicon/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/images/favicon/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/images/favicon/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="/images/favicon/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/images/favicon/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-icon-180x180.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/images/favicon/manifest.json">
   <meta name="msapplication-TileColor" content="#ffffff">
-  <meta name="msapplication-TileImage" content="images/favicon/ms-icon-144x144.png">
+  <meta name="msapplication-TileImage" content="/images/favicon/ms-icon-144x144.png">
   <meta name="theme-color" content="#c20075">
 
-  <link rel="stylesheet" href="css/owl.carousel.css">
-  <link rel="stylesheet" href="css/owl.theme.css">
-  <link rel="stylesheet" href="css/plugins.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="/css/owl.carousel.css">
+  <link rel="stylesheet" href="/css/owl.theme.css">
+  <link rel="stylesheet" href="/css/plugins.css">
+  <link rel="stylesheet" href="/css/style.css">
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="javascripts/bootstrap.min.js"></script>
-  <script src="javascripts/owl.carousel.js"></script>
+  <script src="/javascripts/bootstrap.min.js"></script>
+  <script src="/javascripts/owl.carousel.js"></script>
 
 
   <title />
@@ -88,10 +88,9 @@
           </div>
           <div class="col-md-6 col-sm-7">
             <ul class="nav navbar-nav navbar-right">
+                <li><a href="/Cadastro/">Meu Cadastro</a></li>
+                <li><a href="/Pedidos/">Meus Pedidos</a></li>
                 <li><a href="/Termos/">Temos de Compra</a></li>
-                <li><a href="#">Política de Trocas</a></li>
-                <li><a href="#">Sobre a Empresa</a></li>
-                <li><a href="#">Meus Pedidos</a></li>
               </ul>
           </div>
         </div>
@@ -288,7 +287,7 @@
 
         <div class="col-lg-6 col-md-6 col-sm-12">
           <div class="col-lg-5 col-md-6 col-sm-4 hidden-xs">
-            <img class="img-responsive img-caixa" src="images/img-caixas.png" alt="">
+            <img class="img-responsive img-caixa" src="/images/img-caixas.png" alt="">
           </div>
           <div class="col-lg-7 col-md-6 col-xs-12">
             <h4>Embalagem totalmente discreta! Entrega com sigilo total</h4>
@@ -336,8 +335,8 @@
                 <nav>
                   <ul>
                     <li><a href="/Cadastro/" title="Meu Cadastro"><i class="glyphicon glyphicon-play"></i>Meu Cadastro</a></li>
+                    <li><a href="/Pedidos/" title="Meus Pedidos"><i class="glyphicon glyphicon-play"></i>Meus Pedidos</a></li>
                     <li><a href="/Termos/" title="Termos de Compra"><i class="glyphicon glyphicon-play"></i>Termos de Compra</a></li>
-                    <li><a href="/Contato/" title="Atendimento"><i class="glyphicon glyphicon-play"></i>Atendimento</a></li>
                   </ul>
                 </nav>
               </div>
@@ -346,7 +345,6 @@
               <div class="col-md-6 col-sm-6 col-xs-6" style="visibility:hidden;">
                 <nav>
                   <ul>
-                    <li><a href="/Pedidos/" title="Meus Pedidos"><i class="glyphicon glyphicon-play"></i>Meus Pedidos</a></li>
                     <li><a href="/Trocas/" title="Política de Trocas"><i class="glyphicon glyphicon-play"></i>Política de Trocas</a></li>
                     <li><a href="/Sobre/" title="Sobre a Empresa"><i class="glyphicon glyphicon-play"></i>Sobre a Empresa</a></li>
                   </ul>
@@ -356,7 +354,7 @@
 
             <div class="col-md-3 col-sm-6 col-xs-12">
               <h4>Formas de Entrega </h4>
-              <img class="img-responsive" src="images/img-correios.png" alt="Correios">
+              <img class="img-responsive" src="/images/img-correios.png" alt="Correios">
             </div>
 
             <div class="col-md-3 col-md-offset-2 col-sm-12 col-xs-12">
@@ -377,34 +375,34 @@
 
           <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6">
             <h4><span>Site Blindado</span><br> Compra 100%<br>Segura</h4>
-            <img class="img-responsive cadeado" src="images/img-cadeado.png" alt="Cadeado">
+            <img class="img-responsive cadeado" src="/images/img-cadeado.png" alt="Cadeado">
           </div>
 
           <div class="col-lg-4 col-md-2 col-sm-8 col-xs-6 separador">
             <h5>Cartão de Credito</h5>
-            <img class="img-responsive visible-lg visible-sm" src="images/img-band-cartao-credito.png" alt="Bandeiras Cartão Crédito">
-            <img class="img-responsive hidden-lg hidden-sm" src="images/img-band-cartao-credito-md.png" alt="Bandeiras Cartão Crédito">
+            <img class="img-responsive visible-lg visible-sm" src="/images/img-band-cartao-credito.png" alt="Bandeiras Cartão Crédito">
+            <img class="img-responsive hidden-lg hidden-sm" src="/images/img-band-cartao-credito-md.png" alt="Bandeiras Cartão Crédito">
           </div>
 
           <div class="col-lg-4 col-md-4 col-sm-8 col-xs-12 band-card">
             <div class="row">
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 separador">
                 <h5>Débito Online</h5>
-                <img class="/img-responsive" src="images/img-band-debito.png" alt="Bandeiras Cartão Débito">
+                <img class="/img-responsive" src="/images/img-band-debito.png" alt="Bandeiras Cartão Débito">
               </div>
               <div class="col-lg-4 col-md-5 col-sm-4 col-xs-4 separador">
                 <h5>Dep./Transf.</h5>
-                <img class="/img-responsive" src="images/img-band-boleto-deposito.png" alt="Boleto">
+                <img class="/img-responsive" src="/images/img-band-boleto-deposito.png" alt="Boleto">
               </div>
               <div class="col-lg-2 col-md-3 col-sm-2 col-xs-4 separador">
                 <h5>Boleto</h5>
-                <img src="images/img-band-boleto.png" alt="PagSeguro">
+                <img src="/images/img-band-boleto.png" alt="PagSeguro">
               </div>
             </div>
           </div>
 
           <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12">
-            <img class="img-pagseguro" src="images/img-pag-seguro.png" alt="PagSeguro">
+            <img class="img-pagseguro" src="/images/img-pag-seguro.png" alt="PagSeguro">
           </div>
                         
         </div>
