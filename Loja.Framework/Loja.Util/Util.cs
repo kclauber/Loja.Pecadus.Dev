@@ -378,7 +378,7 @@ namespace Loja.Util
                     lnkDetalhes.NavigateUrl = link;
                 }
                 #endregion
-                #region
+                #region Adicionar aos favoritos
                 HtmlInputCheckBox chkFavoritos = (HtmlInputCheckBox)e.FindControl("chkFavoritos");
                 if (chkFavoritos != null)
                 {
@@ -446,7 +446,7 @@ namespace Loja.Util
             _produto.Desconto = Convert.ToInt32(5.00);
             //_produto.Frete = Convert.ToDouble(_row["frete"]);
             //_produto.Peso = Convert.ToInt32(_row["peso"]);
-            //_produto.Estoque = Convert.ToInt32(_row["estoque"]);
+            _produto.Estoque = Convert.ToInt32(2);
 
             //_produto.DtCadastro = Convert.ToDateTime(_row["dtCadastro"]);
             //_produto.ExibirHome = Convert.ToBoolean(_row["exibirHome"]);
@@ -463,7 +463,19 @@ namespace Loja.Util
             _produto.Categoria.Titulo = "Titulo Categoria";
             _produto.Categoria.TituloCategoriaPai = "Titulo Categoria Pai";
 
-            //_produto.Imagens = SelectImagensProduto(_produto.ID);
+            ProdutoImagemOT _imagem;
+            _imagem = new ProdutoImagemOT {
+                ID = 10,
+                Titulo = "produto-01-thumb.jpg"
+            };
+            _produto.Imagens.Add(_imagem);
+
+            _imagem = new ProdutoImagemOT {
+                ID = 20,
+                Titulo = "produto-02-thumb.jpg"
+            };
+            _produto.Imagens.Add(_imagem);
+
             //_produto.Videos = SelectVideoProduto(_produto.ID);
 
             return _produto;

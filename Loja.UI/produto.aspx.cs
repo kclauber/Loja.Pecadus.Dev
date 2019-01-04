@@ -67,27 +67,44 @@ namespace Loja.UI.Pecadus
             lblCodigo.Text = String.Format("Cód. Ref.: {0:00000}", produto.ID);
             lblDescCurta.Text = produto.DescricaoCurta;
             lblDescCompleta.Text = produto.DescricaoCompleta;
+            chkFavoritos.Attributes.Add("prod", produto.ID.ToString());
 
-            //if (produto.Estoque > 0)
-            //{
-            //    lblEstoque.Text = String.Format(@"<br />Apenas <span class='EstTabPedidoNome' 
-            //                                            style='text-decoration:underline'>{0}</span> no estoque.",
-            //                                    produto.Estoque);
-            //}
+            if (produto.Imagens.Count > 0)
+            {
+                repImages.DataSource = produto.Imagens;
+                repImages.DataBind();
 
-            //if (produto.Desconto <= 0)
-            //{
-            //    lblPreco.Text = String.Format(@"<b>Por:</b> <span class='preco' style='font-size:25px;'>{0:R$ #,##0.00}</span><br/>", produto.Preco);
-            //}
-            //else
-            //{
-            //    lblPreco.Text = String.Format(@"<span class='precoDe'>De: {0:R$ #,##0.00}</span><br/>
-            //                                    <b>Por:</b> <span class='preco' style='font-size:25px;'>{1:R$ #,##0.00}</span><br/>
-            //                                    <span class='precoEcon'>Economize: {2:R$ #,##0.00}</span>",
-            //                                    produto.Preco,
-            //                                    produto.Preco - ((produto.Preco / 100) * produto.Desconto),
-            //                                    produto.Preco - (produto.Preco - ((produto.Preco / 100) * produto.Desconto)));
-            //}
+                repThumbs.DataSource = produto.Imagens;
+                repThumbs.DataBind();
+            }
+
+            if (produto.Estoque > 0)
+            {
+                lblEstoque.Text = String.Format(@"<p><strong>Apenas <u>{0}</u> em estoque.</br>
+                                                     Compre agora no cartão de crédito e parcele em até 18x*</strong></p>",
+                                                produto.Estoque);
+            }
+
+            if (lblPreco != null)
+            {
+                //Tratamento dos preco
+                string preco = "";
+                if (produto.Desconto <= 0)
+                {
+                    preco = String.Format(@"<p>Por:</p><ul><li>&nbsp;{0:R$ #,##0.00}</li></ul>", produto.Preco);
+                }
+                else
+                {
+                    //Exibindo desconto            
+                    preco = String.Format(@"<p>De: <span>{0:R$ #,##0.00}</span></p>
+                                                <p>Por: </p><ul><li>{1:R$ #,##0.00}</li></ul>
+                                                <p class='precoEcon'>Economize: {2:R$ #,##0.00}</p>",
+                                            produto.Preco,
+                                            produto.Preco - ((produto.Preco / 100) * produto.Desconto),
+                                            produto.Preco - (produto.Preco - ((produto.Preco / 100) * produto.Desconto)));
+                }
+                lblPreco.Text = preco;
+            }
 
 
             //if (produto.Videos.Count > 0)
@@ -101,7 +118,7 @@ namespace Loja.UI.Pecadus
             //    pnlVideo.Visible = true;
             //}
             //else if (produto.Imagens.Count > 0)
-            //{
+            //{ 
             //    mostraObjetoImagem(produto.Imagens[0].ID, produto.Imagens[0].Titulo);
             //}
             //else
@@ -116,9 +133,7 @@ namespace Loja.UI.Pecadus
             //    imgComprar.Visible = false;
             //    imgProdIndisponivel.Visible = true;
             //}
-
-            //carregaListaImagens(produto.Imagens);
-
+            
             ////Produtos relacionados
             //if (idCategoria > -1)
             //{
@@ -170,7 +185,6 @@ namespace Loja.UI.Pecadus
                 }
             }
         }
-        
         protected void dtlProd_ItemDataBound(object sender, DataListItemEventArgs e)
         {
             //if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
@@ -184,83 +198,77 @@ namespace Loja.UI.Pecadus
             //    Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null);
             //}
         }
-
+        #region -- Adiocionar ao carrinho e favoritos --
         protected void AdicionarItem(object sender, EventArgs e)
         {
             new Utilitarios().AdicionarItem(this.Page, Convert.ToInt32(((ImageButton)sender).CommandArgument), 1);
         }
-
         [WebMethod]
         public static void AdicionarFavorito(int idProduto, bool adicionar)
         {
             new Utilitarios().AdicionarFavorito(idProduto, adicionar);
         }
+        #endregion
         #region -- Imagens e Vídeo --
-        protected void carregaListaImagens(ProdutoImagensOT imagens)
-        {
-            //if (imagens.Count > 0 || Session["video"] != null)
-            //{
-            //    repListaImagens.DataSource = imagens;
-            //    repListaImagens.DataBind();
-            //}
-        }
-        public void listaImagensClick(Object src, CommandEventArgs e)
-        {
-            mostraObjetoImagem(Convert.ToInt32(e.CommandArgument), e.CommandName);
-        }
-        protected void repListaImagens_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        protected void repImages_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
             {
                 ProdutoImagemOT imagem = (ProdutoImagemOT)e.Item.DataItem;
-                ImageButton img = (ImageButton)e.Item.FindControl("imgListaImagens");
-                if (produto.Imagens.Count > 1)
-                {
-                    img.CommandArgument = imagem.ID.ToString();
-                    img.CommandName = imagem.Titulo;
-                    img.ImageUrl = "imagensProdutos/" + imagem.Titulo;
-                    img.Width = 50;
-                    img.Height = 50;
-                }
-                else
-                    img.Visible = false;
+                ImageButton img = (ImageButton)e.Item.FindControl("imgFotoProduto");
+
+                img.CommandArgument = imagem.ID.ToString();
+                img.CommandName = imagem.Titulo;
+                img.ImageUrl = "/imagensProdutos/" + imagem.Titulo;                
             }
         }
-        protected void mostraObjetoVideo(object sender, EventArgs e)
+        protected void repThumbs_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            ////Mostrando/Escondendo controles
-            //pnlImagem.Visible = false;
-            //pnlVideo.Visible = true;
+            if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
+            {
+                ProdutoImagemOT imagem = (ProdutoImagemOT)e.Item.DataItem;
+                ImageButton img = (ImageButton)e.Item.FindControl("imgThumb");
+
+                img.CommandArgument = imagem.ID.ToString();
+                img.CommandName = imagem.Titulo;
+                img.ImageUrl = "/imagensProdutos/" + imagem.Titulo;
+            }
         }
-        protected void mostraObjetoImagem(int idImg, string nameImg)
-        {
-            //Image imgAux = new Image();
-            //imgAux.Width = 300;
-            //imgAux.Height = 300;
-            //imgAux.ToolTip = "Clique aqui para aumentar!";
+        //protected void mostraObjetoVideo(object sender, EventArgs e)
+        //{
+        //    //Mostrando/Escondendo controles
+        //    pnlImagem.Visible = false;
+        //    pnlVideo.Visible = true;
+        //}
+        //protected void mostraObjetoImagem(int idImg, string nameImg)
+        //{
+        //    Image imgAux = new Image();
+        //    imgAux.Width = 300;
+        //    imgAux.Height = 300;
+        //    imgAux.ToolTip = "Clique aqui para aumentar!";
 
-            //if (idImg > 0 && nameImg != "")
-            //{
-            //    imgAux.ImageUrl = "~/imagensProdutos/" + nameImg;
-            //    lnkImgProd.NavigateUrl = "~/imagensProdutos/" + nameImg;
-            //    lnkImgProd.Attributes.Add("id", idImg.ToString());
-            //    lnkImgProd.Attributes.Add("style", "cursor: crosshair;");
-            //    lnkImgProd.Attributes.Add("rel", @"zoom-width:400px; 
-            //                                       zoom-height:400px;
-            //                                       zoom-position: right;");
-            //}
-            //else
-            //{
-            //    imgAux.ImageUrl = "~/imagensProdutos/sem_imagem.gif";
-            //    lnkImgProd.Attributes.Add("style", "cursor: default;");
-            //}
+        //    if (idImg > 0 && nameImg != "")
+        //    {
+        //        imgAux.ImageUrl = "~/imagensProdutos/" + nameImg;
+        //        lnkImgProd.NavigateUrl = "~/imagensProdutos/" + nameImg;
+        //        lnkImgProd.Attributes.Add("id", idImg.ToString());
+        //        lnkImgProd.Attributes.Add("style", "cursor: crosshair;");
+        //        lnkImgProd.Attributes.Add("rel", @"zoom-width:400px; 
+        //                                           zoom-height:400px;
+        //                                           zoom-position: right;");
+        //    }
+        //    else
+        //    {
+        //        imgAux.ImageUrl = "~/imagensProdutos/sem_imagem.gif";
+        //        lnkImgProd.Attributes.Add("style", "cursor: default;");
+        //    }
 
-            //lnkImgProd.Controls.Add(imgAux);
+        //    lnkImgProd.Controls.Add(imgAux);
 
-            ////Mostrando/Escondendo controles
-            //pnlImagem.Visible = true;
-            //pnlVideo.Visible = false;
-        }
+        //    //Mostrando/Escondendo controles
+        //    pnlImagem.Visible = true;
+        //    pnlVideo.Visible = false;
+        //}
         #endregion
     }
 }

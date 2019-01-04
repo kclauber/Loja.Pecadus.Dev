@@ -6,7 +6,8 @@
     <script type="text/javascript" language="javascript" src="/scripts/magicZoom.js"></script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    
+    <form runat="server">
+
   <!-- ====================== NAVEGAÇÃO - BREADCRUMB ====================== */ -->
   <nav class="pec-breadcrumb hidden-xs">
     <div class="container">
@@ -42,6 +43,7 @@
               </h2>
               <ul>
                 <!--
+                    TODO: criar sistema para exibir as estrelas de opinião
                     <li>
                         <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
                         <span class="glyphicon glyphicon-star star-active" aria-hidden="true"></span>
@@ -59,46 +61,44 @@
       <div class="col-md-6 col-sm-6">
         <div id="pec-carousel-produto-interno" class="carousel slide" data-ride="carousel">
           <div class="row">
-          <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-              <div class="item active thumbnail">
-                <a href="/images/produtos/produto-01.jpg" title="***Nome do Produto***" data-lightbox="interna">
-                <img class="img-responsive" src="/images/produtos/produto-01-thumb.jpg" alt="***Nome do Produto***" title="***Nome do Produto***"></a>
-              </div>
-              <div class="item thumbnail">
-                <a href="/images/produtos/produto-02.jpg" title="***Nome do Produto***" data-lightbox="interna">
-                <img class="img-responsive" src="/images/produtos/produto-02-thumb.jpg" alt="***Nome do Produto***" title="***Nome do Produto***"></a>
-              </div>
-              <div class="item thumbnail">
-                <a href="/images/produtos/produto-03.jpg" title="***Nome do Produto***" data-lightbox="interna">
-                <img class="img-responsive" src="/images/produtos/produto-03-thumb.jpg" alt="***Nome do Produto***" title="***Nome do Produto***"></a>
-              </div>
-            </div>
+            <!-- Wrapper for slides -->
+            <asp:Repeater ID="repImages" OnItemDataBound="repImages_ItemDataBound" runat="server">
+                <HeaderTemplate>
+                    <div class="carousel-inner" role="listbox">
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <div id="divFotoProduto" class="item thumbnail" runat="server">
+                        <asp:ImageButton ID="imgFotoProduto" CssClass="img-responsive" runat="server" />
+                    </div>
+                </ItemTemplate>
+                <FooterTemplate>
+                    </div>
+                </FooterTemplate>
+            </asp:Repeater>
 
             <!-- Indicators -->
-            <ol class="carousel-indicators">
-              <li data-target="#pec-carousel-produto-interno" data-slide-to="0" class="active">
-                <img class="img-responsive" src="/images/produtos/produto-01-thumb.jpg" title="***Nome do Produto***" alt="***Nome do Produto***">
-              </li>
-              <li data-target="#pec-carousel-produto-interno" data-slide-to="1">
-                <img class="img-responsive" src="/images/produtos/produto-02-thumb.jpg" title="***Nome do Produto***" alt="***Nome do Produto***">
-              </li>
-              <li data-target="#pec-carousel-produto-interno" data-slide-to="2">
-                <img class="img-responsive" src="/images/produtos/produto-03-thumb.jpg" title="***Nome do Produto***" alt="***Nome do Produto***">
-              </li>
-            </ol>
+            <asp:Repeater ID="repThumbs" OnItemDataBound="repThumbs_ItemDataBound" runat="server">
+                <HeaderTemplate>
+                    <ol id="olThumb" class="carousel-indicators">
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <li id="liThumb" data-target="#pec-carousel-produto-interno" runat="server">
+                        <asp:ImageButton ID="imgThumb" CssClass="img-responsive" runat="server" />
+                    </li>                    
+                </ItemTemplate>
+                <FooterTemplate>
+                    </ol>
+                </FooterTemplate>
+            </asp:Repeater>
+
           </div>
         </div>
       </div>
 
       <div class="col-md-6 col-sm-6">
         <div class="produto-preco">
-            <p>De: <span>199,00</span></p>
-            <p>Por:</p>
-            <ul>
-              <li>R$ 55,00</li>
-            </ul>
-            <p><strong>Compre agora no cartão de crédito e parcele em até 18x*</strong></p>
+            <asp:Label ID="lblPreco" runat="server" />
+            <asp:Label ID="lblEstoque" runat="server" />            
 
             <a href="/Carrinho/id" title="Comprar" class="btn btn-primary" aria-label="Left Align" role="button"><span class="glyphicon glyphicon-shopping-cart"></span> Comprar</a>
 
@@ -106,11 +106,10 @@
 
             <div class="icon-posi" data-toggle="buttons">
               <label class="btn btn-invisible">
-                <input type="checkbox">
+                <input type="checkbox" id="chkFavoritos" runat="server" />
                 <span class="glyphicon glyphicon-heart" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="Adicionar aos Favoritos"></span>
               </label>
             </div>
-
             
             <p class="txt-produto">
               * Sujeito a aprovação. Parcela mínima R$ 5,00.<br>
@@ -146,4 +145,20 @@
 </section>
 
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //Adiciona a classe 'active' aos primeiros elementos de exibir as imagens do produto
+            $("#ContentPlaceHolder1_repImages_divFotoProduto_0, #ContentPlaceHolder1_repThumbs_liThumb_0").addClass("active");
+
+            //Adiciona o atributo para colocar a troca de imagens
+            var index = 0;
+            $("#olThumb").find('li').each(function () {
+                var item = $(this);
+                item.attr("data-slide-to", index);
+                index++;
+            });
+        });
+    </script>
+
+    </form>
 </asp:Content>
