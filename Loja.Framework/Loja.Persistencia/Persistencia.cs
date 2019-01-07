@@ -9,14 +9,14 @@ namespace Loja.Persistencia
     public abstract class Persistencia
     {
         public OdbcConnection con = new OdbcConnection();
+        public bool isSandbox = (ConfigurationManager.AppSettings["isSandbox"].ToLower().Equals("true") ? true : false);
 
         protected void abrirConexao()
         {
             if (con.State != ConnectionState.Open)
             {
                 string conS = "";
-                bool isSandbox = (ConfigurationManager.AppSettings["isSandbox"].ToLower().Equals("true") ? true : false);
-
+                
                 if (!isSandbox)
                     conS = ConfigurationManager.ConnectionStrings["conPadrao"].ConnectionString;
                 else

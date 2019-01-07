@@ -12,10 +12,7 @@ namespace Loja.UI.Pecadus
             //Código de sessão do usuário
             if (Session["idUser"] == null)
                 Session["idUser"] = DateTime.Now.ToString("yyMMddHmmss");
-            /////////////////////////////
-
-            string titulo = ConfigurationManager.AppSettings["tituloPadrao"];
-            Page.Title = titulo;
+            /////////////////////////////            
 
             if (!Page.IsPostBack)
             {

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Loja.Objeto;
+using Loja.Persistencia;
+using System;
 using System.Configuration;
 using System.Net.Mail;
 using System.Text;
@@ -6,8 +8,6 @@ using System.Text.RegularExpressions;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Loja.Objeto;
-using Loja.Persistencia;
 
 namespace Loja.Util
 {
@@ -82,7 +82,12 @@ namespace Loja.Util
         #region -- Funções Carrinho --
         public void AdicionarItem(Page page, int idProduto, int quantidade)
         {
-            ProdutoOT produto = new ProdutosOP().SelectProduto(idProduto, 0, 1);
+            ProdutoOT produto;
+#if DEBUG
+            produto = ProdutosOP.CarregaProdutoFalso();
+#else
+            produto = new ProdutosOP().SelectProduto(idProduto, 0, 1);
+#endif
             if (produto != null)
             {
                 int qtdCarrinho = Carrinho.Instancia.ObterQuantidadeItem(produto.ID);
@@ -95,8 +100,8 @@ namespace Loja.Util
         {
             Carrinho.Instancia.RemoverItem(codigo);
         }
-        #endregion
-        #region -- Tratamento de String --
+#endregion
+#region -- Tratamento de String --
         public static void CarregaMetaTags(Page page, string description, string keywords, string titulo)
         {
             //Aplicando a expressão regular para tirar HTML e replace para tirar quebras de linha
@@ -267,7 +272,7 @@ namespace Loja.Util
                                                         TiraAcentos(categoria.Titulo),
                                                         categoria.ID);
         }
-        #endregion
+#endregion
         public void AdicionarFavorito(int idProduto, bool adicionar)
         {
             if(adicionar)
@@ -286,7 +291,7 @@ namespace Loja.Util
                                                     produto.Categoria.IDCategoriaPai,
                                                     produto.Categoria.ID,
                                                     produto.ID);
-                #region Imagem
+#region Imagem
                 Image imgProd = (Image)e.FindControl("imgProd");
                 if (imgProd != null)
                 {
@@ -302,9 +307,9 @@ namespace Loja.Util
                     lnkImgProd.ToolTip = produto.Titulo;
                     lnkImgProd.NavigateUrl = link;
                 }
-                #endregion
-                #region Descrição
-                #region Descrição com link
+#endregion
+#region Descrição
+#region Descrição com link
                 //if (lnkDescricao != null)
                 //{
                 //    //Tratamento da descricao
@@ -317,7 +322,7 @@ namespace Loja.Util
                 //    desc = (desc.Length > 90 ? desc.Substring(0, 90) + "..." : desc);
                 //    lnkDescricao.Text = desc;
                 //}
-                #endregion
+#endregion
                 Label lblDescricao = (Label)e.FindControl("lblDescricao");
                 if (lblDescricao != null)
                 {
@@ -327,8 +332,8 @@ namespace Loja.Util
                     desc = (desc.Length > 90 ? desc.Substring(0, 90) + "..." : desc);
                     lblDescricao.Text = desc;
                 }
-                #endregion
-                #region Preço
+#endregion
+#region Preço
                 HyperLink lnkPreco = (HyperLink)e.FindControl("lnkPreco");
                 if (lnkPreco != null)
                 {
@@ -350,8 +355,8 @@ namespace Loja.Util
                     }
                     lnkPreco.Text = preco;
                 }
-                #endregion
-                #region Titulo
+#endregion
+#region Titulo
                 HyperLink lnkTitulo = (HyperLink)e.FindControl("lnkTitulo");
                 if (lnkTitulo != null)
                 {
@@ -360,16 +365,16 @@ namespace Loja.Util
                     lnkTitulo.ToolTip = produto.Titulo;
                     lnkTitulo.NavigateUrl = link;
                 }
-                #endregion
-                #region Comprar
+#endregion
+#region Comprar
                 LinkButton lnkComprar = (LinkButton)e.FindControl("lnkComprar");
                 if (lnkComprar != null)
                 {
                     //Tratamento do botão de comprar
                     lnkComprar.CommandArgument = produto.ID.ToString();
                 }
-                #endregion
-                #region Detalhes
+#endregion
+#region Detalhes
                 HyperLink lnkDetalhes = (HyperLink)e.FindControl("lnkDetalhes");
                 if (lnkDetalhes != null)
                 {
@@ -377,17 +382,17 @@ namespace Loja.Util
                     lnkDetalhes.ToolTip = produto.Titulo;
                     lnkDetalhes.NavigateUrl = link;
                 }
-                #endregion
-                #region Adicionar aos favoritos
+#endregion
+#region Adicionar aos favoritos
                 HtmlInputCheckBox chkFavoritos = (HtmlInputCheckBox)e.FindControl("chkFavoritos");
                 if (chkFavoritos != null)
                 {
                     chkFavoritos.Attributes.Add("prod", produto.ID.ToString());
                 }
-                #endregion
+#endregion
             }
         }
-        #region -- Tratamento de Erro --
+#region -- Tratamento de Erro --
         public void TratarExcessao(Exception e, String Url, string metodo, Page page)
         {
             //Erro causado por chamada javascript
@@ -417,68 +422,7 @@ namespace Loja.Util
             if (!Url.ToLower().Contains("erro"))
                 page.Response.Redirect("/Erro");
         }
-        #endregion
-
-        public static ProdutoOT CarregaProdutoFake()
-        {
-            ProdutoOT _produto = new ProdutoOT();
-            _produto.ID = 1;
-            //_produto.EAN = Convert.ToString(_row["ean"]);
-            _produto.Titulo = "Titulo Titulo Titulo Titulo Titulo";
-            _produto.DescricaoCurta = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.</br>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.";
-            _produto.DescricaoCompleta = @"<p>Coelho de pernas para o AR, com compartimento secreto, acompanha um vibrador personal 13 cm na cor rosa e cadeado de segurança.</p>
-                                           <p>Este COELHO em pelúcia antialérgica, traz dentro do seu compartimento secreto uma outra surpresa: um vibrador personal rosa de 13cm. Tudo fechado com cadeado de segurança.</p>
-                                           <p>Os brinquedos em pelúcia são ideais para presentes e decoração sensual . Possui um compartimento interno para guardar os acessórios eróticos de forma discreta e segura.</p>
-                                           <ul>
-                                             <li><strong>Tamanho:</strong> Aproximadamente 45cm</li>
-                                             <li><strong>Cor:</strong> Branco e Rosa</li>
-                                             <li><strong>Material:</strong> Pelúcia anti-alérgica </li>
-                                             <li><strong>Embalagem:</strong> Saco plástico com solapa</li>
-                                             <li><strong>Acompanha:</strong> 1 Cadeado com chave e 1 vibrador personal</li>
-                                           </ul>";
-            _produto.PalavrasChave = @"Coelho de Pelúcia, Coelho de Pelúcia, Coelho de Pelúcia, Coelho de Pelúcia, Coelho de Pelúcia";
-            //_produto.Observacao = Convert.ToString(_row["observacao"]);
-
-            _produto.Preco = Convert.ToDouble(200.89);
-            //_produto.PrecoCusto = Convert.ToDouble(_row["precoCusto"]);
-            //_produto.MarkUp = Convert.ToDouble(_row["markUp"]);
-            _produto.Desconto = Convert.ToInt32(5.00);
-            //_produto.Frete = Convert.ToDouble(_row["frete"]);
-            //_produto.Peso = Convert.ToInt32(_row["peso"]);
-            _produto.Estoque = Convert.ToInt32(2);
-
-            //_produto.DtCadastro = Convert.ToDateTime(_row["dtCadastro"]);
-            //_produto.ExibirHome = Convert.ToBoolean(_row["exibirHome"]);
-            //_produto.Destaque = Convert.ToBoolean(_row["destaque"]);
-            //_produto.Ativo = Convert.ToBoolean(_row["ativo"]);
-
-            ////Dados do distribuidor
-            //_produto.Distribuidor.ID = Convert.ToInt32(_row["idDistribuidor"]);
-            //_produto.Distribuidor.Nome = Convert.ToString(_row["nomeDistribuidor"]);
-
-            //Dados da categoria
-            _produto.Categoria.ID = 5;
-            _produto.Categoria.IDCategoriaPai = 10;
-            _produto.Categoria.Titulo = "Titulo Categoria";
-            _produto.Categoria.TituloCategoriaPai = "Titulo Categoria Pai";
-
-            ProdutoImagemOT _imagem;
-            _imagem = new ProdutoImagemOT {
-                ID = 10,
-                Titulo = "produto-01-thumb.jpg"
-            };
-            _produto.Imagens.Add(_imagem);
-
-            _imagem = new ProdutoImagemOT {
-                ID = 20,
-                Titulo = "produto-02-thumb.jpg"
-            };
-            _produto.Imagens.Add(_imagem);
-
-            //_produto.Videos = SelectVideoProduto(_produto.ID);
-
-            return _produto;
-        }
+#endregion
+                
     }
 }

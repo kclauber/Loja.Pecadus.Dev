@@ -27,6 +27,9 @@ namespace Loja.Objeto
         public double Preco { get; set; }
         public double PrecoCusto { get; set; }
         public double MarkUp { get; set; }
+        /// <summary>
+        /// Informar um percentual de desconto
+        /// </summary>
         public int Desconto { get; set; }
         public double Frete { get; set; }
         public int Peso { get; set; }

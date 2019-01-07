@@ -18,7 +18,8 @@ namespace Loja.UI.Pecadus
                                                 "Milhares de artigos e acessórios eróticos.");
             string keywords = "sex shop, sexshop, sex-shop, sexyshop, loja virtual, compra online, artigos eroticos, acessorios eroticos";
 
-            string titulo = ConfigurationManager.AppSettings["tituloPadrao"];
+            string titulo = String.Format("{0} - {1}", ConfigurationManager.AppSettings["nomeSiteCompleto"], 
+                                                       ConfigurationManager.AppSettings["tituloPadrao"]);
             Page.Title = titulo;
             Utilitarios.CarregaMetaTags(this.Page, description, keywords, titulo);
 
@@ -30,11 +31,14 @@ namespace Loja.UI.Pecadus
         public void ListarProdutos()
         {
             ProdutosOT produtos = new ProdutosOT();
-            ProdutoOT _produto = Utilitarios.CarregaProdutoFake();
+#if DEBUG
+            ProdutoOT _produto = ProdutosOP.CarregaProdutoFalso();
             produtos.Add(_produto);
+#else
+            produtos = new ProdutosOP().SelectProdutosDestaque();
+#endif
 
             //Busca a primeira lista de produtos
-            //produtos = new ProdutosOP().SelectProdutosDestaque();
             repProdutoDestaque1.DataSource = produtos;
             repProdutoDestaque1.DataBind();
 

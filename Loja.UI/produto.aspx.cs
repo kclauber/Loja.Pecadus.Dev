@@ -24,7 +24,7 @@ namespace Loja.UI.Pecadus
 
             if (!Page.IsPostBack)
             {
-                //Session["video"] = null;
+                Session["video"] = null;
 
                 if (Request.QueryString.Count > 0)
                 {
@@ -49,8 +49,11 @@ namespace Loja.UI.Pecadus
 
         protected void carregaDetalhesProduto(int id)
         {
-            //produto = new ProdutosOP().SelectProduto(id, 0, 1);
-            produto = Utilitarios.CarregaProdutoFake();
+#if DEBUG
+            produto = ProdutosOP.CarregaProdutoFalso();
+#else
+            produto = new ProdutosOP().SelectProduto(id, 0, 1);
+#endif
 
             if (produto == null)
                 throw new Exception(String.Format("Produto não encontrado! ID: {0}", id));
@@ -80,9 +83,15 @@ namespace Loja.UI.Pecadus
 
             if (produto.Estoque > 0)
             {
+                lnkComprar.CommandArgument = produto.ID.ToString();
                 lblEstoque.Text = String.Format(@"<p><strong>Apenas <u>{0}</u> em estoque.</br>
                                                      Compre agora no cartão de crédito e parcele em até 18x*</strong></p>",
                                                 produto.Estoque);
+            }
+            else
+            {
+                lnkComprar.Visible = false;
+                lblDetalhes.Visible = true;
             }
 
             if (lblPreco != null)
@@ -106,34 +115,12 @@ namespace Loja.UI.Pecadus
                 lblPreco.Text = preco;
             }
 
+            if (produto.Videos.Count > 0)
+            {
+                pnlVideoProduto.Visible = true;
+                Session["video"] = produto.Videos[0].Titulo;
+            }
 
-            //if (produto.Videos.Count > 0)
-            //{
-            //    Session["video"] = produto.Videos[0].Titulo;
-            //    imgVideo.Visible = true;
-            //    mostraObjetoVideo(null, null);
-
-            //    //Mostrando/Escondendo controles
-            //    pnlImagem.Visible = false;
-            //    pnlVideo.Visible = true;
-            //}
-            //else if (produto.Imagens.Count > 0)
-            //{ 
-            //    mostraObjetoImagem(produto.Imagens[0].ID, produto.Imagens[0].Titulo);
-            //}
-            //else
-            //{
-            //    mostraObjetoImagem(0, "");
-            //}
-
-            //if (produto.Estoque > 0)
-            //    imgComprar.CommandArgument = id.ToString();
-            //else
-            //{
-            //    imgComprar.Visible = false;
-            //    imgProdIndisponivel.Visible = true;
-            //}
-            
             ////Produtos relacionados
             //if (idCategoria > -1)
             //{
@@ -156,8 +143,8 @@ namespace Loja.UI.Pecadus
             //Preparando as META TAGS
             string description = produto.DescricaoCurta;
             string keywords = produto.PalavrasChave;
-            string titulo = String.Concat(produto.Titulo, " - ",
-                                          ConfigurationManager.AppSettings["nomeSiteCompleto"]);
+            string titulo = String.Format("{0} - {1}", produto.Titulo,
+                                                       ConfigurationManager.AppSettings["nomeSiteCompleto"]);
             Page.Title = titulo;
             Utilitarios.CarregaMetaTags(this.Page, description, keywords, titulo);
         }
@@ -198,27 +185,26 @@ namespace Loja.UI.Pecadus
             //    Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null);
             //}
         }
-        #region -- Adiocionar ao carrinho e favoritos --
+#region -- Adiocionar ao carrinho e favoritos --
         protected void AdicionarItem(object sender, EventArgs e)
         {
-            new Utilitarios().AdicionarItem(this.Page, Convert.ToInt32(((ImageButton)sender).CommandArgument), 1);
+            new Utilitarios().AdicionarItem(this.Page, Convert.ToInt32(((LinkButton)sender).CommandArgument), 1);
         }
         [WebMethod]
         public static void AdicionarFavorito(int idProduto, bool adicionar)
         {
             new Utilitarios().AdicionarFavorito(idProduto, adicionar);
         }
-        #endregion
-        #region -- Imagens e Vídeo --
+#endregion
+#region -- Imagens e Vídeo --
         protected void repImages_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
             {
                 ProdutoImagemOT imagem = (ProdutoImagemOT)e.Item.DataItem;
-                ImageButton img = (ImageButton)e.Item.FindControl("imgFotoProduto");
+                Image img = (Image)e.Item.FindControl("imgFotoProduto");
 
-                img.CommandArgument = imagem.ID.ToString();
-                img.CommandName = imagem.Titulo;
+                img.ToolTip = imagem.Titulo;
                 img.ImageUrl = "/imagensProdutos/" + imagem.Titulo;                
             }
         }
@@ -269,6 +255,6 @@ namespace Loja.UI.Pecadus
         //    pnlImagem.Visible = true;
         //    pnlVideo.Visible = false;
         //}
-        #endregion
+#endregion
     }
 }

@@ -23,36 +23,35 @@ namespace Loja.UI.Pecadus
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Page.Title = "Veja os produtos que estão no seu carrinho de compras";
+            Page.Title = String.Format("{0} - Carrinho de compras", ConfigurationManager.AppSettings["nomeSiteCompleto"]);
 
-            //if (!Page.IsPostBack)
-            //{
-            //    Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
-            //    Session["PesoCarrinho"] = 0;
+            if (!Page.IsPostBack)
+            {
+                Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
+                Session["PesoCarrinho"] = 0;
 
-            //    if (Carrinho.Instancia.TemItens)
-            //    {
-            //        AtualizaCarrinho();
-            //    }
-            //    else
-            //    {
-            //        pnlCarrinho.Visible = false;
-            //        pnlVazio.Visible = true;
-            //    }
+                AtualizaCarrinho();
 
-            //    txtCep1.Attributes.Add("onkeyup", "if(ctl00$ContentPlaceHolder1$txtCep1.value.length==5){ctl00$ContentPlaceHolder1$txtCep2.focus()};");
-            //}
+                //    txtCep1.Attributes.Add("onkeyup", "if(ctl00$ContentPlaceHolder1$txtCep1.value.length==5){ctl00$ContentPlaceHolder1$txtCep2.focus()};");
+            }
         }
         public void CarregaObjetoCarrinho()
         {
             produtosCarrinho = new ProdutosOT();
             for (int a = 0; a < Carrinho.Instancia.CodigosDosItens.Length; a++)
             {
-                ProdutoOT _produto = new ProdutoOT();
-                _produto.ID = Carrinho.Instancia.CodigosDosItens[a];
-                _produto = new ProdutosOP().SelectProduto(_produto.ID, -1, -1);
-                _produto.QuantidadeCarrinho = Carrinho.Instancia.ObterQuantidadeItem(Carrinho.Instancia.CodigosDosItens[a]);
-                produtosCarrinho.Add(_produto);
+                ProdutoOT produto = new ProdutoOT
+                {
+                    ID = Carrinho.Instancia.CodigosDosItens[a]
+                };
+#if DEBUG
+                produto = ProdutosOP.CarregaProdutoFalso();
+#else
+                produto = new ProdutosOP().SelectProduto(produto.ID, -1, -1);
+#endif
+
+                produto.QuantidadeCarrinho = Carrinho.Instancia.ObterQuantidadeItem(Carrinho.Instancia.CodigosDosItens[a]);
+                produtosCarrinho.Add(produto);
             }
         }        
         protected void repCarr_ItemDataBound(object sender, RepeaterItemEventArgs e)

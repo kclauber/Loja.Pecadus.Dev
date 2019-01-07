@@ -68,7 +68,7 @@
                 </HeaderTemplate>
                 <ItemTemplate>
                     <div id="divFotoProduto" class="item thumbnail" runat="server">
-                        <asp:ImageButton ID="imgFotoProduto" CssClass="img-responsive" runat="server" />
+                        <asp:Image ID="imgFotoProduto" CssClass="img-responsive" runat="server" />
                     </div>
                 </ItemTemplate>
                 <FooterTemplate>
@@ -100,7 +100,12 @@
             <asp:Label ID="lblPreco" runat="server" />
             <asp:Label ID="lblEstoque" runat="server" />            
 
-            <a href="/Carrinho/id" title="Comprar" class="btn btn-primary" aria-label="Left Align" role="button"><span class="glyphicon glyphicon-shopping-cart"></span> Comprar</a>
+            <asp:LinkButton OnClick="AdicionarItem" ID="lnkComprar" CssClass="btn btn-primary" runat="server">
+                <span class="glyphicon glyphicon-shopping-cart"></span> Comprar
+            </asp:LinkButton>
+            
+            <span id="lblDetalhes" class="btn btn-primary" style="background-color: #869791; cursor:default;" visible="false" runat="server">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Produto indisponível</span>
 
             <img src="/images/img-compra-protegida2.png" alt="Compra Protegida">
 
@@ -118,14 +123,16 @@
             <p>
               <asp:Label ID="lblDescCurta" runat="server" />
             </p>
-            <!-- 16:9 aspect ratio -->
-            <div class="row">
-              <div class="col-md-8">
-                <div class="embed-responsive embed-responsive-16by9">
-                  <iframe class="embed-responsive-item" src="//www.youtube.com/embed/zpOULjyy-n8?rel=0" allowfullscreen=""></iframe>
+            <asp:panel ID="pnlVideoProduto" Visible="false" runat="server">
+                <!-- 16:9 aspect ratio -->
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="embed-responsive embed-responsive-16by9">
+                      <iframe class="embed-responsive-item" src="<%=Session["video"] %>" allowfullscreen=""></iframe>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
+            </asp:panel>
         </div>
       </div>
     </div>
