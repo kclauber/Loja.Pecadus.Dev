@@ -24,6 +24,7 @@ namespace Loja.UI.Pecadus
                 }
                 catch { } //Se der erro não faz nada
 
+                //Atualiza a quantidade de itens no header da página
                 lblQtdCarrinho.Text = Carrinho.Instancia.ObterQuantidadeItens().ToString();
             }
         }

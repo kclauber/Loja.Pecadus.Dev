@@ -17,7 +17,7 @@ namespace Loja.UI.Pecadus
         bool isSandbox = bool.Parse(ConfigurationManager.AppSettings["isSandbox"]);
         private bool freteGratis = false;
         public string sStatus, sToken = "";
-        protected double vlTotalProdutos = 0;
+        protected double valorTotalProdutos = 0;
         //private string TOKEN, KEY, URI, sURLRedirect;
         ProdutosOT produtosCarrinho = null;
 
@@ -33,7 +33,7 @@ namespace Loja.UI.Pecadus
                 AtualizaCarrinho();
 
                 //    txtCep1.Attributes.Add("onkeyup", "if(ctl00$ContentPlaceHolder1$txtCep1.value.length==5){ctl00$ContentPlaceHolder1$txtCep2.focus()};");
-            }
+            }            
         }
         public void CarregaObjetoCarrinho()
         {
@@ -53,7 +53,7 @@ namespace Loja.UI.Pecadus
                 produto.QuantidadeCarrinho = Carrinho.Instancia.ObterQuantidadeItem(Carrinho.Instancia.CodigosDosItens[a]);
                 produtosCarrinho.Add(produto);
             }
-        }        
+        }
         protected void repCarr_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
             if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
@@ -67,48 +67,48 @@ namespace Loja.UI.Pecadus
                                                                 produto.Categoria.ID,
                                                                 produto.ID);
 
-                ((LinkButton)e.Item.FindControl("btnExcluir")).CommandArgument = produto.ID.ToString();
-
-                HyperLink lnk;
-                lnk = (HyperLink)e.Item.FindControl("lnkImgProd");
-                lnk.ToolTip = produto.Titulo;
-                lnk.NavigateUrl = link;
-
-                lnk = (HyperLink)e.Item.FindControl("lnkTitulo");
-                lnk.NavigateUrl = link;
-                lnk.ToolTip = produto.Titulo;
-                lnk.Text = produto.Titulo;
-
-                ((TextBox)e.Item.FindControl("txtQtd")).Text = produto.QuantidadeCarrinho.ToString();
-                ((TextBox)e.Item.FindControl("txtQtd")).Attributes.Add("style", "text-align:center");
-                ((Label)e.Item.FindControl("lblRef")).Text = String.Format("Ref.: {0:00000} - ", produto.ID);
-
-                if (produto.Desconto > 0)
-                    produto.Preco = produto.Preco - ((produto.Preco / 100) * produto.Desconto);
-
-                ((Label)e.Item.FindControl("lblVlUnit")).Text = String.Format("{0:R$ #,##0.00}", produto.Preco);
-                ((Label)e.Item.FindControl("lblVlTotProd")).Text = String.Format("{0:R$ #,##0.00}", produto.Preco * produto.QuantidadeCarrinho);
-
-                ((RangeValidator)e.Item.FindControl("rngQtd")).MaximumValue = produto.Estoque.ToString();
-                ((RangeValidator)e.Item.FindControl("rngQtd")).ErrorMessage =
-                "Máximo de XXX unidades deste item por pedido.".Replace("XXX", produto.Estoque.ToString());
+                ((LinkButton)e.Item.FindControl("lnkExcluir")).CommandArgument = produto.ID.ToString();
 
                 //Tratamento das imagens
-                Image imgProd = (Image)e.Item.FindControl("imgProd");
+                Image imgProd = (Image)e.Item.FindControl("imgProduto");
                 imgProd.AlternateText = produto.Titulo;
+                imgProd.ToolTip = produto.Titulo;
                 if (produto.Imagens.Count > 0)
-                    imgProd.ImageUrl = @"ShowImage.aspx?w=90&img=" + produto.Imagens[0].Titulo;
+                    imgProd.ImageUrl = @"ShowImage.aspx?img=" + produto.Imagens[0].Titulo;
 
-                vlTotalProdutos += (produto.Preco * produto.QuantidadeCarrinho);
+                ((Label)e.Item.FindControl("lblNomeProduto")).Text = produto.Titulo;
+                ((Label)e.Item.FindControl("lblCodProduto")).Text = String.Format("Cód. Ref.: {0:00000}", produto.ID);
+
+                //Verifica se tem percentual de desconto e faz o calculo
+                if (produto.Desconto > 0)
+                    produto.Preco = produto.Preco - ((produto.Preco / 100) * produto.Desconto);
+                ((Label)e.Item.FindControl("lblPrecoProduto")).Text = String.Format("{0:R$ #,##0.00}", produto.Preco);
+
+                ((Label)e.Item.FindControl("lblPrecoTotalProduto")).Text = String.Format("{0:R$ #,##0.00}", produto.Preco * produto.QuantidadeCarrinho);
+
+                DropDownList ddlQuantidade = (DropDownList)e.Item.FindControl("ddlQuantidade");
+                for (int i = 1; i <= 5; i++)
+                {
+                    ddlQuantidade.Items.Add(i.ToString());
+                    if (produto.QuantidadeCarrinho.Equals(i))
+                        ddlQuantidade.Items[i-1].Selected = true;
+                }
+
+                //Somando o preco de todos os produtos para exibir no rodapé
+                valorTotalProdutos += produto.Preco * produto.QuantidadeCarrinho;
+
+                //    ((RangeValidator)e.Item.FindControl("rngQtd")).MaximumValue = produto.Estoque.ToString();
+                //    ((RangeValidator)e.Item.FindControl("rngQtd")).ErrorMessage =
+                //    "Máximo de XXX unidades deste item por pedido.".Replace("XXX", produto.Estoque.ToString());
+
                 Session["PesoCarrinho"] = Convert.ToInt32(Session["PesoCarrinho"]) + (produto.Peso * produto.QuantidadeCarrinho);
             }
             else if (e.Item.ItemType == ListItemType.Footer)
             {
-                ((Label)e.Item.FindControl("lblSubTotalCompra")).Text = String.Format("{0:R$ #,##0.00}", vlTotalProdutos);                
+                ((Label)e.Item.FindControl("lblPrecoTotalCompra")).Text = String.Format("{0:R$ #,##0.00}", valorTotalProdutos);
             }
-
-            lblTotalCompra.Text = String.Format("{0:R$ #,##0.00}", vlTotalProdutos);
-            Session["VlrTotalSemFrete"] = vlTotalProdutos;
+            
+            //Session["VlrTotalSemFrete"] = vlTotalProdutos;
         }
 
         #region Botões carrinho
@@ -117,23 +117,21 @@ namespace Loja.UI.Pecadus
             new Utilitarios().RemoverItem(Convert.ToInt32(((LinkButton)sender).CommandArgument));
             AtualizaCarrinho();
         }
-        protected void imgContinuarCompra_Click(object sender, ImageClickEventArgs e)
+        protected void ddlQuantidade_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Response.Redirect(ConfigurationManager.AppSettings["home"]);
-        }
-        protected void imgAtualizaQuantidade_Click(object sender, ImageClickEventArgs e)
-        {
+            atualizarQuantidadeItens();
             AtualizaCarrinho();
         }
         private void AtualizaCarrinho()
         {
-            atualizarItens();
+            //Atualiza a quantidade de itens no header da página
+            ((Label)this.Page.Master.FindControl("lblQtdCarrinho")).Text = Carrinho.Instancia.ObterQuantidadeItens().ToString();
 
             if (Carrinho.Instancia.TemItens)
             {
                 CarregaObjetoCarrinho();
-                repCarr.DataSource = produtosCarrinho;
-                repCarr.DataBind();
+                repCarrinho.DataSource = produtosCarrinho;
+                repCarrinho.DataBind();
             }
             else
             {
@@ -148,17 +146,17 @@ namespace Loja.UI.Pecadus
                 pnlVazio.Visible = true;
             }
         }
-        protected void atualizarItens()
+        /// <summary>
+        /// Atualiza a quantidade de todos os itens do carrinho
+        /// </summary>
+        protected void atualizarQuantidadeItens()
         {
-            foreach (RepeaterItem item in repCarr.Items)
+            foreach (RepeaterItem item in repCarrinho.Items)
             {
-                int id = Convert.ToInt32(((LinkButton)item.FindControl("btnExcluir")).CommandArgument);
-                int quantidade = 0;
-                if (String.IsNullOrEmpty(((TextBox)item.FindControl("txtQtd")).Text))
-                    quantidade = 1;
-                else
-                    quantidade = Convert.ToInt32(((TextBox)item.FindControl("txtQtd")).Text);
-
+                //Pega o ID do link de excluir por que já esta configurado lá
+                int id = Convert.ToInt32(((LinkButton)item.FindControl("lnkExcluir")).CommandArgument);
+                int quantidade = Convert.ToInt32(((DropDownList)item.FindControl("ddlQuantidade")).SelectedValue);
+                
                 Carrinho.Instancia.AtualizarQuantidadeItem(id, quantidade);
             }
         }
@@ -178,25 +176,25 @@ namespace Loja.UI.Pecadus
         }
         protected void CalcularFrete()
         {
-            string status = "";
-            string cepDestino = txtCep1.Text + txtCep2.Text;
-            string peso = Session["PesoCarrinho"].ToString();
-            Session["CepDestino"] = cepDestino;
+            //string status = "";
+            //string cepDestino = txtCep1.Text + txtCep2.Text;
+            //string peso = Session["PesoCarrinho"].ToString();
+            //Session["CepDestino"] = cepDestino;
 
             try
             {
                 //Formatando o peso
-                if (peso.Length >= 4)
-                    peso = peso.Substring(0, 1) + "." + peso.Substring(1, peso.Length - 1);
-                else
-                    peso = "0." + peso;
+    //            if (peso.Length >= 4)
+    //                peso = peso.Substring(0, 1) + "." + peso.Substring(1, peso.Length - 1);
+    //            else
+    //                peso = "0." + peso;
 
-                //Cria uma requisição ao webService com os dados informados
-				//Serviço saiu do ar - trocar por outra alternativa URGENTE
-				rdlFrete.Items.Add(new ListItem(String.Format("PAC - R$ {0:#,##0.00} (promoção frete fixo p/ todo Brasil)", 10.00d),
-                                                String.Format("EN{0:#,##0.00}", 10.00d)));
-                rdlFrete.Items[0].Selected = true;
-				rdlFrete.Visible = true;
+    //            //Cria uma requisição ao webService com os dados informados
+				////Serviço saiu do ar - trocar por outra alternativa URGENTE
+				//rdlFrete.Items.Add(new ListItem(String.Format("PAC - R$ {0:#,##0.00} (promoção frete fixo p/ todo Brasil)", 10.00d),
+    //                                            String.Format("EN{0:#,##0.00}", 10.00d)));
+    //            rdlFrete.Items[0].Selected = true;
+				//rdlFrete.Visible = true;
 
                 //WebRequest request = WebRequest.Create(
                 //        "http://frete.w21studio.com/calFrete.xml?cep=" + cepDestino +
@@ -261,22 +259,22 @@ namespace Loja.UI.Pecadus
         }
         private void AdicionarValorFrete()
         {
-            if (rdlFrete.Visible == true)
-            {
-                if (rdlFrete.SelectedIndex > -1)
-                {
-                    Session["VlrFrete"] = Convert.ToDouble(rdlFrete.SelectedValue.Replace("SD", "").Replace("EN", ""));
-                    Session["TipoFrete"] = (rdlFrete.SelectedValue.Substring(0,2).ToString().Equals("SD") ? "2" : "1");
-                    //Tipos de frete aceitos pelo PagSeguro
-                    //1 	Encomenda normal (PAC)
-                    //2 	SEDEX
-                    //3 	Tipo de frete não especificado
+            //if (rdlFrete.Visible == true)
+            //{
+            //    if (rdlFrete.SelectedIndex > -1)
+            //    {
+            //        Session["VlrFrete"] = Convert.ToDouble(rdlFrete.SelectedValue.Replace("SD", "").Replace("EN", ""));
+            //        Session["TipoFrete"] = (rdlFrete.SelectedValue.Substring(0,2).ToString().Equals("SD") ? "2" : "1");
+            //        //Tipos de frete aceitos pelo PagSeguro
+            //        //1 	Encomenda normal (PAC)
+            //        //2 	SEDEX
+            //        //3 	Tipo de frete não especificado
 
-                    //Adicionando o valor do frete ao valor total
-                    Session["VlrTotalComFrete"] = Convert.ToDouble(Session["VlrTotalSemFrete"]) + Convert.ToDouble(Session["VlrFrete"]);
-                    lblTotalCompra.Text = String.Format("{0:R$ #,##0.00}", Convert.ToDouble(Session["VlrTotalComFrete"]));
-                }
-            }
+            //        //Adicionando o valor do frete ao valor total
+            //        Session["VlrTotalComFrete"] = Convert.ToDouble(Session["VlrTotalSemFrete"]) + Convert.ToDouble(Session["VlrFrete"]);
+            //        lblTotalCompra.Text = String.Format("{0:R$ #,##0.00}", Convert.ToDouble(Session["VlrTotalComFrete"]));
+            //    }
+            //}
         }
         #endregion        
         #region Finalizar Compra
@@ -291,13 +289,13 @@ namespace Loja.UI.Pecadus
 
             if (Page.IsValid)
             {
-                atualizarItens();
+                atualizarQuantidadeItens();
 
-                if (rdlFrete.Visible == false || rdlFrete.SelectedIndex == -1)
-                {
-                    CalcularFrete();
-                    AdicionarValorFrete();
-                }
+                //if (rdlFrete.Visible == false || rdlFrete.SelectedIndex == -1)
+                //{
+                //    CalcularFrete();
+                //    AdicionarValorFrete();
+                //}
 
                 if (Carrinho.Instancia.TemItens)
                 {

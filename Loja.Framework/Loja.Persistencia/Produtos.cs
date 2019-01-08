@@ -688,7 +688,7 @@ namespace Loja.Persistencia
             _produto.Desconto = 5;
             //_produto.Frete = Convert.ToDouble(_row["frete"]);
             //_produto.Peso = Convert.ToInt32(_row["peso"]);
-            _produto.Estoque = 1;
+            _produto.Estoque = 2;
 
             //_produto.DtCadastro = Convert.ToDateTime(_row["dtCadastro"]);
             //_produto.ExibirHome = Convert.ToBoolean(_row["exibirHome"]);
