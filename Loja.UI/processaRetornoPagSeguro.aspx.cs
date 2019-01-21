@@ -367,7 +367,7 @@ namespace Loja.UI.Pecadus
                                   detalhesProdutos,
                                   ConfigurationManager.AppSettings["mailPrincipal"],
                                   "EM SEPARAÇÃO",
-                                  ConfigurationManager.AppSettings["diasEnvio"]);
+                                  ConfigurationManager.AppSettings["prazoPreparacaoEnvio"]);
                     break;
             }
 

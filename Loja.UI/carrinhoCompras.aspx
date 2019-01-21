@@ -62,31 +62,40 @@
                                         <td>
                                             <asp:Image ID="imgProduto" ImageUrl="/imagensProdutos/sem-foto-2.jpg" CssClass="img-responsive" runat="server" />
                                         </td>
-                                        <td><asp:Label ID="lblNomeProduto" runat="server"/></td>
-                                        <td><asp:Label ID="lblCodProduto" runat="server"/></td>
-                                        <td><asp:Label ID="lblPrecoProduto" runat="server"/></td>
-                                        <td>
-                                            <div class="form-group">
-                                                <label class="sr-only" for="tipoGravacao">Quantidade</label>
+                                        <td style="border-top:0;"><asp:Label ID="lblNomeProduto" runat="server"/></td>
+                                        <td style="border-top:0;"><asp:Label ID="lblCodProduto" runat="server"/></td>
+                                        <td style="border-top:0;"><asp:Label ID="lblPrecoProduto" runat="server"/></td>
+                                        <td style="border-top:0;">
+                                            <div class="form-group">                                                
                                                 <asp:DropDownList ID="ddlQuantidade" CssClass="form-control" AutoPostBack="True" OnSelectedIndexChanged="ddlQuantidade_SelectedIndexChanged" runat="server">
                                                 </asp:DropDownList>
                                             </div>
                                         </td>
-                                        <td><asp:Label ID="lblPrecoTotalProduto" runat="server"/></td>
+                                        <td style="border-top:0;"><asp:Label ID="lblPrecoTotalProduto" runat="server"/></td>
                                     </tr>
                             </ItemTemplate>
                             <FooterTemplate>
                                     <tr>
                                         <th></th>
-                                        <td class="hidden-xs" colspan="6" align="right">
-                                            Frete: 
-                                            <asp:Label ID="lblPrecoFrete" runat="server"/>
+                                        <td class="" colspan="6" align="right">
+                                            <div class="input-group">                                                
+                                                <asp:TextBox ID="txtCepDestino" CssClass="form-control" Text="" EnableViewState="true" runat="server" />
+                                                <span class="input-group-btn">
+                                                    <asp:Button id="btnCalcularFrete" OnClick="btnCalcularFrete_OnClick" UseSubmitBehavior="true" Text="Calcular frete" CssClass="btn btn-primary" runat="server" />
+                                                </span>
+                                            </div>
+                                            <asp:Panel ID="pnlFrete" Visible="false" runat="server">
+                                                <div class="form-group" id="divValoresFrete" style="text-align:left; float:right; padding-right:50px;">
+                                                    <asp:RadioButton ID="rdFreteSedex" AutoPostBack="true" GroupName="frete" CssClass="freteLabel" runat="server" /><br />
+                                                    <asp:RadioButton ID="rdFretePac" AutoPostBack="true" GroupName="frete" CssClass="freteLabel" runat="server" />
+                                                </div>
+                                            </asp:Panel>                                            
                                         </td>
                                     </tr>
                                     <tr>
                                         <th></th>
-                                        <td class="hidden-xs" colspan="6" align="right">
-                                            Valore total: 
+                                        <td class="" colspan="6" align="right">
+                                            Valor total: 
                                             <asp:Label ID="lblPrecoTotalCompra" runat="server"/>
                                         </td>
                                     </tr>
@@ -109,25 +118,67 @@
         </section>
     </asp:Panel>    
     <asp:Panel ID="pnlVazio" Visible="false" runat="server">
-        <table align="center" style="width: 700px; height: 250px; background: white;">
-            <tr>
-                <td align="center">
-                    <h3 class="tituloDesc" style="font-size: 18px; text-align: center;">Seu <u>Carrinho de Compras</u> está vazio.</h3>
-
-                    <p>
-                        Para inserir algum produto no seu carrinho, navegue pelas categorias ou utilize a busca do site.<br />
-                        Ao encontrar os itens desejados, clique no botão COMPRAR localizado na página do produto.
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Olá, seu carrinho de compras ainda está vazio.</h2>
+                    <p style="color: #233241;">
+                        Continue navegando e coloque coisas incríveis nele.
                     </p>
-
-                    Está tendo problemas com o carrinho de compras? Entre em <a href="/Contato"><u>contato</u></a> conosco.
-                    <br />
-                    <br />
-                    <a href="<%=ConfigurationManager.AppSettings["home"]%>">
-                        <img id="imgContinuarComprando" src="~/imagens/Voltar.gif" border="0" alt="Continuar comprando"
-                            runat="server" /></a>
-                </td>
-            </tr>
-        </table>
+                    <p style="color: #233241;">
+                        Se você já tem cadastro, clique 
+                            <a style="color: #233241;" href="" data-toggle="modal" data-target="#login">
+                                <u>aqui</u>
+                            </a> e faça login. <br />
+                        Você poderá:<br />
+                        <ul style="color: #233241;">
+                            <li>- Ver os produtos no seu carrinho de compras personalizado.</li>
+                            <li>- Acessar sua lista de favoritos.</li>
+                            <li>- Agilizar o processo de compra.</li>
+                        </ul>
+                    </p>                 
+                    <a class="btn btn-primary" href="/SexShop/" title="Continuar navegando">Continuar navegando</a>
+                </div>
+            </div>
+        </div>
+        <br /><br />
     </asp:Panel>
     </form>
+<script type="text/javascript">
+    function CalcularFrete() {
+        var _txtCepDestino = $('#txtCepDestino').val();
+        var _divValoresFrete = $('#divValoresFrete');
+
+        //if (_txtCepDestino == '') {
+        //    alert('Informe seu cep para realizar o cálculo.');
+        //    return;
+        //}
+        //if (_txtCepDestino.replace('-', '').length != 8) {
+        //    alert('Cep inválido.');
+        //    return;
+        //}
+        
+        $.ajax({
+            type: "POST",
+            url: "/carrinhoCompras.aspx/CalcularFrete",
+            data: "{ cepDestino: '"+ _txtCepDestino +"' }",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+        })
+        .done(function (ret) {
+            _divValoresFrete.show();
+
+            $('#ContentPlaceHolder1_repCarrinho_rdFreteSedex').val(ret.d[0].Tipo + ';' + ret.d[0].Valor.toFixed(2).replace('.', ','));
+            $('#spnFreteSedex').html(ret.d[0].Tipo + ' - R$ ' + ret.d[0].Valor.toFixed(2).replace('.', ',') + ' ( ' + ret.d[0].Prazo + ' dias )');            
+
+            $('#ContentPlaceHolder1_repCarrinho_rdFretePac').val(ret.d[1].Tipo + ';' + ret.d[1].Valor.toFixed(2).replace('.', ','));
+            $('#spnFretePac').html(ret.d[1].Tipo + ' - R$ ' + ret.d[1].Valor.toFixed(2).replace('.', ',') + ' ( ' + ret.d[1].Prazo + ' dias )');
+        })
+        .fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
+        });
+    }
+</script>
 </asp:Content>

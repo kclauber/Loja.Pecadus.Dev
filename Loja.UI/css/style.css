@@ -1096,3 +1096,9 @@ form.cadastro-form {
   form.cadastro-form .btn-secundary {
     margin-top: 0; } }
 /*# sourceMappingURL=style.css.map */
+
+.freteLabel {
+    font-size: 13px;
+    font-family: "Lato-Regular";
+    font-weight:inherit;
+}

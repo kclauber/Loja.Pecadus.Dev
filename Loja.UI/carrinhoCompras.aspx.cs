@@ -1,13 +1,17 @@
-﻿using System;
-using System.Configuration;
-using System.Text;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using Loja.Objeto;
+﻿using Loja.Objeto;
 using Loja.Persistencia;
 using Loja.Util;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Web.Services;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 using Uol.PagSeguro.Domain;
-using Uol.PagSeguro.Constants;
 using Uol.PagSeguro.Resources;
 
 namespace Loja.UI.Pecadus
@@ -20,6 +24,7 @@ namespace Loja.UI.Pecadus
         protected double valorTotalProdutos = 0;
         //private string TOKEN, KEY, URI, sURLRedirect;
         ProdutosOT produtosCarrinho = null;
+        public string pesoCarrinho;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,35 +33,50 @@ namespace Loja.UI.Pecadus
             if (!Page.IsPostBack)
             {
                 Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
-                Session["PesoCarrinho"] = 0;
-
                 AtualizaCarrinho();
-
-                //    txtCep1.Attributes.Add("onkeyup", "if(ctl00$ContentPlaceHolder1$txtCep1.value.length==5){ctl00$ContentPlaceHolder1$txtCep2.focus()};");
             }            
+        }
+        private void AtualizaCarrinho()
+        {
+            //Atualiza a quantidade de itens no header da página
+            ((Label)this.Page.Master.FindControl("lblQtdCarrinho")).Text = Carrinho.Instancia.ObterQuantidadeItens().ToString();
+
+            if (Carrinho.Instancia.TemItens)
+            {
+                CarregaObjetoCarrinho();
+                repCarrinho.DataSource = produtosCarrinho;
+                repCarrinho.DataBind();
+            }
+            else
+            {
+                Carrinho.Instancia.Limpar();
+
+                pnlCarrinho.Visible = false;
+                pnlVazio.Visible = true;
+            }
         }
         public void CarregaObjetoCarrinho()
         {
             produtosCarrinho = new ProdutosOT();
-            for (int a = 0; a < Carrinho.Instancia.CodigosDosItens.Length; a++)
+            for (int a = 0; a < Carrinho.Instancia.CodigosItens.Length; a++)
             {
                 ProdutoOT produto = new ProdutoOT
                 {
-                    ID = Carrinho.Instancia.CodigosDosItens[a]
+                    ID = Carrinho.Instancia.CodigosItens[a]
                 };
 #if DEBUG
-                produto = ProdutosOP.CarregaProdutoFalso();
+                produto = ProdutosOP.CarregaProdutoFalso(produto.ID);
 #else
                 produto = new ProdutosOP().SelectProduto(produto.ID, -1, -1);
 #endif
 
-                produto.QuantidadeCarrinho = Carrinho.Instancia.ObterQuantidadeItem(Carrinho.Instancia.CodigosDosItens[a]);
+                produto.QuantidadeCarrinho = Carrinho.Instancia.ObterQuantidadeItem(Carrinho.Instancia.CodigosItens[a]);
                 produtosCarrinho.Add(produto);
             }
         }
         protected void repCarr_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
-            if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
+            if (e.Item.ItemType.Equals(ListItemType.Item))
             {
                 ProdutoOT produto = (ProdutoOT)e.Item.DataItem;
 
@@ -97,18 +117,23 @@ namespace Loja.UI.Pecadus
                 //Somando o preco de todos os produtos para exibir no rodapé
                 valorTotalProdutos += produto.Preco * produto.QuantidadeCarrinho;
 
-                //    ((RangeValidator)e.Item.FindControl("rngQtd")).MaximumValue = produto.Estoque.ToString();
-                //    ((RangeValidator)e.Item.FindControl("rngQtd")).ErrorMessage =
-                //    "Máximo de XXX unidades deste item por pedido.".Replace("XXX", produto.Estoque.ToString());
-
-                Session["PesoCarrinho"] = Convert.ToInt32(Session["PesoCarrinho"]) + (produto.Peso * produto.QuantidadeCarrinho);
+                Carrinho.Instancia.PesoProdutos = Carrinho.Instancia.PesoProdutos + (produto.Peso * produto.QuantidadeCarrinho);
             }
-            else if (e.Item.ItemType == ListItemType.Footer)
+            else if (e.Item.ItemType.Equals(ListItemType.Footer))
             {
-                ((Label)e.Item.FindControl("lblPrecoTotalCompra")).Text = String.Format("{0:R$ #,##0.00}", valorTotalProdutos);
+                TextBox txtCepDestino = ((TextBox)e.Item.FindControl("txtCepDestino"));
+                txtCepDestino.Attributes.Add("placeholder", "Informe seu CEP");
+
+                if (!String.IsNullOrEmpty(Carrinho.Instancia.CepDestino))
+                {
+                    ((Panel)e.Item.FindControl("pnlFrete")).Visible = true;
+                    txtCepDestino.Text = Utilitarios.FormatarCep(Carrinho.Instancia.CepDestino);
+                    CalcularFrete(e);
+                }   
+
+                Carrinho.Instancia.ValorTotalProdutos = valorTotalProdutos;
+                ((Label)e.Item.FindControl("lblPrecoTotalCompra")).Text = String.Format("{0:R$ #,##0.00}", Carrinho.Instancia.ValorTotalProdutos + Carrinho.Instancia.Frete.Valor);
             }
-            
-            //Session["VlrTotalSemFrete"] = vlTotalProdutos;
         }
 
         #region Botões carrinho
@@ -122,30 +147,7 @@ namespace Loja.UI.Pecadus
             atualizarQuantidadeItens();
             AtualizaCarrinho();
         }
-        private void AtualizaCarrinho()
-        {
-            //Atualiza a quantidade de itens no header da página
-            ((Label)this.Page.Master.FindControl("lblQtdCarrinho")).Text = Carrinho.Instancia.ObterQuantidadeItens().ToString();
-
-            if (Carrinho.Instancia.TemItens)
-            {
-                CarregaObjetoCarrinho();
-                repCarrinho.DataSource = produtosCarrinho;
-                repCarrinho.DataBind();
-            }
-            else
-            {
-                Session["PesoCarrinho"] = 0;
-                Session["CepDestino"] = "";
-                Session["TipoFrete"] = "";
-                Session["VlrFrete"] = 0;
-                Session["VlrTotalSemFrete"] = 0;
-                Session["VlrTotalComFrete"] = 0;
-
-                pnlCarrinho.Visible = false;
-                pnlVazio.Visible = true;
-            }
-        }
+        
         /// <summary>
         /// Atualiza a quantidade de todos os itens do carrinho
         /// </summary>
@@ -161,124 +163,85 @@ namespace Loja.UI.Pecadus
             }
         }
         #endregion
-        #region Calculo de Frete
-        protected void btnCalcularFrete_Click(object sender, EventArgs e)
+        #region Calculo de Frete        
+        public void btnCalcularFrete_OnClick(object sender, EventArgs e)
         {
+            //Encontra o footer template do repeater para depois acessar seus controle
+            Control footerTemplate = repCarrinho.Controls[repCarrinho.Controls.Count - 1].Controls[0];
+            TextBox txtCepDestino = ((TextBox)footerTemplate.FindControl("txtCepDestino"));
+
+            if (!String.IsNullOrEmpty(txtCepDestino.Text))
+                Carrinho.Instancia.CepDestino = txtCepDestino.Text;
+
+            AtualizaCarrinho();
+        }
+        public void CalcularFrete(RepeaterItemEventArgs e)
+        {
+#if DEBUG
+            List<FreteOT> list = new List<FreteOT>
+            {
+                new FreteOT() { Tipo = "SEDEX", Valor = 35.00D, Prazo = 2 },
+                new FreteOT() { Tipo = "PAC", Valor = 19.75D, Prazo = 7 }
+            };
+#else
+            DataSet ds = ConsultarWSCorreios();
+#endif
+
+
+            ((RadioButton)e.Item.FindControl("rdFreteSedex")).Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
+                                                                                   list[0].Tipo,
+                                                                                   list[0].Valor,
+                                                                                   list[0].Prazo);
+            ((RadioButton)e.Item.FindControl("rdFretePac")).Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
+                                                                                   list[1].Tipo,
+                                                                                   list[1].Valor,
+                                                                                   list[1].Prazo);
+        }
+
+        protected DataSet ConsultarWSCorreios()
+        {
+            DataSet ds = new DataSet();
             try
             {
-                CalcularFrete();
-                AdicionarValorFrete();
+                string urlRequest = String.Format(@"http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?
+                                                    nCdEmpresa=&sDsSenha=
+                                                    &nCdServico={0},{1}
+                                                    &sCepOrigem={2}&sCepDestino={3}&nVlPeso={4}&nCdFormato={5}
+                                                    &nVlComprimento={6}&nVlAltura={7}&nVlLargura={8}&nVlDiametro=0
+                                                    &sCdMaoPropria=n&nVlValorDeclarado=0&sCdAvisoRecebimento=n
+                                                    &StrRetorno=xml&nIndicaCalculo={9}",
+                                                    Carrinho.FormasEnvio["Sedex"],
+                                                    Carrinho.FormasEnvio["PAC"],
+                                                    Carrinho.CepOrigem,
+                                                    Carrinho.Instancia.CepDestino,
+                                                    Carrinho.Instancia.PesoProdutos,
+                                                    Carrinho.PacotesEnvio.Caixa,
+                                                    Carrinho.MedidasCaixa["Comprimento"],
+                                                    Carrinho.MedidasCaixa["Altura"],
+                                                    Carrinho.MedidasCaixa["Largura"],
+                                                    Carrinho.TiposRetornoWSCorreios.PrecoPrazo);
+
+                WebRequest request = WebRequest.Create(urlRequest);
+                
+                using (WebResponse response = request.GetResponse())
+                {
+                    using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF7))
+                    {
+                        //Coloca os dados recebidos em um DataSet
+                        ds.ReadXml(sr);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinho.btnCalcularFrete_Click", this.Page);
+                new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinhoCompras.CalcularFreteCorreios", this.Page);
             }
+
+            return ds;
         }
-        protected void CalcularFrete()
-        {
-            //string status = "";
-            //string cepDestino = txtCep1.Text + txtCep2.Text;
-            //string peso = Session["PesoCarrinho"].ToString();
-            //Session["CepDestino"] = cepDestino;
-
-            try
-            {
-                //Formatando o peso
-    //            if (peso.Length >= 4)
-    //                peso = peso.Substring(0, 1) + "." + peso.Substring(1, peso.Length - 1);
-    //            else
-    //                peso = "0." + peso;
-
-    //            //Cria uma requisição ao webService com os dados informados
-				////Serviço saiu do ar - trocar por outra alternativa URGENTE
-				//rdlFrete.Items.Add(new ListItem(String.Format("PAC - R$ {0:#,##0.00} (promoção frete fixo p/ todo Brasil)", 10.00d),
-    //                                            String.Format("EN{0:#,##0.00}", 10.00d)));
-    //            rdlFrete.Items[0].Selected = true;
-				//rdlFrete.Visible = true;
-
-                //WebRequest request = WebRequest.Create(
-                //        "http://frete.w21studio.com/calFrete.xml?cep=" + cepDestino +
-                //        "&cod=4225&peso=" + peso +
-                //        "&comprimento=" + ConfigurationManager.AppSettings["caixaComprimento"].ToString() +
-                //        "&largura=" + ConfigurationManager.AppSettings["caixaLargura"].ToString() +
-                //        "&altura=" + ConfigurationManager.AppSettings["caixaAltura"].ToString() +
-                //        "&servico=3");
-                //WebResponse response = request.GetResponse();
-                //StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF7);
-                ////Coloca os dados recebidos em um DataSet
-                //DataSet ds = new DataSet();
-                //ds.ReadXml(sr);
-                //sr.Close();
-                //response.Close();
-
-                //rdlFrete.Items.Clear();
-                //if (ds.Tables["frete"].Rows[0]["status"].ToString() == "OK")
-                //{
-                //    double vlrFrete = 0;
-                //    //SEDEX ***********************************************//
-                //    //Custo do frete + a embalagem
-                //    vlrFrete = Convert.ToDouble(ds.Tables["frete"].Rows[0]["valor_sedex"].ToString().Replace(".", ","));
-                //    vlrFrete += Convert.ToDouble(ConfigurationManager.AppSettings["caixaFrete"].ToString());
-                //    rdlFrete.Items.Add(new ListItem(String.Format("Sedex - R$ {0:#,##0.00}", vlrFrete),
-                //                                    String.Format("SD{0:#,##0.00}", vlrFrete)));
-                //    //*****************************************************//
-
-                //    //PAC *************************************************//
-                //    //Promoção frete grátis
-                //    if (freteGratis)
-                //        vlrFrete = 0;
-                //    else
-                //    {
-                //        vlrFrete = Convert.ToDouble(ds.Tables["frete"].Rows[0]["valor_pac"].ToString().Replace(".", ","));
-                //        vlrFrete += Convert.ToDouble(ConfigurationManager.AppSettings["caixaFrete"].ToString());
-                //    }
-                //    rdlFrete.Items.Add(new ListItem(String.Format("PAC - R$ {0:#,##0.00}", vlrFrete),
-                //                                    String.Format("EN{0:#,##0.00}", vlrFrete)));
-                    
-                //    //*****************************************************//
-                //    //Promoção frete grátis
-                //    if (freteGratis)
-                //        rdlFrete.Items[1].Selected = true; //Envio por PAC
-                //    else
-                //        rdlFrete.Items[0].Selected = true; //Envio por Sedex
-                //    //****************************************************//
-
-                //    rdlFrete.Visible = true;
-                //}				
-
-                //status = ds.Tables["frete"].Rows[0]["status"].ToString();
-            }
-            catch (Exception ex)
-            {
-                new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinho.CalculaFrete", this.Page);
-            }
-        }
-        protected void rdlFrete_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            AdicionarValorFrete();
-        }
-        private void AdicionarValorFrete()
-        {
-            //if (rdlFrete.Visible == true)
-            //{
-            //    if (rdlFrete.SelectedIndex > -1)
-            //    {
-            //        Session["VlrFrete"] = Convert.ToDouble(rdlFrete.SelectedValue.Replace("SD", "").Replace("EN", ""));
-            //        Session["TipoFrete"] = (rdlFrete.SelectedValue.Substring(0,2).ToString().Equals("SD") ? "2" : "1");
-            //        //Tipos de frete aceitos pelo PagSeguro
-            //        //1 	Encomenda normal (PAC)
-            //        //2 	SEDEX
-            //        //3 	Tipo de frete não especificado
-
-            //        //Adicionando o valor do frete ao valor total
-            //        Session["VlrTotalComFrete"] = Convert.ToDouble(Session["VlrTotalSemFrete"]) + Convert.ToDouble(Session["VlrFrete"]);
-            //        lblTotalCompra.Text = String.Format("{0:R$ #,##0.00}", Convert.ToDouble(Session["VlrTotalComFrete"]));
-            //    }
-            //}
-        }
-        #endregion        
-        #region Finalizar Compra
-        #region ## Métodos com o framework PagSeguro ##
+#endregion
+#region Finalizar Compra
+#region ## Métodos com o framework PagSeguro ##
         protected void imgFinalizar_Click(object sender, ImageClickEventArgs e)
         {
             FinalizarCompra();
@@ -313,7 +276,7 @@ namespace Loja.UI.Pecadus
                                                    Convert.ToDecimal(prod.Preco)));
                     }
 
-                    #region ## Elementos opicionais ##
+#region ## Elementos opicionais ##
                     ////Opcional
                     //payment.Sender = new Sender(
                     //    "José Comprador",
@@ -342,7 +305,7 @@ namespace Loja.UI.Pecadus
                     //SenderDocument senderCPF = new SenderDocument(
                     //    Documents.GetDocumentByType("CPF"), "12345678909");
                     //payment.Sender.Documents.Add(senderCPF);
-                    #endregion
+#endregion
 
                     AccountCredentials credentials = new AccountCredentials(
                         PagSeguroConfiguration.Credentials(isSandbox).Email,
@@ -357,8 +320,8 @@ namespace Loja.UI.Pecadus
                 }
             }
         }
-        #endregion
-        #region ## Métodos Antigos ##
+#endregion
+#region ## Métodos Antigos ##
         /// <summary>
         /// Gera uma Url com os itens do carrinho e inclui o frete como um item extra
         /// PagSeguro => Utilizar opção "frete fixo"
@@ -440,7 +403,86 @@ namespace Loja.UI.Pecadus
 
             return sb.ToString();
         }
-        #endregion
-        #endregion
+
+        [Obsolete("CalcularFrete() não funciona mais, usar CalcularFreteCorreios().")]
+        protected void CalcularFreteOld()
+        {
+            //string cepDestino = txtCep1.Text + txtCep2.Text;
+            //string peso = Session["PesoCarrinho"].ToString();
+            //Session["CepDestino"] = cepDestino;
+
+            try
+            {
+                //Formatando o peso
+                //            if (peso.Length >= 4)
+                //                peso = peso.Substring(0, 1) + "." + peso.Substring(1, peso.Length - 1);
+                //            else
+                //                peso = "0." + peso;
+
+                //            //Cria uma requisição ao webService com os dados informados
+                ////Serviço saiu do ar - trocar por outra alternativa URGENTE
+                //rdlFrete.Items.Add(new ListItem(String.Format("PAC - R$ {0:#,##0.00} (promoção frete fixo p/ todo Brasil)", 10.00d),
+                //                                            String.Format("EN{0:#,##0.00}", 10.00d)));
+                //            rdlFrete.Items[0].Selected = true;
+                //rdlFrete.Visible = true;
+
+                //WebRequest request = WebRequest.Create(
+                //        "http://frete.w21studio.com/calFrete.xml?cep=" + 02289010 +
+                //        "&cod=4225&peso=" + 1 +
+                //        "&comprimento=" + ConfigurationManager.AppSettings["caixaComprimento"].ToString() +
+                //        "&largura=" + ConfigurationManager.AppSettings["caixaLargura"].ToString() +
+                //        "&altura=" + ConfigurationManager.AppSettings["caixaAltura"].ToString() +
+                //        "&servico=3");
+                //WebResponse response = request.GetResponse();
+                //StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF7);
+                ////Coloca os dados recebidos em um DataSet
+                //DataSet ds = new DataSet();
+                //ds.ReadXml(sr);
+                //sr.Close();
+                //response.Close();
+
+                //rdlFrete.Items.Clear();
+                //string status = ds.Tables["frete"].Rows[0]["status"].ToString();
+                //if (!String.IsNullOrEmpty(status) && status.ToUpper().Equals("OK"))
+                //{
+                //    double vlrFrete = 0;
+                //    //SEDEX ***********************************************//
+                //    //Custo do frete + a embalagem
+                //    vlrFrete = Convert.ToDouble(ds.Tables["frete"].Rows[0]["valor_sedex"].ToString().Replace(".", ","));
+                //    vlrFrete += Convert.ToDouble(ConfigurationManager.AppSettings["caixaFrete"].ToString());
+                //    rdlFrete.Items.Add(new ListItem(String.Format("Sedex - R$ {0:#,##0.00}", vlrFrete),
+                //                                    String.Format("SD{0:#,##0.00}", vlrFrete)));
+                //    //*****************************************************//
+
+                //    //PAC *************************************************//
+                //    //Promoção frete grátis
+                //    if (freteGratis)
+                //        vlrFrete = 0;
+                //    else
+                //    {
+                //        vlrFrete = Convert.ToDouble(ds.Tables["frete"].Rows[0]["valor_pac"].ToString().Replace(".", ","));
+                //        vlrFrete += Convert.ToDouble(ConfigurationManager.AppSettings["caixaFrete"].ToString());
+                //    }
+                //    rdlFrete.Items.Add(new ListItem(String.Format("PAC - R$ {0:#,##0.00}", vlrFrete),
+                //                                    String.Format("EN{0:#,##0.00}", vlrFrete)));
+
+                //    //*****************************************************//
+                //    //Promoção frete grátis
+                //    if (freteGratis)
+                //        rdlFrete.Items[1].Selected = true; //Envio por PAC
+                //    else
+                //        rdlFrete.Items[0].Selected = true; //Envio por Sedex
+                //    //****************************************************//
+
+                //    rdlFrete.Visible = true;
+                //}                
+            }
+            catch (Exception ex)
+            {
+                new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinho.CalculaFrete", this.Page);
+            }
+        }
+#endregion
+#endregion
     }
 }

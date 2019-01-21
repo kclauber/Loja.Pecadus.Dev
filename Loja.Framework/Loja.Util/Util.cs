@@ -272,7 +272,23 @@ namespace Loja.Util
                                                         TiraAcentos(categoria.Titulo),
                                                         categoria.ID);
         }
-#endregion
+        public static string FormatarCep(string cep)
+        {
+            try
+            {
+                cep = cep.Replace("-", "")
+                         .Replace(".", "")
+                         .Replace("/", "")
+                         .Replace(@"\", "");
+                return Convert.ToUInt64(cep).ToString(@"00000\-000");
+            }
+            catch
+            {
+                //Se der algum erro retorna sem formatar para não travar o processo
+                return cep;
+            }
+        }
+        #endregion
         public void AdicionarFavorito(int idProduto, bool adicionar)
         {
             if(adicionar)

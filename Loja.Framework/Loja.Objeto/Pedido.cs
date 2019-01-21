@@ -18,6 +18,7 @@ namespace Loja.Objeto
         public string TransacaoID { get; set; }
         public string TipoFrete { get; set; }
         public double ValorFrete { get; set; }
+        public double PrazoFrete { get; set; }
         public double ValorDesconto { get; set; }
         public string Anotacao { get; set; }
         public string TipoPagamento { get; set; }

@@ -520,7 +520,7 @@
             window.location.reload();
         }
         function setCookie(name, value) {
-            //Utilizo esta função apenas para o login, então o calculo de duração ficou aqui
+            //Utilizo esta função apenas para o login, então o calculo de duração do cookie ficou aqui
 
             var today = new Date();
             var duration = new Date();

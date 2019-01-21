@@ -661,10 +661,10 @@ namespace Loja.Persistencia
         }
         #endregion
 
-        public static ProdutoOT CarregaProdutoFalso()
+        public static ProdutoOT CarregaProdutoFalso(int id = 1)
         {
             ProdutoOT _produto = new ProdutoOT();
-            _produto.ID = 1;
+            _produto.ID = id;
             //_produto.EAN = Convert.ToString(_row["ean"]);
             _produto.Titulo = "Titulo Titulo Titulo Titulo Titulo";
             _produto.DescricaoCurta = @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam metus massa, facilisis vel volutpat ut, tempor et nisi.</br>
