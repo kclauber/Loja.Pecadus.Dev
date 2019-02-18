@@ -79,15 +79,15 @@
                                         <th></th>
                                         <td class="" colspan="6" align="right">
                                             <div class="input-group">                                                
-                                                <asp:TextBox ID="txtCepDestino" CssClass="form-control" Text="" EnableViewState="true" runat="server" />
+                                                <asp:TextBox ID="txtCepDestino" CssClass="form-control" MaxLength="9" Text="" EnableViewState="true" runat="server" />
                                                 <span class="input-group-btn">
                                                     <asp:Button id="btnCalcularFrete" OnClick="btnCalcularFrete_OnClick" UseSubmitBehavior="true" Text="Calcular frete" CssClass="btn btn-primary" runat="server" />
                                                 </span>
                                             </div>
                                             <asp:Panel ID="pnlFrete" Visible="false" runat="server">
                                                 <div class="form-group" id="divValoresFrete" style="text-align:left; float:right; padding-right:50px;">
-                                                    <asp:RadioButton ID="rdFreteSedex" AutoPostBack="true" GroupName="frete" CssClass="freteLabel" runat="server" /><br />
-                                                    <asp:RadioButton ID="rdFretePac" AutoPostBack="true" GroupName="frete" CssClass="freteLabel" runat="server" />
+                                                    <asp:RadioButton ID="rdFreteSedex" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" CssClass="freteLabel" runat="server" /><br />
+                                                    <asp:RadioButton ID="rdFretePac" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" CssClass="freteLabel" runat="server" />
                                                 </div>
                                             </asp:Panel>                                            
                                         </td>
@@ -103,7 +103,7 @@
                             </table>
                             <div class="col-md-12 botoes-carrinho">
                                 <a class="btn btn-primary" href="/SexShop/" title="Adicionar mais produtos">Adicionar mais produtos</a>
-                                <a class="btn btn-secundary" href="javascript:alert('Estamos redirecionando você para o sistema do PagSeguro.\nPor favor aguarde.');" title="Concluir Compra">Concluir Compra</a>
+                                <asp:Button ID="btnConcluirCompra" CssClass="btn btn-secundary" Text="Comprar" OnClick="btnConcluirCompra_Click" runat="server" />
                             </div>
                             </FooterTemplate>
                         </asp:Repeater>
@@ -144,41 +144,7 @@
         <br /><br />
     </asp:Panel>
     </form>
-<script type="text/javascript">
-    function CalcularFrete() {
-        var _txtCepDestino = $('#txtCepDestino').val();
-        var _divValoresFrete = $('#divValoresFrete');
 
-        //if (_txtCepDestino == '') {
-        //    alert('Informe seu cep para realizar o cálculo.');
-        //    return;
-        //}
-        //if (_txtCepDestino.replace('-', '').length != 8) {
-        //    alert('Cep inválido.');
-        //    return;
-        //}
-        
-        $.ajax({
-            type: "POST",
-            url: "/carrinhoCompras.aspx/CalcularFrete",
-            data: "{ cepDestino: '"+ _txtCepDestino +"' }",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-        })
-        .done(function (ret) {
-            _divValoresFrete.show();
+<script src="/javascripts/setInputFilter.js"></script>
 
-            $('#ContentPlaceHolder1_repCarrinho_rdFreteSedex').val(ret.d[0].Tipo + ';' + ret.d[0].Valor.toFixed(2).replace('.', ','));
-            $('#spnFreteSedex').html(ret.d[0].Tipo + ' - R$ ' + ret.d[0].Valor.toFixed(2).replace('.', ',') + ' ( ' + ret.d[0].Prazo + ' dias )');            
-
-            $('#ContentPlaceHolder1_repCarrinho_rdFretePac').val(ret.d[1].Tipo + ';' + ret.d[1].Valor.toFixed(2).replace('.', ','));
-            $('#spnFretePac').html(ret.d[1].Tipo + ' - R$ ' + ret.d[1].Valor.toFixed(2).replace('.', ',') + ' ( ' + ret.d[1].Prazo + ' dias )');
-        })
-        .fail(function (jqXHR, textStatus, errorThrown) {
-            console.log(jqXHR);
-            console.log(textStatus);
-            console.log(errorThrown);
-        });
-    }
-</script>
 </asp:Content>

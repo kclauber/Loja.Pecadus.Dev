@@ -1,18 +1,31 @@
-﻿using System;
+﻿using Loja.Util;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Web;
 
 namespace Loja.Objeto
 {
-    public class ClienteOT : Master
+    public class Cliente : Master
     {
-        public ClienteOT()
+        public Cliente()
         {
-            this.ID = -1;
-            this.Pedidos = new PedidosOT();
+            ID = -1;
+            Pedido = new PedidoOT();
+            Pedidos = new PedidosOT();
         }
+        public static Cliente Instancia
+        {
+            get
+            {
+                return (Cliente)HttpContext.Current.Session["cliente"];
+            }
+            set
+            {
+                HttpContext.Current.Session["cliente"] = value;
+            }
+        }
+        public PedidoOT Pedido { get; set; }
         public PedidosOT Pedidos { get; set; }
+
         public string Nome { get; set; }
         public string CPF { get; set; }
         public string Endereco { get; set; }
@@ -23,10 +36,11 @@ namespace Loja.Objeto
         public string Estado { get; set; }
         public string CEP { get; set; }
         public string DataNascimento { get; set; }
-        public string Telefone { get; set; }
         public string Celular { get; set; }
         public string Email { get; set; }
         public string Senha { get; set; }
+
+        public Carrinho Carrinho { get; set; }
     }
-    public class Clientes : List<ClienteOT> { }
+    public class Clientes : List<Cliente> { }
 }

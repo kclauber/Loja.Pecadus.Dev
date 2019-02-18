@@ -7,7 +7,7 @@ namespace Loja.Persistencia
 {
     public class PedidosOP : Persistencia
     {
-        public void CriarPedido(ref ClienteOT cliente)
+        public void CriarPedido(ref Cliente cliente)
         {
             //try
             //{
@@ -49,7 +49,7 @@ namespace Loja.Persistencia
         }
         
         [Obsolete]
-        public void ProcessaPedido(ClienteOT cliente)
+        public void ProcessaPedido(Cliente cliente)
         {
             ClientesOP clientesOP = new ClientesOP();
             try
@@ -186,7 +186,7 @@ namespace Loja.Persistencia
                 fecharConexao();
             }
         }
-        public void SelectPedidoCliente(ref ClienteOT cliente)
+        public void SelectPedidoCliente(ref Cliente cliente)
         {
             StringBuilder sql = new StringBuilder();
             try
@@ -209,7 +209,6 @@ namespace Loja.Persistencia
                     cliente.Bairro = Convert.ToString(reader["bairro"]);
                     cliente.Cidade = Convert.ToString(reader["cidade"]);
                     cliente.Estado = Convert.ToString(reader["estado"]);
-                    cliente.Telefone = Convert.ToString(reader["tel"]);
                     cliente.Email = Convert.ToString(reader["email"]);
                     cliente.DtCadastro = Convert.ToDateTime(reader["dtCadastro"]);
 

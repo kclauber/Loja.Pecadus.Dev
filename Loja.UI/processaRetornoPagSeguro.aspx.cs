@@ -74,7 +74,7 @@ namespace Loja.UI.Pecadus
         private void ProcessarRetorno(string notificationType, string notificationCode, AccountCredentials credentials, Transaction transaction)
         {
                 //Carregando os objetos internos
-                ClienteOT cliente = CriarCliente(transaction);
+                Cliente cliente = CriarCliente(transaction);
 
                 //Criando o pedido na base
                 new PedidosOP().CriarPedido(ref cliente);
@@ -211,9 +211,9 @@ namespace Loja.UI.Pecadus
                 sw.Dispose();
             }
         }
-        private ClienteOT CriarCliente(Transaction transaction)
+        private Cliente CriarCliente(Transaction transaction)
         {
-            ClienteOT cliente = new ClienteOT()
+            Cliente cliente = new Cliente()
             {
                 Nome = transaction.Sender.Name,
                 Email = transaction.Sender.Email,
@@ -224,7 +224,7 @@ namespace Loja.UI.Pecadus
                 Cidade = transaction.Shipping.Address.City,
                 Estado = transaction.Shipping.Address.State,
                 CEP = transaction.Shipping.Address.PostalCode,
-                Telefone = String.Format("{0}{1}", transaction.Sender.Phone.AreaCode, transaction.Sender.Phone.Number)
+                Celular = String.Format("{0}{1}", transaction.Sender.Phone.AreaCode, transaction.Sender.Phone.Number)
             };
 
             PedidoOT pedido = new PedidoOT()
@@ -391,7 +391,7 @@ namespace Loja.UI.Pecadus
             if (Result == "VERIFICADO")
             {
                 //Processando o pedido
-                ClienteOT cliente = new ClienteOT();
+                Cliente cliente = new Cliente();
                 CarregaObjetosPedido(ref cliente);
                 new PedidosOP().ProcessaPedido(cliente);
 
@@ -460,7 +460,7 @@ namespace Loja.UI.Pecadus
             stIn.Close();
         }
         [Obsolete]
-        private void CarregaObjetosPedido(ref ClienteOT cliente)
+        private void CarregaObjetosPedido(ref Cliente cliente)
         {
             //Dados do cliente
             cliente.Nome = (string)Request["CliNome"];
@@ -472,7 +472,7 @@ namespace Loja.UI.Pecadus
             cliente.Cidade = (string)Request["CliCidade"];
             cliente.Estado = (string)Request["CliEstado"];
             cliente.CEP = (string)Request["CliCEP"];
-            cliente.Telefone = (string)Request["CliTelefone"];
+            cliente.Celular = (string)Request["CliTelefone"];
 
             //Dados gerais do pedido
             PedidoOT pedido = new PedidoOT();

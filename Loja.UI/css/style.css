@@ -681,14 +681,17 @@ form.cadastro-form {
   form.cadastro-form h3 {
     margin-left: 15px;
     color: #c20074; }
-  form.cadastro-form .btn-secundary {
-    margin-top: 23px; }
+    form.cadastro-form .btn-secundary {
+        margin-top: 23px;
+        width: 190px;
+    }
 
 /* ==========================================================================
  * CARRINHO
  * ========================================================================== */
 .tabela-carrinho {
-  color: #233241; }
+    color: #233241;
+}
   .tabela-carrinho .btn-remove {
     width: 20px;
     height: 20px;

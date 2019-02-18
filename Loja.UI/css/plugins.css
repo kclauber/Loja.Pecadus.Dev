@@ -5259,9 +5259,11 @@ button.list-group-item-danger {
   clear: both; }
 
 .center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto; }
+    float: none;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .pull-right {
   float: right !important; }

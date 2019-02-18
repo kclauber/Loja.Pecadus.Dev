@@ -1,9 +1,20 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/site.Master" AutoEventWireup="true" CodeFile="cadastro.aspx.cs" Inherits="cadastro" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder2" Runat="Server">
+
+    <style>
+        form.cadastro-form .btn-primary {
+            margin-top: 23px;
+            min-width: 190px;
+        }
+        .txtCepDestino {
+            margin-top: 0px;
+        }
+    </style>
+
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
+<form name="cadastro" class="cadastro-form" runat="server">
   <!-- ====================== NAVEGAÇÃO - BREADCRUMB ====================== */ -->
   <nav class="pec-breadcrumb hidden-xs">
     <div class="container">
@@ -20,19 +31,20 @@
     </div>
   </nav>
 
-    <!-- ====================== CONTEUDO CATEGORIAS ====================== */ -->
+    <!-- ====================== CONTEUDO ====================== */ -->
     <section class="cadastro cont-int">
       <div class="container">
 
         <div class="row">
             <div class="col-md-12">
                 <h2><span class="glyphicon glyphicon glyphicon-stop" aria-hidden="true"></span>
-                    Cadastro</h2>
+                    <asp:Label ID="lblTitulo" Text="Cadastro" runat="server" />
+                </h2>
             </div>
         </div>
 
         <div class="row">
-          <form name="cadastro" class="cadastro-form" runat="server">
+          
               <div class="col-md-12">
                   <asp:ValidationSummary ID="vSumm1" runat="server" DisplayMode="BulletList"
                         HeaderText="<h3>Por favor informe os seguintes dados:</h3>" CssClass="vSumm" />
@@ -62,12 +74,6 @@
                   <div class="form-group">
                     <label for="exampleInputDataNasc1">Data de Nascimento</label>
                     <input type="text" class="form-control" id="txtDataNascimento" placeholder="00/00/0000" runat="server" />
-                  </div>
-                </div>
-                <div class="col-sm-4 col-xs-6">
-                  <div class="form-group">
-                    <label for="exampleInputTelRes1">Telefone Residencial</label>
-                    <input type="text" class="form-control" id="txtTelefone" placeholder="(00) 0000-0000" runat="server" />
                   </div>
                 </div>
                 <div class="col-sm-4 col-xs-6">
@@ -163,9 +169,9 @@
                   <div class="form-group">
                     <label for="cep">
                         CEP
-                        <asp:RequiredFieldValidator ID="reqCEP" runat="server" ErrorMessage="CEP" ControlToValidate="txtCEP" Text="*" ForeColor="Red" />
+                        <asp:RequiredFieldValidator ID="reqCEP" runat="server" ErrorMessage="CEP" ControlToValidate="txtCepDestino" Text="*" ForeColor="Red" />
                     </label>
-                    <input type="text" class="form-control" id="txtCEP" placeholder="CEP" runat="server" />
+                    <asp:TextBox ID="txtCepDestino" CssClass="form-control" OnTextChanged="txtCepDestino_TextChanged" AutoPostBack="true" runat="server" />
                   </div> 
                 </div>
             </div>
@@ -200,15 +206,84 @@
                 </div>
               </div>
               <div class="col-sm-2">
-                  <asp:Button ID="btnCadastrar" runat="server" Text="Enviar" OnClick="btnCadastroNovo_Click" CssClass="btn btn-secundary" />
+                  <asp:Button ID="btnAtualizar" runat="server" Text="atualizar dados" OnClick="btnAtualizarCadastro_Click" CausesValidation="false" CssClass="btn btn-primary" Visible="false"/>
+                  <asp:Button ID="btnCadastrar" runat="server" Text="cadastrar dados" OnClick="btnCadastroNovo_Click" CssClass="btn btn-secundary" Visible="true"/>
               </div>
             </div>
-          </form>
+          
         </div><!-- Final Row -->
+          <div class="row" style="border: blue solid 0px;">
+              <div class="col-md-6">
+              </div>
+              <div class="col-md-6">
+                  <h3>Opções de entrega</h3>
+                  <div class="col-md-12 col-xs-12">
+                      <p style="color: #233241;">
+                          <b>Selecione o modo de entrega da sua compra.</b><br />
+                          <asp:Label ID="lblObservacao" runat="server" />
+                          <span style="font-size:small">
+                          Obs.: O CEP informado para calculo é diferente do CEP de cadastro.
+                                Os valores foram recalculados.</span>
+                      </p>
+                  </div>
+                  <div class="row" style="border: blue solid 0px;">
+                      <div class="col-md-12 col-xs-12">
+                          <div class="col-md-2"></div>
+                          <div class="col-md-5 col-xs-6">
+                            <asp:RadioButton ID="RadioButton1" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="SEDEX - R$ 29,80 (3 dias)" CssClass="freteLabel" runat="server" />
+                          </div>
+                          <div class="col-md-5 col-xs-6">
+                            <asp:RadioButton ID="RadioButton2" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="PAC - R$ 18,55 (9 dias)" CssClass="freteLabel" runat="server" />
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row" style="border: blue solid 0px;">
+                      <div class="col-md-12 col-xs-12">
+                          <p style="color: #233241;">
+                        
+                              </p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="row" style="border: blue solid 0px;">
+              <div class="col-md-12 col-xs-12">
+                  <div class="col-sm-10">               
+                  </div>
+                  <div class="col-sm-2">
+                      <asp:Button ID="Button1" CssClass="btn btn-finalizarCompra btn-secundary" 
+                                  UseSubmitBehavior="false" Text="Concluir Compra" Visible="true" CausesValidation="false"  runat="server"/>
+                  </div>
+            </div>
+          </div>
 
+          <asp:Panel ID="pnlFinalizaCompra" Visible="false" runat="server">
+            <div class="row">
+              <div class="col-sm-6">
+                  <h3>Opções de entrega</h3>
+                  <div class="col-md-3">
+                    <div class="form-group" id="divValoresFrete" style="text-align:left; padding-left:50px;">
+                        <asp:RadioButton ID="rdFreteSedex" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="SEDEX" CssClass="freteLabel" runat="server" /><br />
+                        <asp:RadioButton ID="rdFretePac" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="PAC" CssClass="freteLabel" runat="server" />
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                      <p style="color: #233241;">
+                          
+                      </p>
+                      <br />
+                  </div>
+                  <div class="col-sm-2">
+                    <asp:Button ID="btnFinalizarCompra" CssClass="btn btn-finalizarCompra btn-secundary" 
+                                UseSubmitBehavior="false" Text="Concluir Compra" Visible="false" CausesValidation="false"  runat="server"/>
+
+                  </div>
+              </div>
+            </div>
+          </asp:Panel>
       </div>
     </section>
 
-
+</form>
 </asp:Content>
 

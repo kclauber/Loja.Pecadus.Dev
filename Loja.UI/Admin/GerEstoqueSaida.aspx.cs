@@ -49,7 +49,7 @@ namespace Loja.UI.Pecadus.Admin
         {
             if (e.CommandName == "Selecionar")
             {
-                ClienteOT cliente = new ClienteOT() { ID = Convert.ToInt32(e.CommandArgument.ToString()) };
+                Cliente cliente = new Cliente() { ID = Convert.ToInt32(e.CommandArgument.ToString()) };
                 new PedidosOP().SelectPedidoCliente(ref cliente);
                 Session["cliente"] = cliente;
 

@@ -13,7 +13,7 @@ namespace Loja.Persistencia
         /// <summary>
         /// Este método é utilizado para verificar se já existe o cadastro do cliente
         /// </summary>
-        public void SelectCliente(ref ClienteOT cliente)
+        public void SelectCliente(ref Cliente cliente)
         {
             StringBuilder sql = new StringBuilder();
             try
@@ -38,7 +38,6 @@ namespace Loja.Persistencia
                         cliente.Bairro = (string)reader["bairro"];
                         cliente.Cidade = (string)reader["cidade"];
                         cliente.Estado = (string)reader["estado"];
-                        cliente.Telefone = (string)reader["tel"];
                         cliente.Email = (string)reader["email"];
                         cliente.DtCadastro = (DateTime)reader["dtCadastro"];
                     }
@@ -61,7 +60,7 @@ namespace Loja.Persistencia
         /// Este método retorna um objeto cliente completo buscando pelo ID
         /// </summary>
         
-        public void CriarCliente(ref ClienteOT cliente)
+        public void CriarCliente(ref Cliente cliente)
         {
             //Verifica se o cliente já existe
             SelectCliente(ref cliente);
@@ -72,16 +71,16 @@ namespace Loja.Persistencia
 
 
         }
-        public void InsertCliente(ref ClienteOT cliente)
+        public void InsertCliente(ref Cliente cliente)
         {
             StringBuilder sql = new StringBuilder();
 
             try
             {
                 sql.AppendFormat(@"insert into clientes 
-                                        (nome, cep, end, num, compl, bairro, cidade, estado, tel, email, dtCadastro)
+                                        (nome, cep, end, num, compl, bairro, cidade, estado, email, dtCadastro)
                                    values
-                                        ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', '{9}', now())",
+                                        ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}', now())",
                                     cliente.Nome,
                                     cliente.CEP,
                                     cliente.Endereco,
@@ -90,7 +89,6 @@ namespace Loja.Persistencia
                                     cliente.Bairro,
                                     cliente.Cidade,
                                     cliente.Estado,
-                                    cliente.Telefone,
                                     cliente.Email);
 
                 ExecutarNonQuery(sql.ToString());
@@ -106,7 +104,7 @@ namespace Loja.Persistencia
                 fecharConexao();
             }
         }
-        public void UpdateCliente(ref ClienteOT cliente)
+        public void UpdateCliente(ref Cliente cliente)
         {
             StringBuilder sql = new StringBuilder();
             try
@@ -119,8 +117,7 @@ namespace Loja.Persistencia
                                           compl  = '{5}',
                                           bairro = '{6}',
                                           cidade = '{7}',
-                                          estado = '{8}',
-                                          tel    = '{9}'
+                                          estado = '{8}'
                                           where id = {0}",
                                  cliente.ID.ToString(),
                                  cliente.Nome,
@@ -130,8 +127,7 @@ namespace Loja.Persistencia
                                  cliente.Complemento,
                                  cliente.Bairro,
                                  cliente.Cidade,
-                                 cliente.Estado,
-                                 cliente.Telefone);
+                                 cliente.Estado);
 
                 ExecutarNonQuery(sql.ToString());
 
@@ -145,6 +141,25 @@ namespace Loja.Persistencia
             {
                 fecharConexao();
             }
+        }
+
+        public void SelectClienteFalso(ref Cliente cliente)
+        {            
+            cliente.ID = 1;
+            cliente.Nome = "Clauber de Oliveira";
+            cliente.CEP = "02289-010";
+            cliente.CPF = "306.587.148-30";
+            cliente.Endereco = "Rua Pedro de Castilho";
+            cliente.Numero = "1012";
+            cliente.Complemento = "121 A";
+            cliente.Bairro = "Protendite";
+            cliente.Cidade = "São Paulo";
+            cliente.Estado = "SP";
+            cliente.Celular = "11 98322-4260";
+            cliente.Email = "kclauber@gmail.com";
+            cliente.Senha = "123";
+            cliente.DtCadastro = DateTime.Now;
+            cliente.DataNascimento = "02/11/1982";
         }
     }
 }

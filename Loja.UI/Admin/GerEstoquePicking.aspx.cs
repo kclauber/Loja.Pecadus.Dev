@@ -29,7 +29,7 @@ namespace Loja.UI.Pecadus.Admin
         /// <returns></returns>
         private bool criarDataSet(int idPedido)
         {
-            ClienteOT cliente = (ClienteOT)Session["cliente"];
+            Cliente cliente = (Cliente)Session["cliente"];
             PedidoOT pedido = null;
 
             if (cliente == null)
@@ -224,7 +224,7 @@ namespace Loja.UI.Pecadus.Admin
                                                      (!txtCodigoEnvio.Text.Equals("") ? " - Código de Envio: " + txtCodigoEnvio.Text : ""));
                     pedidosOP.UpdatePedido(pedido);
 
-                    ClienteOT cliente = new ClienteOT(){ID = pedido.IdCliente};
+                    Cliente cliente = new Cliente(){ID = pedido.IdCliente};
                     new ClientesOP().SelectCliente(ref cliente);
 
                     string detalhesProdutos = "";

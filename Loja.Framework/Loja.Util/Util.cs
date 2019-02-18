@@ -2,6 +2,9 @@
 using Loja.Persistencia;
 using System;
 using System.Configuration;
+using System.Data;
+using System.IO;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -79,7 +82,7 @@ namespace Loja.Util
             }
         }
         #endregion
-        #region -- Funções Carrinho --
+        #region -- Funções Carrinho e Frete --
         public void AdicionarItem(Page page, int idProduto, int quantidade)
         {
             ProdutoOT produto;
@@ -92,16 +95,79 @@ namespace Loja.Util
             {
                 int qtdCarrinho = Carrinho.Instancia.ObterQuantidadeItem(produto.ID);
                 if (qtdCarrinho < produto.Estoque)
-                    Carrinho.Instancia.AdicionarItem(idProduto, quantidade);                
+                    Carrinho.Instancia.AdicionarItem(idProduto, quantidade);
             }
             page.Response.Redirect("/Carrinho/");
         }
-        public void RemoverItem(int codigo)
-        {
-            Carrinho.Instancia.RemoverItem(codigo);
+        public void CalcularFrete(ref RadioButton rdSedex, ref RadioButton rdPAC)
+        {            
+#if DEBUG
+            DataTable dtFrete = new DataTable();
+            dtFrete.Columns.Add("Tipo");
+            dtFrete.Columns.Add("Valor");
+            dtFrete.Columns.Add("Prazo");
+            DataRow dr = dtFrete.NewRow();
+            dr["Tipo"] = "SEDEX"; dr["Valor"] = "29,80"; dr["Prazo"] = "3";
+            dtFrete.Rows.Add(dr);
+            dr = dtFrete.NewRow();
+            dr["Tipo"] = "PAC"; dr["Valor"] = "18,55"; dr["Prazo"] = "9";
+            dtFrete.Rows.Add(dr);
+#else
+            DataSet ds = ConsultarWSCorreios();
+            DataTable dtFrete = ds.Tables[0];
+#endif
+
+            rdSedex.Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
+                                            dtFrete.Rows[0]["Tipo"],
+                                            Convert.ToDouble(dtFrete.Rows[0]["Valor"]),
+                                            dtFrete.Rows[0]["Prazo"]);
+            rdPAC.Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
+                                            dtFrete.Rows[1]["Tipo"],
+                                            Convert.ToDouble(dtFrete.Rows[1]["Valor"]),
+                                            dtFrete.Rows[1]["Prazo"]);
+
+            if (Carrinho.Instancia.Frete.Tipo.ToUpper().Equals("SEDEX"))
+                rdSedex.Checked = true;
+            else if (Carrinho.Instancia.Frete.Tipo.ToUpper().Equals("PAC"))
+                rdPAC.Checked = true;
         }
-#endregion
-#region -- Tratamento de String --
+        protected DataSet ConsultarWSCorreios()
+        {
+            DataSet ds = new DataSet();
+
+            string urlRequest = String.Format(@"http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?
+                                                    nCdEmpresa=&sDsSenha=
+                                                    &nCdServico={0},{1}
+                                                    &sCepOrigem={2}&sCepDestino={3}&nVlPeso={4}&nCdFormato={5}
+                                                    &nVlComprimento={6}&nVlAltura={7}&nVlLargura={8}&nVlDiametro=0
+                                                    &sCdMaoPropria=n&nVlValorDeclarado=0&sCdAvisoRecebimento=n
+                                                    &StrRetorno=xml&nIndicaCalculo={9}",
+                                                Carrinho.FormasEnvio["Sedex"],
+                                                Carrinho.FormasEnvio["PAC"],
+                                                Carrinho.CepOrigem,
+                                                Carrinho.Instancia.CepDestino,
+                                                Carrinho.Instancia.PesoProdutos,
+                                                Carrinho.PacotesEnvio.Caixa,
+                                                Carrinho.MedidasCaixa["Comprimento"],
+                                                Carrinho.MedidasCaixa["Altura"],
+                                                Carrinho.MedidasCaixa["Largura"],
+                                                Carrinho.TiposRetornoWSCorreios.PrecoPrazo);
+
+            WebRequest request = WebRequest.Create(urlRequest);
+
+            using (WebResponse response = request.GetResponse())
+            {
+                using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF7))
+                {
+                    //Coloca os dados recebidos em um DataSet
+                    ds.ReadXml(sr);
+                }
+            }
+
+            return ds;
+        }
+        #endregion
+        #region -- Tratamento de String --
         public static void CarregaMetaTags(Page page, string description, string keywords, string titulo)
         {
             //Aplicando a expressão regular para tirar HTML e replace para tirar quebras de linha
@@ -408,7 +474,7 @@ namespace Loja.Util
 #endregion
             }
         }
-#region -- Tratamento de Erro --
+        #region -- Tratamento de Erro --
         public void TratarExcessao(Exception e, String Url, string metodo, Page page)
         {
             //Erro causado por chamada javascript
@@ -438,7 +504,7 @@ namespace Loja.Util
             if (!Url.ToLower().Contains("erro"))
                 page.Response.Redirect("/Erro");
         }
-#endregion
+        #endregion
                 
     }
 }

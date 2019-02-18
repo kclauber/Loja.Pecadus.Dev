@@ -1,6 +1,6 @@
-﻿using Loja.Util;
+﻿using Loja.Objeto;
+using Loja.Util;
 using System;
-using System.Configuration;
 using System.Web.UI;
 
 namespace Loja.UI.Pecadus
@@ -26,6 +26,20 @@ namespace Loja.UI.Pecadus
 
                 //Atualiza a quantidade de itens no header da página
                 lblQtdCarrinho.Text = Carrinho.Instancia.ObterQuantidadeItens().ToString();
+
+                //Exibe ou esconde os links para login e logoff
+                if (Cliente.Instancia == null)
+                {
+                    pnlLogin.Visible = true;
+                    pnlLogoff.Visible = false;
+                }
+                else
+                {
+                    lblNomeCliente.Text = Cliente.Instancia.Nome;
+
+                    pnlLogin.Visible = false;
+                    pnlLogoff.Visible = true;
+                }
             }
         }
     }

@@ -2,13 +2,11 @@
 using Loja.Persistencia;
 using Loja.Util;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Uol.PagSeguro.Domain;
@@ -33,6 +31,10 @@ namespace Loja.UI.Pecadus
             if (!Page.IsPostBack)
             {
                 Response.Cache.SetExpires(DateTime.Now.AddDays(-1));
+
+                //Se o cliente não for nulo, não tiver informado um CEP no carrinho antes e tiver um CEP cadastrado
+                if (Cliente.Instancia != null && String.IsNullOrEmpty(Carrinho.Instancia.CepDestino) && !String.IsNullOrEmpty(Cliente.Instancia.CEP))
+                    Carrinho.Instancia.CepDestino = Cliente.Instancia.CEP;
                 AtualizaCarrinho();
             }            
         }
@@ -128,10 +130,21 @@ namespace Loja.UI.Pecadus
                 {
                     ((Panel)e.Item.FindControl("pnlFrete")).Visible = true;
                     txtCepDestino.Text = Utilitarios.FormatarCep(Carrinho.Instancia.CepDestino);
-                    CalcularFrete(e);
+                    try
+                    {
+                        RadioButton rdSedex = (RadioButton)e.Item.FindControl("rdFreteSedex");
+                        RadioButton rdPAC = (RadioButton)e.Item.FindControl("rdFretePac");
+
+                        new Utilitarios().CalcularFrete(ref rdSedex, ref rdPAC);
+                    }
+                    catch (Exception ex)
+                    {
+                        new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinhoCompras.CalcularFrete", this.Page);
+                    }
                 }   
 
-                Carrinho.Instancia.ValorTotalProdutos = valorTotalProdutos;
+                Carrinho.Instancia.ValorTotalProdutos = valorTotalProdutos;                
+
                 ((Label)e.Item.FindControl("lblPrecoTotalCompra")).Text = String.Format("{0:R$ #,##0.00}", Carrinho.Instancia.ValorTotalProdutos + Carrinho.Instancia.Frete.Valor);
             }
         }
@@ -139,7 +152,7 @@ namespace Loja.UI.Pecadus
         #region Botões carrinho
         public void RemoverItem(object sender, EventArgs e)
         {
-            new Utilitarios().RemoverItem(Convert.ToInt32(((LinkButton)sender).CommandArgument));
+            Carrinho.Instancia.RemoverItem(Convert.ToInt32(((LinkButton)sender).CommandArgument));
             AtualizaCarrinho();
         }
         protected void ddlQuantidade_SelectedIndexChanged(object sender, EventArgs e)
@@ -150,6 +163,7 @@ namespace Loja.UI.Pecadus
         
         /// <summary>
         /// Atualiza a quantidade de todos os itens do carrinho
+        /// (Criado desta maneira por causa do modelo antigo de carrinho de compras)
         /// </summary>
         protected void atualizarQuantidadeItens()
         {
@@ -175,149 +189,96 @@ namespace Loja.UI.Pecadus
 
             AtualizaCarrinho();
         }
-        public void CalcularFrete(RepeaterItemEventArgs e)
+        
+        protected void rdFrete_CheckedChanged(Object sender, EventArgs e)
         {
-#if DEBUG
-            List<FreteOT> list = new List<FreteOT>
+            //Recupera o valor do RadioButton e limpa para usar no objeto
+            string frete = ((RadioButton)sender).Text;
+            frete = frete.Replace(" - ", "")
+                         .Replace("R$", "")
+                         .Replace("(", "")
+                         .Replace(")", "")
+                         .Replace(" dias", "");
+            string[] arrFrete = frete.Split(' ');
+
+            Carrinho.Instancia.Frete = new FreteOT()
             {
-                new FreteOT() { Tipo = "SEDEX", Valor = 35.00D, Prazo = 2 },
-                new FreteOT() { Tipo = "PAC", Valor = 19.75D, Prazo = 7 }
+                Tipo = arrFrete[0],
+                Valor = Convert.ToDouble(arrFrete[1]),
+                Prazo = Convert.ToInt32(arrFrete[2])
             };
-#else
-            DataSet ds = ConsultarWSCorreios();
-#endif
 
-
-            ((RadioButton)e.Item.FindControl("rdFreteSedex")).Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
-                                                                                   list[0].Tipo,
-                                                                                   list[0].Valor,
-                                                                                   list[0].Prazo);
-            ((RadioButton)e.Item.FindControl("rdFretePac")).Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
-                                                                                   list[1].Tipo,
-                                                                                   list[1].Valor,
-                                                                                   list[1].Prazo);
-        }
-
-        protected DataSet ConsultarWSCorreios()
+            AtualizaCarrinho();
+        }        
+        #endregion
+        #region Finalizar Compra
+        #region ## Métodos com o framework PagSeguro ##
+        protected void btnConcluirCompra_Click(object sender, EventArgs e)
         {
-            DataSet ds = new DataSet();
-            try
-            {
-                string urlRequest = String.Format(@"http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?
-                                                    nCdEmpresa=&sDsSenha=
-                                                    &nCdServico={0},{1}
-                                                    &sCepOrigem={2}&sCepDestino={3}&nVlPeso={4}&nCdFormato={5}
-                                                    &nVlComprimento={6}&nVlAltura={7}&nVlLargura={8}&nVlDiametro=0
-                                                    &sCdMaoPropria=n&nVlValorDeclarado=0&sCdAvisoRecebimento=n
-                                                    &StrRetorno=xml&nIndicaCalculo={9}",
-                                                    Carrinho.FormasEnvio["Sedex"],
-                                                    Carrinho.FormasEnvio["PAC"],
-                                                    Carrinho.CepOrigem,
-                                                    Carrinho.Instancia.CepDestino,
-                                                    Carrinho.Instancia.PesoProdutos,
-                                                    Carrinho.PacotesEnvio.Caixa,
-                                                    Carrinho.MedidasCaixa["Comprimento"],
-                                                    Carrinho.MedidasCaixa["Altura"],
-                                                    Carrinho.MedidasCaixa["Largura"],
-                                                    Carrinho.TiposRetornoWSCorreios.PrecoPrazo);
-
-                WebRequest request = WebRequest.Create(urlRequest);
-                
-                using (WebResponse response = request.GetResponse())
-                {
-                    using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF7))
-                    {
-                        //Coloca os dados recebidos em um DataSet
-                        ds.ReadXml(sr);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinhoCompras.CalcularFreteCorreios", this.Page);
-            }
-
-            return ds;
-        }
-#endregion
-#region Finalizar Compra
-#region ## Métodos com o framework PagSeguro ##
-        protected void imgFinalizar_Click(object sender, ImageClickEventArgs e)
-        {
-            FinalizarCompra();
+            if (Cliente.Instancia == null)
+                Response.Redirect("/LoginCliente/?finalizarCompra=true");
+            else
+                Response.Redirect("/Cadastro/?finalizarCompra=true");
         }
         private void FinalizarCompra()
         {
-            Page.Validate();
-
-            if (Page.IsValid)
+            if (Carrinho.Instancia.TemItens)
             {
-                atualizarQuantidadeItens();
+                //Buscando novamente os detalhes dos itens
+                CarregaObjetoCarrinho();
 
-                //if (rdlFrete.Visible == false || rdlFrete.SelectedIndex == -1)
-                //{
-                //    CalcularFrete();
-                //    AdicionarValorFrete();
-                //}
+                PaymentRequest payment = new PaymentRequest();
+                //payment.Reference = "";
 
-                if (Carrinho.Instancia.TemItens)
+                foreach (ProdutoOT prod in produtosCarrinho)
                 {
-                    //Buscando novamente os detalhes dos itens
-                    CarregaObjetoCarrinho();
-                    
-                    PaymentRequest payment = new PaymentRequest();
-                    //payment.Reference = "";
-
-                    foreach (ProdutoOT prod in produtosCarrinho)
-                    {
-                        payment.Items.Add(new Item(prod.ID.ToString(),
-                                                   Utilitarios.TiraAcentos(prod.Titulo).Replace("-", " "),
-                                                   prod.QuantidadeCarrinho,
-                                                   Convert.ToDecimal(prod.Preco)));
-                    }
-
-#region ## Elementos opicionais ##
-                    ////Opcional
-                    //payment.Sender = new Sender(
-                    //    "José Comprador",
-                    //    "c43738373132648712943@sandbox.pagseguro.com.br",
-                    //    new Phone(
-                    //        "11",
-                    //        "56273440"
-                    //    )
-                    //);
-
-                    ////Opcional
-                    //payment.Shipping = new Shipping();
-                    //payment.Shipping.ShippingType = ShippingType.Sedex;
-                    //payment.Shipping.Address = new Address(
-                    //    "BRA",
-                    //    "SP",
-                    //    "Sao Paulo",
-                    //    "Jardim Paulistano",
-                    //    "01452002",
-                    //    "Av. Brig. Faria Lima",
-                    //    "1384",
-                    //    "5o andar"
-                    //);
-
-                    ////Opcional
-                    //SenderDocument senderCPF = new SenderDocument(
-                    //    Documents.GetDocumentByType("CPF"), "12345678909");
-                    //payment.Sender.Documents.Add(senderCPF);
-#endregion
-
-                    AccountCredentials credentials = new AccountCredentials(
-                        PagSeguroConfiguration.Credentials(isSandbox).Email,
-                        PagSeguroConfiguration.Credentials(isSandbox).Token
-                    );
-
-                    Carrinho.Instancia.Limpar();
-
-                    //Enviando ao Pag Seguro
-                    Uri paymentRedirectUri = payment.Register(credentials);
-                    Response.Redirect(paymentRedirectUri.ToString());
+                    payment.Items.Add(new Item(prod.ID.ToString(),
+                                               Utilitarios.TiraAcentos(prod.Titulo).Replace("-", " "),
+                                               prod.QuantidadeCarrinho,
+                                               Convert.ToDecimal(prod.Preco)));
                 }
+
+                #region ## Elementos opicionais ##
+                ////Opcional
+                //payment.Sender = new Sender(
+                //    "José Comprador",
+                //    "c43738373132648712943@sandbox.pagseguro.com.br",
+                //    new Phone(
+                //        "11",
+                //        "56273440"
+                //    )
+                //);
+
+                ////Opcional
+                //payment.Shipping = new Shipping();
+                //payment.Shipping.ShippingType = ShippingType.Sedex;
+                //payment.Shipping.Address = new Address(
+                //    "BRA",
+                //    "SP",
+                //    "Sao Paulo",
+                //    "Jardim Paulistano",
+                //    "01452002",
+                //    "Av. Brig. Faria Lima",
+                //    "1384",
+                //    "5o andar"
+                //);
+
+                ////Opcional
+                //SenderDocument senderCPF = new SenderDocument(
+                //    Documents.GetDocumentByType("CPF"), "12345678909");
+                //payment.Sender.Documents.Add(senderCPF);
+                #endregion
+
+                AccountCredentials credentials = new AccountCredentials(
+                    PagSeguroConfiguration.Credentials(isSandbox).Email,
+                    PagSeguroConfiguration.Credentials(isSandbox).Token
+                );
+
+                Carrinho.Instancia.Limpar();
+
+                //Enviando ao Pag Seguro
+                Uri paymentRedirectUri = payment.Register(credentials);
+                Response.Redirect(paymentRedirectUri.ToString());
             }
         }
 #endregion
