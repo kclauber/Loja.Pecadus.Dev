@@ -11,18 +11,6 @@ namespace Loja.Util
     {
         private Carrinho()
         {
-            FormasEnvio = new Dictionary<string, string>
-            {
-                { "Sedex", "04014" },
-                { "PAC", "04510" }
-            };
-            MedidasCaixa = new Dictionary<string, int>
-            {
-                { "Comprimento", Convert.ToInt32(ConfigurationManager.AppSettings["caixaComprimento"]) },
-                { "Altura", Convert.ToInt32(ConfigurationManager.AppSettings["caixaAltura"]) },
-                { "Largura", Convert.ToInt32(ConfigurationManager.AppSettings["caixaLargura"]) }
-            };
-
             Limpar();
         }
         public static Carrinho Instancia
@@ -144,9 +132,28 @@ namespace Loja.Util
             }
         }
         public string CepDestino { get; set; }
-        public int PesoProdutos { get; set; }
-        public static Dictionary<string, string> FormasEnvio { get; set; }
-        public static Dictionary<string, int> MedidasCaixa { get; set; }
+        public double PesoProdutos { get; set; }
+        public static Dictionary<string, string> FormasEnvio
+        {
+            get {
+                return new Dictionary<string, string>
+                       {
+                           { "Sedex", "04014" },
+                           { "PAC", "04510" }
+                       };
+            }
+        }
+        public static Dictionary<string, int> MedidasCaixa
+        {
+            get {
+                return new Dictionary<string, int>
+                        {
+                            { "Comprimento", Convert.ToInt32(ConfigurationManager.AppSettings["caixaComprimento"]) },
+                            { "Altura", Convert.ToInt32(ConfigurationManager.AppSettings["caixaAltura"]) },
+                            { "Largura", Convert.ToInt32(ConfigurationManager.AppSettings["caixaLargura"]) }
+                        };
+            }
+        }
 
         public enum PacotesEnvio
         {
@@ -167,6 +174,7 @@ namespace Loja.Util
         public FreteOT Frete { get; set; }
     }
 
+    [Serializable()]
     public class FreteOT
     {
         public FreteOT()

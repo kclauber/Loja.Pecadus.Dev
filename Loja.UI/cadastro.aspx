@@ -46,8 +46,8 @@
         <div class="row">
           
               <div class="col-md-12">
-                  <asp:ValidationSummary ID="vSumm1" runat="server" DisplayMode="BulletList"
-                        HeaderText="<h3>Por favor informe os seguintes dados:</h3>" CssClass="vSumm" />
+                  <asp:ValidationSummary ID="vSumm1" runat="server" ShowMessageBox="true" ShowSummary="false"
+                        HeaderText="Por favor informe os seguintes dados:" CssClass="vSumm" />
               </div>
 
             <div class="col-md-6">          
@@ -56,7 +56,8 @@
                   <div class="form-group">
                     <label for="exampleInputNome1">
                         Nome
-                        <asp:RequiredFieldValidator ID="reqNome" runat="server" ErrorMessage="Nome completo" ControlToValidate="txtNome" Text="*" ForeColor="Red" />
+                        <asp:RequiredFieldValidator ID="reqNome" runat="server" ErrorMessage="Nome completo" Display="Static"
+                            ControlToValidate="txtNome" ForeColor="Red">*</asp:RequiredFieldValidator>
                     </label>                    
                     <input type="text" class="form-control" id="txtNome" placeholder="Nome Completo" runat="server" />
                   </div>
@@ -212,78 +213,55 @@
             </div>
           
         </div><!-- Final Row -->
-          <div class="row" style="border: blue solid 0px;">
-              <div class="col-md-6">
-              </div>
-              <div class="col-md-6">
-                  <h3>Opções de entrega</h3>
-                  <div class="col-md-12 col-xs-12">
-                      <p style="color: #233241;">
-                          <b>Selecione o modo de entrega da sua compra.</b><br />
-                          <asp:Label ID="lblObservacao" runat="server" />
-                          <span style="font-size:small">
-                          Obs.: O CEP informado para calculo é diferente do CEP de cadastro.
-                                Os valores foram recalculados.</span>
-                      </p>
+          <asp:Panel ID="pnlFinalizarCompra" Visible="false" runat="server">
+              <div class="row" style="border: blue solid 0px;">
+                  <div class="col-md-6">
                   </div>
-                  <div class="row" style="border: blue solid 0px;">
-                      <div class="col-md-12 col-xs-12">
-                          <div class="col-md-2"></div>
-                          <div class="col-md-5 col-xs-6">
-                            <asp:RadioButton ID="RadioButton1" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="SEDEX - R$ 29,80 (3 dias)" CssClass="freteLabel" runat="server" />
-                          </div>
-                          <div class="col-md-5 col-xs-6">
-                            <asp:RadioButton ID="RadioButton2" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="PAC - R$ 18,55 (9 dias)" CssClass="freteLabel" runat="server" />
-                          </div>
-                      </div>
-                  </div>
-                  <div class="row" style="border: blue solid 0px;">
+                  <div class="col-md-6">
+                      <h3>Opções de entrega</h3>
                       <div class="col-md-12 col-xs-12">
                           <p style="color: #233241;">
-                        
-                              </p>
+                              <asp:CustomValidator ID="valFrete" runat="server" ErrorMessage="Selecione uma opção de frete" ForeColor="Red" ClientValidationFunction="ValidateFrete">*</asp:CustomValidator>
+                              <b>Selecione o modo de entrega da sua compra.</b>
+                              <br />
+                              <span style="font-size:small">
+                                <asp:Label ID="lblObservacao" runat="server" />
+                              </span>
+                          </p>
+                      </div>
+                      <div class="row" style="border: blue solid 0px;">
+                          <div class="col-md-12 col-xs-12">
+                              <div class="col-md-2"></div>
+                              <div class="col-md-5 col-xs-6">
+                                <asp:RadioButton ID="rdFreteSedex" AutoPostBack="true" GroupName="Frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="SEDEX - R$ 29,80 (3 dias)" CssClass="freteLabel" runat="server" />
+                              </div>
+                              <div class="col-md-5 col-xs-6">
+                                <asp:RadioButton ID="rdFretePac" AutoPostBack="true" GroupName="Frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="PAC - R$ 18,55 (9 dias)" CssClass="freteLabel" runat="server" />
+                              </div>
+                          </div>
                       </div>
                   </div>
               </div>
-          </div>
-          <div class="row" style="border: blue solid 0px;">
-              <div class="col-md-12 col-xs-12">
-                  <div class="col-sm-10">               
-                  </div>
-                  <div class="col-sm-2">
-                      <asp:Button ID="Button1" CssClass="btn btn-finalizarCompra btn-secundary" 
-                                  UseSubmitBehavior="false" Text="Concluir Compra" Visible="true" CausesValidation="false"  runat="server"/>
-                  </div>
-            </div>
-          </div>
-
-          <asp:Panel ID="pnlFinalizaCompra" Visible="false" runat="server">
-            <div class="row">
-              <div class="col-sm-6">
-                  <h3>Opções de entrega</h3>
-                  <div class="col-md-3">
-                    <div class="form-group" id="divValoresFrete" style="text-align:left; padding-left:50px;">
-                        <asp:RadioButton ID="rdFreteSedex" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="SEDEX" CssClass="freteLabel" runat="server" /><br />
-                        <asp:RadioButton ID="rdFretePac" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" Text="PAC" CssClass="freteLabel" runat="server" />
-                    </div>
-                  </div>
-                  <div class="col-md-7">
-                      <p style="color: #233241;">
-                          
-                      </p>
-                      <br />
-                  </div>
-                  <div class="col-sm-2">
-                    <asp:Button ID="btnFinalizarCompra" CssClass="btn btn-finalizarCompra btn-secundary" 
-                                UseSubmitBehavior="false" Text="Concluir Compra" Visible="false" CausesValidation="false"  runat="server"/>
-
-                  </div>
+              <div class="row" style="border: blue solid 0px;">
+                  <div class="col-md-12 col-xs-12">
+                      <div class="col-sm-10">               
+                      </div>
+                      <div class="col-sm-2">
+                          <br />
+                          <asp:Button ID="btnFinalizarCompra" OnClick="btnFinalizarCompra_Click" CssClass="btn btn-finalizarCompra btn-secundary" 
+                                      UseSubmitBehavior="false" Text="Concluir Compra" Visible="true" CausesValidation="true"  runat="server"/>
+                      </div>
+                </div>
               </div>
-            </div>
           </asp:Panel>
+          
       </div>
     </section>
-
+<script type = "text/javascript">
+    function ValidateFrete(sender, args) {
+        args.IsValid = $("input[name='ctl00$ContentPlaceHolder1$Frete']:checked").length > 0;
+    }
+</script>
 </form>
 </asp:Content>
 

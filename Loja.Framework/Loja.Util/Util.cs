@@ -100,31 +100,28 @@ namespace Loja.Util
             page.Response.Redirect("/Carrinho/");
         }
         public void CalcularFrete(ref RadioButton rdSedex, ref RadioButton rdPAC)
-        {            
-#if DEBUG
-            DataTable dtFrete = new DataTable();
-            dtFrete.Columns.Add("Tipo");
-            dtFrete.Columns.Add("Valor");
-            dtFrete.Columns.Add("Prazo");
-            DataRow dr = dtFrete.NewRow();
-            dr["Tipo"] = "SEDEX"; dr["Valor"] = "29,80"; dr["Prazo"] = "3";
-            dtFrete.Rows.Add(dr);
-            dr = dtFrete.NewRow();
-            dr["Tipo"] = "PAC"; dr["Valor"] = "18,55"; dr["Prazo"] = "9";
-            dtFrete.Rows.Add(dr);
-#else
+        {
+//#if DEBUG
+//            DataTable dtFrete = new DataTable();
+//            dtFrete.Columns.Add("Valor");
+//            dtFrete.Columns.Add("Prazo");
+//            DataRow dr = dtFrete.NewRow();
+//            dr["Valor"] = "29,80"; dr["PrazoEntrega"] = "3";
+//            dtFrete.Rows.Add(dr);
+//            dr = dtFrete.NewRow();
+//            dr["Valor"] = "18,55"; dr["PrazoEntrega"] = "9";
+//            dtFrete.Rows.Add(dr);
+//#else
             DataSet ds = ConsultarWSCorreios();
             DataTable dtFrete = ds.Tables[0];
-#endif
+            //#endif
 
-            rdSedex.Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
-                                            dtFrete.Rows[0]["Tipo"],
+            rdSedex.Text = String.Format("SEDEX - {0:R$ #,##0.00} ({1} dias)",
                                             Convert.ToDouble(dtFrete.Rows[0]["Valor"]),
-                                            dtFrete.Rows[0]["Prazo"]);
-            rdPAC.Text = String.Format("{0} - {1:R$ #,##0.00} ({2} dias)",
-                                            dtFrete.Rows[1]["Tipo"],
+                                            dtFrete.Rows[0]["PrazoEntrega"]);
+            rdPAC.Text = String.Format("PAC - {0:R$ #,##0.00} ({1} dias)",
                                             Convert.ToDouble(dtFrete.Rows[1]["Valor"]),
-                                            dtFrete.Rows[1]["Prazo"]);
+                                            dtFrete.Rows[1]["PrazoEntrega"]);
 
             if (Carrinho.Instancia.Frete.Tipo.ToUpper().Equals("SEDEX"))
                 rdSedex.Checked = true;
@@ -136,22 +133,22 @@ namespace Loja.Util
             DataSet ds = new DataSet();
 
             string urlRequest = String.Format(@"http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?
-                                                    nCdEmpresa=&sDsSenha=
-                                                    &nCdServico={0},{1}
-                                                    &sCepOrigem={2}&sCepDestino={3}&nVlPeso={4}&nCdFormato={5}
-                                                    &nVlComprimento={6}&nVlAltura={7}&nVlLargura={8}&nVlDiametro=0
-                                                    &sCdMaoPropria=n&nVlValorDeclarado=0&sCdAvisoRecebimento=n
-                                                    &StrRetorno=xml&nIndicaCalculo={9}",
+                                                nCdEmpresa=&sDsSenha=
+                                                &nCdServico={0},{1}
+                                                &sCepOrigem={2}&sCepDestino={3}&nVlPeso={4}&nCdFormato={5}
+                                                &nVlComprimento={6}&nVlAltura={7}&nVlLargura={8}&nVlDiametro=0
+                                                &sCdMaoPropria=n&nVlValorDeclarado=0&sCdAvisoRecebimento=n
+                                                &StrRetorno=xml&nIndicaCalculo={9}",
                                                 Carrinho.FormasEnvio["Sedex"],
                                                 Carrinho.FormasEnvio["PAC"],
                                                 Carrinho.CepOrigem,
                                                 Carrinho.Instancia.CepDestino,
                                                 Carrinho.Instancia.PesoProdutos,
-                                                Carrinho.PacotesEnvio.Caixa,
+                                                (int)Carrinho.PacotesEnvio.Caixa,
                                                 Carrinho.MedidasCaixa["Comprimento"],
                                                 Carrinho.MedidasCaixa["Altura"],
                                                 Carrinho.MedidasCaixa["Largura"],
-                                                Carrinho.TiposRetornoWSCorreios.PrecoPrazo);
+                                                (int)Carrinho.TiposRetornoWSCorreios.PrecoPrazo);
 
             WebRequest request = WebRequest.Create(urlRequest);
 
@@ -160,7 +157,7 @@ namespace Loja.Util
                 using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF7))
                 {
                     //Coloca os dados recebidos em um DataSet
-                    ds.ReadXml(sr);
+                    ds.ReadXml(sr.BaseStream);
                 }
             }
 

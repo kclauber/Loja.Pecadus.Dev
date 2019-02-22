@@ -16,26 +16,33 @@ public partial class cadastro : System.Web.UI.Page
                 finalizarCompra = true;
 
             if (Cliente.Instancia != null)
-            {                
+            {
                 CarregarDadosCliente();
 
                 btnCadastrar.Visible = false;
                 btnAtualizar.Visible = true;
-                btnFinalizarCompra.Visible = true;
 
-                if (finalizarCompra && !String.IsNullOrEmpty(Cliente.Instancia.CEP))
+                if (finalizarCompra)
                 {
-                    if (Carrinho.Instancia.CepDestino.Equals(Cliente.Instancia.CEP))
+                    pnlFinalizarCompra.Visible = true;
+                    btnFinalizarCompra.Visible = true;
+                    lblTitulo.Text = "Confira seus dados e endereço de entrega";
+
+                    reqSenha1.Enabled = false;
+                    reqSenha2.Enabled = false;
+
+
+                    if (!String.IsNullOrEmpty(Carrinho.Instancia.CepDestino) && 
+                        !Carrinho.Instancia.CepDestino.Replace("-", "").Equals(Cliente.Instancia.CEP.Replace("-", "")))
                     {
-                        lblObservacao.Text = "Obs.: O CEP informado é diferente do CEP de cadastro. O valor foi recalculado.";
+                        lblObservacao.Text = "Obs.: O CEP informado para calculo é diferente do CEP de cadastro. Os valores foram recalculados.";
+                        Carrinho.Instancia.CepDestino = Cliente.Instancia.CEP;
                     }
 
-                    lblTitulo.Text = "Confira seus dados e endereço de entrega";
-                    pnlFinalizaCompra.Visible = true;
                     CalcularFrete();
                 }
             }
-            
+
             btnFinalizarCompra.Attributes.Add("style", "margin-top: 0px;");
             txtCepDestino.Attributes.Add("placeholder", "CEP");
         }
@@ -55,6 +62,10 @@ public partial class cadastro : System.Web.UI.Page
         RecuperarDadosForm(ref cliente);
 
         new ClientesOP().UpdateCliente(ref cliente);
+    }
+    protected void btnFinalizarCompra_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("/FinalizarCompra/");
     }
 
     private void RecuperarDadosForm(ref Cliente cliente)
@@ -125,6 +136,7 @@ public partial class cadastro : System.Web.UI.Page
     }
     protected void txtCepDestino_TextChanged(object sender, EventArgs e)
     {
+        lblObservacao.Text = "";
         CalcularFrete();
     }
     public void CalcularFrete()
@@ -150,11 +162,11 @@ public partial class cadastro : System.Web.UI.Page
             Email = eMail,
             Senha = senha
         };
-#if DEBUG
-        new ClientesOP().SelectClienteFalso(ref cliente);
-#else
-        new ClientesOP().SelectCliente(ref cliente);        
-#endif
+//#if DEBUG
+//        new ClientesOP().SelectClienteFalso(ref cliente);
+//#else
+        new ClientesOP().SelectCliente(ref cliente);
+//#endif
         if (!cliente.ID.Equals(-1))
         {
             Cliente.Instancia = cliente;

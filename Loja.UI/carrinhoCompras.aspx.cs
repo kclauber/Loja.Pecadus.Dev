@@ -19,10 +19,10 @@ namespace Loja.UI.Pecadus
         bool isSandbox = bool.Parse(ConfigurationManager.AppSettings["isSandbox"]);
         private bool freteGratis = false;
         public string sStatus, sToken = "";
-        protected double valorTotalProdutos = 0;
         //private string TOKEN, KEY, URI, sURLRedirect;
         ProdutosOT produtosCarrinho = null;
-        public string pesoCarrinho;
+        private double valorTotalProdutos = 0;
+        private double ValorPesoProdutos = 0.01D;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -116,8 +116,9 @@ namespace Loja.UI.Pecadus
                         ddlQuantidade.Items[i-1].Selected = true;
                 }
 
-                //Somando o preco de todos os produtos para exibir no rodapé
+                //Somando o preco e peso de todos os produtos para exibir no rodapé e fazer o calculo de frete
                 valorTotalProdutos += produto.Preco * produto.QuantidadeCarrinho;
+                ValorPesoProdutos += produto.Peso * produto.QuantidadeCarrinho;
 
                 Carrinho.Instancia.PesoProdutos = Carrinho.Instancia.PesoProdutos + (produto.Peso * produto.QuantidadeCarrinho);
             }
@@ -130,20 +131,21 @@ namespace Loja.UI.Pecadus
                 {
                     ((Panel)e.Item.FindControl("pnlFrete")).Visible = true;
                     txtCepDestino.Text = Utilitarios.FormatarCep(Carrinho.Instancia.CepDestino);
-                    try
-                    {
-                        RadioButton rdSedex = (RadioButton)e.Item.FindControl("rdFreteSedex");
-                        RadioButton rdPAC = (RadioButton)e.Item.FindControl("rdFretePac");
+                    //try
+                    //{
+                    RadioButton rdSedex = (RadioButton)e.Item.FindControl("rdFreteSedex");
+                    RadioButton rdPAC = (RadioButton)e.Item.FindControl("rdFretePac");
 
-                        new Utilitarios().CalcularFrete(ref rdSedex, ref rdPAC);
-                    }
-                    catch (Exception ex)
-                    {
-                        new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinhoCompras.CalcularFrete", this.Page);
-                    }
+                    new Utilitarios().CalcularFrete(ref rdSedex, ref rdPAC);
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    new Utilitarios().TratarExcessao(ex, Request.Url.ToString(), "carrinhoCompras.CalcularFrete", this.Page);
+                    //}
                 }   
 
-                Carrinho.Instancia.ValorTotalProdutos = valorTotalProdutos;                
+                Carrinho.Instancia.ValorTotalProdutos = valorTotalProdutos;
+                Carrinho.Instancia.PesoProdutos = ValorPesoProdutos;
 
                 ((Label)e.Item.FindControl("lblPrecoTotalCompra")).Text = String.Format("{0:R$ #,##0.00}", Carrinho.Instancia.ValorTotalProdutos + Carrinho.Instancia.Frete.Valor);
             }
@@ -219,67 +221,6 @@ namespace Loja.UI.Pecadus
                 Response.Redirect("/LoginCliente/?finalizarCompra=true");
             else
                 Response.Redirect("/Cadastro/?finalizarCompra=true");
-        }
-        private void FinalizarCompra()
-        {
-            if (Carrinho.Instancia.TemItens)
-            {
-                //Buscando novamente os detalhes dos itens
-                CarregaObjetoCarrinho();
-
-                PaymentRequest payment = new PaymentRequest();
-                //payment.Reference = "";
-
-                foreach (ProdutoOT prod in produtosCarrinho)
-                {
-                    payment.Items.Add(new Item(prod.ID.ToString(),
-                                               Utilitarios.TiraAcentos(prod.Titulo).Replace("-", " "),
-                                               prod.QuantidadeCarrinho,
-                                               Convert.ToDecimal(prod.Preco)));
-                }
-
-                #region ## Elementos opicionais ##
-                ////Opcional
-                //payment.Sender = new Sender(
-                //    "José Comprador",
-                //    "c43738373132648712943@sandbox.pagseguro.com.br",
-                //    new Phone(
-                //        "11",
-                //        "56273440"
-                //    )
-                //);
-
-                ////Opcional
-                //payment.Shipping = new Shipping();
-                //payment.Shipping.ShippingType = ShippingType.Sedex;
-                //payment.Shipping.Address = new Address(
-                //    "BRA",
-                //    "SP",
-                //    "Sao Paulo",
-                //    "Jardim Paulistano",
-                //    "01452002",
-                //    "Av. Brig. Faria Lima",
-                //    "1384",
-                //    "5o andar"
-                //);
-
-                ////Opcional
-                //SenderDocument senderCPF = new SenderDocument(
-                //    Documents.GetDocumentByType("CPF"), "12345678909");
-                //payment.Sender.Documents.Add(senderCPF);
-                #endregion
-
-                AccountCredentials credentials = new AccountCredentials(
-                    PagSeguroConfiguration.Credentials(isSandbox).Email,
-                    PagSeguroConfiguration.Credentials(isSandbox).Token
-                );
-
-                Carrinho.Instancia.Limpar();
-
-                //Enviando ao Pag Seguro
-                Uri paymentRedirectUri = payment.Register(credentials);
-                Response.Redirect(paymentRedirectUri.ToString());
-            }
         }
 #endregion
 #region ## Métodos Antigos ##

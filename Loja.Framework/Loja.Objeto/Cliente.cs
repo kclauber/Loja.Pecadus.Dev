@@ -1,9 +1,11 @@
 ﻿using Loja.Util;
+using System;
 using System.Collections.Generic;
 using System.Web;
 
 namespace Loja.Objeto
 {
+    [Serializable()]
     public class Cliente : Master
     {
         public Cliente()

@@ -85,7 +85,8 @@
                                                 </span>
                                             </div>
                                             <asp:Panel ID="pnlFrete" Visible="false" runat="server">
-                                                <div class="form-group" id="divValoresFrete" style="text-align:left; float:right; padding-right:50px;">
+                                                <div class="form-group" id="divValoresFrete" style="text-align:left; float:right; padding-right:20px;">
+                                                    <b>Selecione o modo de entrega da sua compra.</b><br />
                                                     <asp:RadioButton ID="rdFreteSedex" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" CssClass="freteLabel" runat="server" /><br />
                                                     <asp:RadioButton ID="rdFretePac" AutoPostBack="true" GroupName="frete" OnCheckedChanged="rdFrete_CheckedChanged" CssClass="freteLabel" runat="server" />
                                                 </div>
@@ -145,6 +146,6 @@
     </asp:Panel>
     </form>
 
-<script src="/javascripts/setInputFilter.js"></script>
+<%--<script src="/javascripts/setInputFilter.js"></script>--%>
 
 </asp:Content>

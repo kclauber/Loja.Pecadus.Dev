@@ -20,7 +20,7 @@ namespace Loja.Persistencia
                 if (!isSandbox)
                     conS = ConfigurationManager.ConnectionStrings["conPadrao"].ConnectionString;
                 else
-                    conS = ConfigurationManager.ConnectionStrings["conTest"].ConnectionString;
+                    conS = ConfigurationManager.ConnectionStrings["conLocal"].ConnectionString;
 
                 con.ConnectionString = conS;
                 con.Open();

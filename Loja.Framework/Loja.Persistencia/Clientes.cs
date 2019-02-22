@@ -156,7 +156,7 @@ namespace Loja.Persistencia
             cliente.Cidade = "São Paulo";
             cliente.Estado = "SP";
             cliente.Celular = "11 98322-4260";
-            cliente.Email = "kclauber@gmail.com";
+            cliente.Email = "c43738373132648712943@sandbox.pagseguro.com.br";
             cliente.Senha = "123";
             cliente.DtCadastro = DateTime.Now;
             cliente.DataNascimento = "02/11/1982";

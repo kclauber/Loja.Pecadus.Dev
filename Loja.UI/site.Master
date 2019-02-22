@@ -91,7 +91,7 @@
           </div>
           <div class="col-md-6 col-sm-7">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/LoginCliente/">Meu Cadastro</a></li>
+                <li><a href="/Cadastro/">Meu Cadastro</a></li>
                 <li><a href="/Pedidos/">Meus Pedidos</a></li>
                 <li><a href="/Termos/">Temos de Compra</a></li>
               </ul>
@@ -568,7 +568,7 @@
                 .done(function() {
                     deleteCookie('clienteID');
                     //Feito dessa forma por que location.reload() não estava funcionando na tela de carrinho
-                    window.location.href = window.location.href;
+                    window.location.href = "/SexShop/";
                 })
                 .fail(function (jqXHR, textStatus, errorThrown) {
                     console.log(jqXHR);
