@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Admin/Admin.master" AutoEventWireup="true"
     ValidateRequest="false" CodeFile="CadProdutos.aspx.cs" Inherits="Loja.UI.Pecadus.Admin.CadProdutos" %>
 
-<%@ Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" %>
+<%-- Register Assembly="CKEditor.NET" Namespace="CKEditor.NET" TagPrefix="CKEditor" --%>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <title>Admin</title>
     <script src="../scripts/jquery-2.1.1.min.js" type="text/javascript"></script>
@@ -287,8 +287,8 @@
                         <asp:RequiredFieldValidator ID="reqDescricao" runat="server" ErrorMessage="Descrição do produto"
                             ControlToValidate="txtDescricaoCompleta" Enabled="false">*</asp:RequiredFieldValidator>
                         Descrição:<br />
-                        <CKEditor:CKEditorControl ID="txtDescricaoCompleta" Width="500" Height="350" BasePath="../ckeditor/"
-                            runat="server" />
+                        <%--<CKEditor:CKEditorControl ID="txtDescricaoCompleta" Width="500" Height="350" BasePath="../ckeditor/"
+                            runat="server" />--%>
                     </td>
                 </tr>
                 <tr>

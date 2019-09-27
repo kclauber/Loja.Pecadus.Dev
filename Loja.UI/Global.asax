@@ -43,10 +43,6 @@
             "Erro/",
             "~/erro.aspx");
 
-        routes.MapPageRoute("RetornoMoip",
-            "RetornoMoip/",
-            "~/processaRetornoMoip.aspx");
-
         routes.MapPageRoute("RetornoPagSeguro",
             "RetornoPagSeguro/",
             "~/processaRetornoPagSeg.aspx");

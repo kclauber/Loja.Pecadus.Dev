@@ -106,7 +106,8 @@
 
           <div class="col-lg-3 col-md-2 col-sm-3 col-xs-5">
             <a class="navbar-brand" href="/SexShop/" title="Pecadus Artigos Eróticos">
-              <h1 class="text-hide">Pecadus Artigos Eróticos</h1>
+              <h1 class="text-hide">Loja de Produtos</h1>
+              <%--<h1 class="text-hide">Pecadus Artigos Eróticos</h1>--%>
             </a>
           </div>
             
@@ -277,7 +278,7 @@
               <div class="collapse navbar-collapse" id="pecadus-menu-principal">                  
                 <ul class="nav navbar-nav">
                     <li><a href="/SexShop/" title="Home">Home</a></li>
-                    <li><a href="#" title="Próteses e Dildos">Próteses e Dildos</a></li>
+                    <li><a href="/SexShop/Categoria_01/1/" title="Próteses e Dildos">Próteses e Dildos</a></li>
                     <li><a href="#" title="Masturbadores">Masturbadores</a></li>
                     <li><a href="#" title="Bombas Penianas">Bombas Penianas</a></li>
                     <li><a href="#" title="Fetiche">Fetiche</a></li>

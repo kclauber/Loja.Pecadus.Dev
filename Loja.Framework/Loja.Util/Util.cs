@@ -151,8 +151,7 @@ namespace Loja.Util
                                                 (int)Carrinho.TiposRetornoWSCorreios.PrecoPrazo);
 
             WebRequest request = WebRequest.Create(urlRequest);
-
-            using (WebResponse response = request.GetResponse())
+            using ( WebResponse response = request.GetResponse())
             {
                 using (StreamReader sr = new StreamReader(response.GetResponseStream(), Encoding.UTF7))
                 {

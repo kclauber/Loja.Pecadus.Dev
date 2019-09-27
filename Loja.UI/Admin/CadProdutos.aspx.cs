@@ -4,7 +4,7 @@ using System.IO;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using CKEditor.NET;
+//using CKEditor.NET;
 using Loja.Objeto;
 using Loja.Persistencia;
 using Loja.Util;
@@ -19,21 +19,21 @@ namespace Loja.UI.Pecadus.Admin
             prodDS.ProviderName = "System.Data.Odbc";
             prodDS.SelectCommand = new ProdutosOP().getSqlAdmin();
 
-            txtDescricaoCompleta.ToolbarStartupExpanded = false;
-            txtDescricaoCompleta.config.keystrokes = new object[] 
-            { 
-	            new object[] { CKEditorConfig.CKEDITOR_ALT + 121 /*F10*/, "toolbarFocus" },
-	            new object[] { CKEditorConfig.CKEDITOR_ALT + 122 /*F11*/, "elementsPathFocus" },
-	            new object[] { CKEditorConfig.CKEDITOR_SHIFT + 121 /*F10*/, "contextMenu" },
-	            new object[] { CKEditorConfig.CKEDITOR_CTRL + 90 /*Z*/, "undo" },
-	            new object[] { CKEditorConfig.CKEDITOR_CTRL + 89 /*Y*/, "redo" },
-	            new object[] { CKEditorConfig.CKEDITOR_CTRL + CKEditorConfig.CKEDITOR_SHIFT + 90 /*Z*/, "redo" },
-	            new object[] { CKEditorConfig.CKEDITOR_CTRL + 76 /*L*/, "link" },
-	            new object[] { CKEditorConfig.CKEDITOR_CTRL + 66 /*B*/, "bold" },
-	            new object[] { CKEditorConfig.CKEDITOR_CTRL + 73 /*I*/, "italic" },
-	            new object[] { CKEditorConfig.CKEDITOR_CTRL + 85 /*U*/, "underline" },
-	            new object[] { CKEditorConfig.CKEDITOR_ALT + 109 /*-*/, "toolbarCollapse" }
-            };
+            //txtDescricaoCompleta.ToolbarStartupExpanded = false;
+            //txtDescricaoCompleta.config.keystrokes = new object[] 
+            //{ 
+            //    new object[] { CKEditorConfig.CKEDITOR_ALT + 121 /*F10*/, "toolbarFocus" },
+            //    new object[] { CKEditorConfig.CKEDITOR_ALT + 122 /*F11*/, "elementsPathFocus" },
+            //    new object[] { CKEditorConfig.CKEDITOR_SHIFT + 121 /*F10*/, "contextMenu" },
+            //    new object[] { CKEditorConfig.CKEDITOR_CTRL + 90 /*Z*/, "undo" },
+            //    new object[] { CKEditorConfig.CKEDITOR_CTRL + 89 /*Y*/, "redo" },
+            //    new object[] { CKEditorConfig.CKEDITOR_CTRL + CKEditorConfig.CKEDITOR_SHIFT + 90 /*Z*/, "redo" },
+            //    new object[] { CKEditorConfig.CKEDITOR_CTRL + 76 /*L*/, "link" },
+            //    new object[] { CKEditorConfig.CKEDITOR_CTRL + 66 /*B*/, "bold" },
+            //    new object[] { CKEditorConfig.CKEDITOR_CTRL + 73 /*I*/, "italic" },
+            //    new object[] { CKEditorConfig.CKEDITOR_CTRL + 85 /*U*/, "underline" },
+            //    new object[] { CKEditorConfig.CKEDITOR_ALT + 109 /*-*/, "toolbarCollapse" }
+            //};
 
             if (!Page.IsPostBack)
             {
@@ -99,7 +99,7 @@ namespace Loja.UI.Pecadus.Admin
                     txtEan.Text = _produto.EAN;
                     txtTitulo.Text = _produto.Titulo;
                     txtDescricaoCurta.Text = _produto.DescricaoCurta;
-                    txtDescricaoCompleta.Text = _produto.DescricaoCompleta;
+                    //txtDescricaoCompleta.Text = _produto.DescricaoCompleta;
                     txtPalavrasChave.Text = _produto.PalavrasChave;
                     txtObservacao.Text = _produto.Observacao;
                     
@@ -257,7 +257,7 @@ namespace Loja.UI.Pecadus.Admin
             produto.Categoria.ID = Convert.ToInt32(ddlCategoria.SelectedValue);
             produto.Titulo = txtTitulo.Text.Replace("'", "''").Trim();
             produto.DescricaoCurta = txtDescricaoCurta.Text.Replace("'", "''").Trim();
-            produto.DescricaoCompleta = txtDescricaoCompleta.Text.Replace("'", "''").Trim();
+            //produto.DescricaoCompleta = txtDescricaoCompleta.Text.Replace("'", "''").Trim();
             produto.PalavrasChave = txtPalavrasChave.Text.Replace("'", "''").Trim();
             produto.Observacao = txtObservacao.Text.Replace("'", "''").Trim();
 
@@ -300,7 +300,7 @@ namespace Loja.UI.Pecadus.Admin
             produto.Categoria.ID = Convert.ToInt32(ddlCategoria.SelectedValue);
             produto.Titulo = txtTitulo.Text.Replace("'", "''").Trim();
             produto.DescricaoCurta = txtDescricaoCurta.Text.Replace("'", "''").Trim();
-            produto.DescricaoCompleta = txtDescricaoCompleta.Text.Replace("'", "''").Trim();
+            //produto.DescricaoCompleta = txtDescricaoCompleta.Text.Replace("'", "''").Trim();
             produto.PalavrasChave = txtPalavrasChave.Text.Replace("'", "''").Trim();
             produto.Observacao = txtObservacao.Text.Replace("'", "''").Trim();
 
@@ -459,7 +459,7 @@ namespace Loja.UI.Pecadus.Admin
             txtEan.Text = "";
             txtTitulo.Text = "";
             txtDescricaoCurta.Text = "";
-            txtDescricaoCompleta.Text = "";
+            //txtDescricaoCompleta.Text = "";
             txtPalavrasChave.Text = "";
 
             txtPrecoCusto.Value = "";

@@ -6,7 +6,7 @@ EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Loja.UI", "Loja.UI\", "{30C1EF84-4FC3-4782-A915-99B01833FF5E}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		ProjectReferences = "{7B7433EB-4960-47F3-BDE0-17877B1D1D66}|Loja.Objeto.dll;{FFF413F2-13FB-4448-9409-8D37C412683A}|Loja.Util.dll;{AD632B5B-12C2-4AB1-9C46-7C3F4F6BFA27}|Loja.Persistencia.dll;{BABC5658-6AFD-4F8E-81F1-434553663D99}|Uol.PagSeguro.dll;"
+		ProjectReferences = "{FFF413F2-13FB-4448-9409-8D37C412683A}|Loja.Util.dll;{AD632B5B-12C2-4AB1-9C46-7C3F4F6BFA27}|Loja.Persistencia.dll;{BABC5658-6AFD-4F8E-81F1-434553663D99}|Uol.PagSeguro.dll;{7B7433EB-4960-47F3-BDE0-17877B1D1D66}|Loja.Objeto.dll;"
 		Debug.AspNetCompiler.VirtualPath = "/Loja.UI"
 		Debug.AspNetCompiler.PhysicalPath = "Loja.UI\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\Loja.UI\"
@@ -22,6 +22,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Loja.UI", "Loja.UI\", "{30C
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "61536"
+		VWDVirtualPath = "/"
 		DefaultWebSiteLanguage = "Visual C#"
 	EndProjectSection
 EndProject

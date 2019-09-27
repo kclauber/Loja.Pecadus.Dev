@@ -162,7 +162,7 @@
       <div class="row">
         <div class="col-md-12">
           <!--<a href="#" title="#">-->
-            <img class="img-responsive hidden-xs" src="/images/banners/frete-gratis.jpg" alt="Frete Grátis">
+            <img class="img-responsive hidden-xs"  src="/images/banners/frete-gratis.jpg" alt="Frete Grátis">
             <img class="img-responsive visible-xs" src="/images/banners/frete-gratis-mob.jpg" alt="Frete Grátis">
           <!--</a>-->
         </div>
@@ -173,11 +173,12 @@
   <!-- ====================== PRODUTOS ====================== */ -->
   <section class="produtos-destaque vitrine-protudos">
     <div class="container">
-
       <div class="row">
+
         <div class="col-md-12">
             <h2><span class="glyphicon glyphicon glyphicon-stop" aria-hidden="true"></span>Produtos Destaque</h2>
         </div>
+
       </div>
 
       <div class="row">

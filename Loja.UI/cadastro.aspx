@@ -101,7 +101,7 @@
                         Num.
                         <asp:RequiredFieldValidator ID="reqNum" runat="server" ErrorMessage="Número" ControlToValidate="txtNumero" Text="*" ForeColor="Red" />
                     </label>
-                    <input type="text" class="form-control" id="txtNumero" placeholder="n° 000" runat="server" />
+                    <input type="text" class="form-control" id="txtNumero" placeholder="00" runat="server" />
                   </div>    
                 </div>
                 <div class="col-sm-6">
@@ -176,7 +176,7 @@
                   </div> 
                 </div>
             </div>
-            <div class="col-md-12 col-xs-12">
+            <div class="col-md-11 col-xs-11">
               <h3>Dados para acesso</h3>
               <div class="col-sm-4">
                 <div class="form-group">
