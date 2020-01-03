@@ -15,7 +15,7 @@
 using System;
 using System.Diagnostics;
 using System.Globalization;
-
+ 
 namespace Uol.PagSeguro.Log
 {
     /// <summary>
