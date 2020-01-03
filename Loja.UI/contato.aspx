@@ -50,7 +50,7 @@
                     <input type="text" class="form-control" id="exampleInputCPF1" placeholder="Digite aqui seu e-mail">
                   </div>
                 </div>
-                <div class="col-sm-4 col-xs-6">
+                <div class="col-sm-12">
                   <div class="form-group">
                     <label for="exampleInputTelCel1">Telefone de contato</label>
                     <input type="text" class="form-control" id="exampleInputTelCel1" placeholder="(00) 00000-0000">
@@ -67,16 +67,9 @@
                   <a href="" title="#" class="btn btn-secundary" aria-label="Left Align" role="button">Enviar</a>
                 </div>
             </div>
-            <div class="col-md-6">
-                <h3>Nos siga nas redes sociais</h3>
-                
-            </div>
           </form>
         </div><!-- Final Row -->
 
       </div>
     </section>
-
-
-
 </asp:Content>

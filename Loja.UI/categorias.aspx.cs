@@ -50,7 +50,7 @@ namespace Loja.UI.Pecadus
                 ViewState["numPagina"] = 0;
                 ViewState["fimPaginacao"] = 4;
 
-                carregaGrid();
+                ListarProdutos();
                 carregarMigalha();
                 carregarMenuLateral();
                 carregaTagCloud();
@@ -66,24 +66,19 @@ namespace Loja.UI.Pecadus
                 Utilitarios.CarregaMetaTags(this.Page, description, keywords, Page.Title);
             }
         }
-        public void carregaGrid()
+        public void ListarProdutos()
         {
-            //inicio = ((int)ViewState["inicio"]);
-            //pagina = ((int)ViewState["pagina"]);
+            ProdutosOT produtos = new ProdutosOT();
+#if DEBUG
+            ProdutoOT _produto = ProdutosOP.CarregaProdutoFalso();
+            produtos.Add(_produto);
+#else
+            produtos = new ProdutosOP().SelectProdutosDestaque();
+#endif
 
-            //ProdutosOT produtos = null;
-            //if (categoriaID > -1 && categoriaPaiID > -1)
-            //    produtos = new ProdutosOP().SelectProdutosCategoria(categoriaID, inicio, pagina);
-            //else if (categoriaPaiID > -1)
-            //    produtos = new ProdutosOP().SelectProdutosCategoriaPai(categoriaPaiID, inicio, pagina);
-
-            //if (produtos != null && produtos.Count > 0)
-            //{
-            //    dtlProdutos.DataSource = produtos;
-            //    dtlProdutos.DataBind();
-            //}
-            //else
-            //    Response.Redirect("/Erro");
+            //Busca a primeira lista de produtos
+            repProdutoDestaque1.DataSource = produtos;
+            repProdutoDestaque1.DataBind();
         }
         public void carregarMigalha()
         {
@@ -99,19 +94,6 @@ namespace Loja.UI.Pecadus
             //    Utilitarios.CriaLinksMigalhas(ref lnkMigalhaHome, ref lnkMigalhaCategPai, categoriaPaiID);
             //    lnkMigalhaCategPai.Visible = true;
             //}
-        }
-        protected void dtlProd_ItemDataBound(object sender, DataListItemEventArgs e)
-        {
-            if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
-            {
-                ProdutoOT produto = (ProdutoOT)e.Item.DataItem;
-                HyperLink lnkImgProd = (HyperLink)e.Item.FindControl("lnkImgProd");
-                HyperLink lnkDescricao = (HyperLink)e.Item.FindControl("lnkDescricao");
-                HyperLink lnkPreco = (HyperLink)e.Item.FindControl("lnkPreco");
-                Image imgProd = (Image)e.Item.FindControl("imgProd");
-
-                //Utilitarios.CarregaDescricaoProduto(produto, lnkImgProd, lnkDescricao, lnkPreco, imgProd, null, null);
-            }
         }
         
         #region -- Menu lateral --
@@ -209,5 +191,17 @@ namespace Loja.UI.Pecadus
         }
         // Caso seja alterado algum método aqui, alterar também na página de ERRO!!
         #endregion
+
+        protected void repProd1_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType != ListItemType.Header && e.Item.ItemType != ListItemType.Footer)
+            {
+                Utilitarios.CarregaDescricaoProduto(e.Item);
+            }
+        }
+        protected void AdicionarItem(object sender, EventArgs e)
+        {
+            new Utilitarios().AdicionarItem(this.Page, Convert.ToInt32(((LinkButton)sender).CommandArgument), 1);
+        }
     }
 }

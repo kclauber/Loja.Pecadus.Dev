@@ -75,10 +75,10 @@
     <Compile Include="Domain\ParameterItem.cs" />
     <Compile Include="Domain\PreApproval.cs" />
     <Compile Include="Domain\SenderDocument.cs" />
+    <Compile Include="Log\PagSeguroTrace.cs" />
     <Compile Include="Parse\PreApprovalParse.cs" />
     <Compile Include="Parse\PaymentParse.cs" />
     <Compile Include="Domain\CredentialsNameValuePair.cs" />
-    <Compile Include="Log\PagSeguroTrace.cs" />
     <Compile Include="Domain\PaymentRequest.cs" />
     <Compile Include="Service\PreApprovalService.cs" />
     <Compile Include="Resources\EnvironmentConfiguration.cs" />
